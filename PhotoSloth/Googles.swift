@@ -9,9 +9,12 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import GoogleMaps
 
 class Googles {
 
+    static var APIKEY: String = "AIzaSyBkTQikOVA5PLkmBf1SGbrvwOQIgL-vbbA"
+    
     class func getLocationTags(latitude: Double, longitude: Double, completion:(tags: [String])->()) {
         let testUrl = ("https://maps.googleapis.com/maps/api/geocode/json?latlng=\(latitude),\(longitude)&sensor=true")
         Alamofire.request(.GET, testUrl, parameters: nil)
