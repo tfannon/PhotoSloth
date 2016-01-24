@@ -24,7 +24,7 @@
 		665CA54A1C55230D0065EA01 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665CA5491C55230D0065EA01 /* TestViewController.swift */; };
 		665CA54C1C5523210065EA01 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665CA54B1C5523210065EA01 /* Model.swift */; };
 		665CA54E1C55232A0065EA01 /* RealmBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665CA54D1C55232A0065EA01 /* RealmBase.swift */; };
-		665CA5501C55232E0065EA01 /* SlothRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665CA54F1C55232E0065EA01 /* SlothRealm.swift */; };
+		665CA5501C55232E0065EA01 /* RealmSloth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665CA54F1C55232E0065EA01 /* RealmSloth.swift */; };
 		665CA5531C5526730065EA01 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665CA5521C5526730065EA01 /* ArrayExtensions.swift */; };
 		665CA5551C5526A00065EA01 /* NSObjectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665CA5541C5526A00065EA01 /* NSObjectExtensions.swift */; };
 		665CA5571C5526D10065EA01 /* NSDateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665CA5561C5526D10065EA01 /* NSDateExtensions.swift */; };
@@ -63,7 +63,7 @@
 		665CA5491C55230D0065EA01 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		665CA54B1C5523210065EA01 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		665CA54D1C55232A0065EA01 /* RealmBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmBase.swift; sourceTree = "<group>"; };
-		665CA54F1C55232E0065EA01 /* SlothRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlothRealm.swift; sourceTree = "<group>"; };
+		665CA54F1C55232E0065EA01 /* RealmSloth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmSloth.swift; sourceTree = "<group>"; };
 		665CA5521C5526730065EA01 /* ArrayExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		665CA5541C5526A00065EA01 /* NSObjectExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSObjectExtensions.swift; sourceTree = "<group>"; };
 		665CA5561C5526D10065EA01 /* NSDateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtensions.swift; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 			children = (
 				665CA54B1C5523210065EA01 /* Model.swift */,
 				657F70081C549B3D008D793B /* Photo.swift */,
-				665CA54F1C55232E0065EA01 /* SlothRealm.swift */,
+				665CA54F1C55232E0065EA01 /* RealmSloth.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -352,7 +352,7 @@
 				665CA55D1C5527460065EA01 /* NSDataExtensions.swift in Sources */,
 				665CA5551C5526A00065EA01 /* NSObjectExtensions.swift in Sources */,
 				665CA54A1C55230D0065EA01 /* TestViewController.swift in Sources */,
-				665CA5501C55232E0065EA01 /* SlothRealm.swift in Sources */,
+				665CA5501C55232E0065EA01 /* RealmSloth.swift in Sources */,
 				657F70151C549B3D008D793B /* PhotosController.swift in Sources */,
 				665CA54C1C5523210065EA01 /* Model.swift in Sources */,
 				665CA5571C5526D10065EA01 /* NSDateExtensions.swift in Sources */,
