@@ -8,6 +8,7 @@
 
 import UIKit
 import Realm
+import GoogleMaps
 
 class TestViewController: UIViewController {
 
@@ -16,6 +17,10 @@ class TestViewController: UIViewController {
     // MARK: - Actions
     @IBAction func handleButton1(sender: AnyObject) {
         testDataModel()
+    }
+    
+    @IBAction func handleButton2(sender: AnyObject) {
+        testServices()
     }
     
     override func viewDidLoad() {
@@ -40,6 +45,14 @@ class TestViewController: UIViewController {
         let asset2 = SLAsset()
         asset2.title = "another memory"
         slothRealm.addMemory(asset2, tagValues: "whatever1")
+    }
+    
+    func testServices() {
+        //let config = GMSPlacePickerConfig(
+        let placePicker = GMSPlacePicker()
+        placePicker.pickPlaceWithCallback { result in
+            print(result)
+        }
     }
     
     /*
