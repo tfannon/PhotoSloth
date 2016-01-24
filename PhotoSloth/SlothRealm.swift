@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-class SlothRealm : BaseRealm {
+class RealmSloth : RealmBase {
     func getTag(value: String) -> Tag? {
         return self.select(Tag).filter("value = '\(value)'").first
     }

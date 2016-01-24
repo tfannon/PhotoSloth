@@ -41,7 +41,7 @@ class BaseObjectId : BaseObject {
         self.init()
         self.id = id
     }
-    dynamic var id : String! = Misc.newUUID()
+    dynamic var id : String! = NSUUID.newUUID()
     override static func primaryKey() -> String? {
         return "id"
     }

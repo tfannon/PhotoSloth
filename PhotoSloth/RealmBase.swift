@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-class BaseRealm
+class RealmBase
 {
     private let fileName = "default.realm"
 
@@ -31,7 +31,7 @@ class BaseRealm
     }
     
     private func configure() {
-        self.path = BaseRealm.getPath(self.name)
+        self.path = RealmBase.getPath(self.name)
         File.createDirectory(path)
         self.fullPath = path.combine(fileName)
         
@@ -67,7 +67,7 @@ class BaseRealm
     
     // deletes the database and recreates a new one
     static func delete(name: String) {
-        let path = BaseRealm.getPath(name)
+        let path = RealmBase.getPath(name)
         File.deleteDirectory(path)
     }
     
@@ -78,7 +78,7 @@ class BaseRealm
     
     // deletes the database
     func delete() {
-        BaseRealm.delete(self.name)
+        RealmBase.delete(self.name)
         _realm?.invalidate()
         _realm = nil
     }

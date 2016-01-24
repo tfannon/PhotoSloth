@@ -9,8 +9,8 @@
 import UIKit
 
 // global realm database access
-var slothRealm : SlothRealm = {
-    return SlothRealm(name: "sloth")
+var slothRealm : RealmSloth = {
+    return RealmSloth(name: "sloth")
 }()
 
 @UIApplicationMain

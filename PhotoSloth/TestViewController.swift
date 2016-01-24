@@ -30,7 +30,7 @@ class TestViewController: UIViewController {
     }
     
     func testDataModel() {
-        SlothRealm.delete("sloth")
+        RealmSloth.delete("sloth")
         
         let memory = Memory()
         memory.title = "My Memory"

@@ -10,6 +10,18 @@ import Foundation
 import UIKit
 
 extension UIViewController {
+    // Works around a bug in Swift where pushing the ViewController the normal way
+    //  (via a NavigationController)
+    //  doesn't initialize the cell templates in a UITableView
+    static func getViewController<T : UIViewController>(
+        storyboardName : String,
+        viewIdentifier: String) -> T
+    {
+        let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier(viewIdentifier) as! T
+        return vc
+    }
+
     func alert(title : String?, message : String?) {
         let alertController = UIAlertController(title: title, message:
             message, preferredStyle: UIAlertControllerStyle.Alert)
