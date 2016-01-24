@@ -32,14 +32,14 @@ class TestViewController: UIViewController {
     func testDataModel() {
         RealmSloth.delete("sloth")
         
-        let memory = Memory()
-        memory.title = "My Memory"
-        memory.status = .Liked
-        slothRealm.addMemory(memory, tagValues: "whatever1", "whatever2", "whatever2")
+        let asset = SLAsset()
+        asset.title = "My Memory"
+        asset.status = .Liked
+        slothRealm.addMemory(asset, tagValues: "whatever1", "whatever2", "whatever2")
         
-        let memory2 = Memory()
-        memory2.title = "another memory"
-        slothRealm.addMemory(memory2, tagValues: "whatever1")
+        let asset2 = SLAsset()
+        asset2.title = "another memory"
+        slothRealm.addMemory(asset2, tagValues: "whatever1")
     }
     
     /*

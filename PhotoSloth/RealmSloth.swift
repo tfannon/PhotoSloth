@@ -10,38 +10,38 @@ import Foundation
 import RealmSwift
 
 class RealmSloth : RealmBase {
-    func getTag(value: String) -> Tag? {
-        return self.select(Tag).filter("value = '\(value)'").first
+    func getTag(value: String) -> SLTag? {
+        return self.select(SLTag).filter("value = '\(value)'").first
     }
-    func getMemory(id: String) -> Memory? {
+    func getAsset(id: String) -> SLAsset? {
         return self.getBaseObjectId(id)
     }
-    func addTagToMemory(memory : Memory, tagValue : String) {
+    func addTagToMemory(asset : SLAsset, tagValue : String) {
         var write = false
         var tag = getTag(tagValue)
         if tag != nil {
-            write = !memory.tags.contains(tag!)
+            write = !asset.tags.contains(tag!)
         }
         else {
-            tag = Tag(string: tagValue)
+            tag = SLTag(string: tagValue)
             write = true
         }
         if write {
-            let writeToTag = !tag!.memories.contains(memory)
+            let writeToTag = !tag!.assets.contains(asset)
             self.write {
-                memory.tags.append(tag!)
+                asset.tags.append(tag!)
                 if writeToTag {
-                    tag!.memories.append(memory)
+                    tag!.assets.append(asset)
                 }
             }
         }
     }
-    func addMemory(memory : Memory, tagValues : String...) {
+    func addMemory(asset : SLAsset, tagValues : String...) {
         self.write {
-            self.add(memory)
+            self.add(asset)
         }
         for tagValue in tagValues {
-            addTagToMemory(memory, tagValue: tagValue)
+            addTagToMemory(asset, tagValue: tagValue)
         }
     }
 }
