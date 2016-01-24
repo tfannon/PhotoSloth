@@ -13,6 +13,7 @@ import GoogleMaps
 class TestViewController: UIViewController {
 
     @IBOutlet weak var button1: UIButton!
+    @IBOutlet weak var lblDocumentPath: UILabel!
 
     // MARK: - Actions
     @IBAction func handleButton1(sender: AnyObject) {
@@ -27,6 +28,7 @@ class TestViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        lblDocumentPath.text = File.documentDirectory.fileSystemString
     }
 
     override func didReceiveMemoryWarning() {
