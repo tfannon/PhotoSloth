@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="zju-zZ-fL0">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <scenes>
+        <!--Photos Controller-->
+        <scene sceneID="k0P-hP-9R8">
+            <objects>
+                <collectionViewController id="zju-zZ-fL0" customClass="PhotosController" customModule="PhotoSloth" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="WFD-38-5DA">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewLayout key="collectionViewLayout" id="sDN-Z5-cU6" customClass="PinterestLayout" customModule="PhotoSloth" customModuleProvider="target"/>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AnnotatedPhotoCell" id="hX4-Nt-fl4" customClass="AnnotatedPhotoCell" customModule="PhotoSloth" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="28r-8A-viM" customClass="RoundedCornersView" customModule="PhotoSloth" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JbX-zI-xxs">
+                                                    <rect key="frame" x="0.0" y="0.0" width="180" height="120"/>
+                                                    <color key="backgroundColor" red="0.0" green="0.42745098040000001" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="120" id="hMO-Ke-LaM"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Caption" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WJL-o3-wqI" userLabel="Event Label">
+                                                    <rect key="frame" x="4" y="124" width="172" height="17"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="17" id="cGG-fV-fiL"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="12"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comment" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y8U-WH-xsR">
+                                                    <rect key="frame" x="4" y="141" width="172" height="14"/>
+                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="10"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X5Y-aK-VhW">
+                                                    <rect key="frame" x="143" y="122" width="35" height="35"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="35" id="caN-fO-5eX"/>
+                                                        <constraint firstAttribute="height" constant="35" id="wHO-0b-ypg"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button" image="Sloth">
+                                                        <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="handleLikePressed:" destination="hX4-Nt-fl4" eventType="touchUpInside" id="jYH-Nz-M26"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" red="0.0" green="0.42745098040000001" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstItem="WJL-o3-wqI" firstAttribute="leading" secondItem="28r-8A-viM" secondAttribute="leading" constant="4" id="0nm-r9-rkL"/>
+                                                <constraint firstItem="X5Y-aK-VhW" firstAttribute="top" secondItem="JbX-zI-xxs" secondAttribute="bottom" constant="2" id="4Fn-2x-hlp"/>
+                                                <constraint firstItem="Y8U-WH-xsR" firstAttribute="top" secondItem="WJL-o3-wqI" secondAttribute="bottom" id="8HE-Hs-ZBe"/>
+                                                <constraint firstAttribute="trailing" secondItem="Y8U-WH-xsR" secondAttribute="trailing" constant="4" id="EqT-yM-pah"/>
+                                                <constraint firstItem="JbX-zI-xxs" firstAttribute="top" secondItem="28r-8A-viM" secondAttribute="top" id="GQi-CP-ntJ"/>
+                                                <constraint firstItem="JbX-zI-xxs" firstAttribute="leading" secondItem="28r-8A-viM" secondAttribute="leading" id="JEp-ru-jZn"/>
+                                                <constraint firstItem="Y8U-WH-xsR" firstAttribute="leading" secondItem="28r-8A-viM" secondAttribute="leading" constant="4" id="NDN-JY-9db"/>
+                                                <constraint firstItem="WJL-o3-wqI" firstAttribute="top" secondItem="JbX-zI-xxs" secondAttribute="bottom" constant="4" id="Pwx-jF-Fu6"/>
+                                                <constraint firstAttribute="trailing" secondItem="X5Y-aK-VhW" secondAttribute="trailing" constant="2" id="izw-wN-Row"/>
+                                                <constraint firstAttribute="trailing" secondItem="JbX-zI-xxs" secondAttribute="trailing" id="r6Z-LQ-R8x"/>
+                                                <constraint firstAttribute="trailing" secondItem="WJL-o3-wqI" secondAttribute="trailing" constant="4" id="rO5-60-0yJ"/>
+                                            </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="5"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="28r-8A-viM" firstAttribute="top" secondItem="hX4-Nt-fl4" secondAttribute="top" id="866-Op-H0i"/>
+                                    <constraint firstAttribute="trailing" secondItem="28r-8A-viM" secondAttribute="trailing" id="De8-gE-lgb"/>
+                                    <constraint firstItem="28r-8A-viM" firstAttribute="leading" secondItem="hX4-Nt-fl4" secondAttribute="leading" id="KqF-Jk-8dn"/>
+                                    <constraint firstAttribute="bottom" secondItem="28r-8A-viM" secondAttribute="bottom" id="S62-PA-u7X"/>
+                                </constraints>
+                                <size key="customSize" width="180" height="180"/>
+                                <connections>
+                                    <outlet property="buttonLike" destination="X5Y-aK-VhW" id="7iL-Vg-lwS"/>
+                                    <outlet property="captionLabel" destination="WJL-o3-wqI" id="91e-fo-6X5"/>
+                                    <outlet property="commentLabel" destination="Y8U-WH-xsR" id="rqR-kv-VAz"/>
+                                    <outlet property="imageView" destination="JbX-zI-xxs" id="eyc-an-CHk"/>
+                                    <outlet property="imageViewHeightLayoutConstraint" destination="hMO-Ke-LaM" id="hXK-d4-4fX"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="zju-zZ-fL0" id="GCp-kf-U5f"/>
+                            <outlet property="delegate" destination="zju-zZ-fL0" id="Lsm-Hv-Xq7"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fes-Po-SSb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-422" y="-483"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Sloth" width="129" height="97"/>
+    </resources>
+</document>
