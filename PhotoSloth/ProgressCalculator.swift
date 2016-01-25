@@ -24,3 +24,16 @@ class ProgressCalculator {
     }
 }
 
+class Progress {
+    private(set) var current : Int = 0
+    private(set) var total : Int = 0
+
+    lazy var progress : Float = {
+        return ProgressCalculator.get(self.current, total: self.total)
+    }()
+    
+    required init(current : Int, total : Int) {
+        self.current = current
+        self.total = total
+    }
+}

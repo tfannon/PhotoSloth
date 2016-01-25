@@ -13,12 +13,13 @@ import Realm
 class TestViewController: UIViewController {
 
     @IBOutlet weak var lblDocumentPath: UILabel!
+    @IBOutlet weak var progress1: UIProgressView!
 
     @IBOutlet weak var clearDatabaseButton: UIButton!
     @IBOutlet weak var clearDatabaseGatherButton: UIButton!
     // MARK: - Actions
     @IBAction func handleButton1(sender: AnyObject) {
-        testDataModel()
+        misc()
     }
     
     @IBAction func handleButton2(sender: AnyObject) {
@@ -30,20 +31,14 @@ class TestViewController: UIViewController {
     @IBAction func handleClearDatabaseButton(sender: AnyObject) {
         if !clearDatabase() {
             clearDatabaseButton.enabled = false
-            clearDatabaseGatherButton.enabled = false
         }
     }
     @IBAction func handleGatherButton(sender: AnyObject) {
         gather()
     }
     @IBAction func handleClearGatherButton(sender: AnyObject) {
-        if clearDatabase() {
-            gather()
-        }
-        else {
-            clearDatabaseButton.enabled = false
-            clearDatabaseGatherButton.enabled = false
-        }
+        deleteObjectsFromDatabase()
+        gather()
     }
     @IBAction func handleDeleteObjectsButton(sender: AnyObject) {
         deleteObjectsFromDatabase()
@@ -58,6 +53,7 @@ class TestViewController: UIViewController {
         self.lblDocumentPath.addGestureRecognizer(gesture)
         self.lblDocumentPath.userInteractionEnabled = true
         refreshDirectoryLabel()
+        updateProgress(0, animated: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,13 +61,12 @@ class TestViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func testDataModel() {
-        RealmSloth.delete("sloth")
-        let dir = File.documentDirectory.combine("sloth")
-        print (File.exists(dir))
-        
-        AssetGatherer.gather {
-            self.refreshDirectoryLabel()
+    func misc() {
+        let test = 10
+        let total = 10
+        for i in 1...test {
+            let p = Float(i) / Float(total)
+            updateProgress(p)
         }
     }
     
@@ -84,7 +79,7 @@ class TestViewController: UIViewController {
         return result
     }
     func gather() {
-        AssetGatherer.gather{
+        AssetGatherer.gather({ progress in self.updateProgress(progress.progress) }) {
             self.refreshDirectoryLabel()
         }
     }
@@ -100,6 +95,13 @@ class TestViewController: UIViewController {
         }
         else {
             lblDocumentPath.textColor = UIColor.redColor()
+        }
+    }
+    
+    func updateProgress(progress : Float, animated: Bool = true) {
+        dispatch_async(dispatch_get_main_queue()) {
+            print ("\tProgress callback: \(progress)")
+            self.progress1.progress = progress
         }
     }
     

@@ -13,15 +13,29 @@ import Async
 
 class AssetGatherer {
     
+    static func completed(block : () -> Void) -> AssetGatherer {
+        return AssetGatherer()
+    }
+    static func progress(block : () -> Progress) -> AssetGatherer {
+        return AssetGatherer()
+    }
+    
     // queries the device's photo assets (PHPhotoAsset)
     // and populates the SLAssets
-    static func gather(completion : (() -> Void)? = nil) {
+    static func gather(
+        progress : ((Progress) -> Void)? = nil,
+        completion : (() -> Void)? = nil) {
         Async.background {
             let options = PHFetchOptions()
             options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
             let fetchResult = PHAsset.fetchAssetsWithOptions(options)
-            
             for i in 0..<fetchResult.count {
+                
+                // progress callback
+                progress?(Progress(current: i+1, total: fetchResult.count))
+
+                // get the photoAsset and 
+                // get or create a new SLAsset's
                 let photoAsset: PHAsset = fetchResult[i] as! PHAsset
                 var asset: SLAsset!
                 var newAssetId: String? = nil
