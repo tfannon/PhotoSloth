@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class AnnotatedPhotoCell: UICollectionViewCell {
   
@@ -16,18 +17,29 @@ class AnnotatedPhotoCell: UICollectionViewCell {
     @IBOutlet private weak var commentLabel: UILabel!
     @IBOutlet weak var buttonLike: UIButton!
     
-    //invert the sloth  -- temporary.  it will disappear when it rolls off screen
-    @IBAction func handleLikePressed(sender: AnyObject) {
-        buttonLike.alpha = buttonLike.alpha == 1.0 ? 0.2 : 1.0
+    var asset : SLAsset!
+
+    func setup(imageManager : PHCachingImageManager, photoAsset : PHAsset, asset : SLAsset) {
+        // set the asset
+        self.asset = asset
+        // immediately set the image to nil so we don't see a stale photo
+        self.imageView.image = nil
+        // load up the image async
+        imageManager.requestImageForAsset(photoAsset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .AspectFill, options: nil) { image, info in
+            self.imageView.image = image
+        }
+        // set the easy properties
+        self.captionLabel.text = asset.caption
+        self.buttonLike.alpha = asset.isLiked ? 1.0 : 0.2
+        self.commentLabel.text = asset.tags.items.map { item in item.value }.joinWithSeparator(", ")
     }
     
-    var photo: Photo! {
-        didSet {
-            imageView.image = photo.image
-            captionLabel.text = photo.caption
-            //commentLabel.text = photo.comment
-            buttonLike.alpha = photo.liked ? 1.0 : 0.2
+    //invert the sloth and release the kracken!
+    @IBAction func handleLikePressed(sender: AnyObject) {
+        slothRealm.write {
+            self.asset.isLiked = !self.asset.isLiked
         }
+        self.buttonLike.alpha = (self.asset.likeStatus == .Liked) ? 1.0 : 0.2
     }
     
     func setTags(tags: [String]) {

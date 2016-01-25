@@ -40,13 +40,11 @@ class TestViewController: UIViewController {
         RealmSloth.delete("sloth")
         
         let asset = SLAsset()
-        asset.title = "My Memory"
-        asset.status = .Liked
-        slothRealm.addMemory(asset, tagValues: "whatever1", "whatever2", "whatever2")
+        asset.isLiked = true
+        slothRealm.addAsset(asset, tagValues: "whatever1", "whatever2", "whatever2")
         
         let asset2 = SLAsset()
-        asset2.title = "another memory"
-        slothRealm.addMemory(asset2, tagValues: "whatever1")
+        slothRealm.addAsset(asset2, tagValues: "whatever1")
     }
     
     func testServices() {

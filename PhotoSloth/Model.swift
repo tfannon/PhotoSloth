@@ -8,11 +8,27 @@
 
 import Foundation
 import RealmSwift
+import CoreLocation
 
-enum SLAssetStatus : Int {
+// MARK: Documentation
+
+// *
+//  for enums in SLBaseObjects -
+//  enums need to be persisted as Ints in Realm - so we do that privately while
+//  exposing the enum type publically
+// *
+
+// MARK: Enums
+
+enum SLAssetLikeStatus : Int {
     case None = 0
     case Liked = 1
     case Unliked = 2
+}
+
+enum SLAssetType : Int {
+    case Unknown = 0
+    case Photo = 1
 }
 
 // MARK: BaseObjects
@@ -72,7 +88,7 @@ class SLBaseObjectId : SLBaseObject {
 // base collection type for all domain objects with an Id
 //
 class SLBaseObjectCollection<T : SLBaseObject> {
-    var list : List<T>
+    private var list : List<T>
     init(list : List<T>) {
         self.list = list
     }
@@ -90,6 +106,8 @@ class SLBaseObjectCollection<T : SLBaseObject> {
         return getIndexOf(item) != nil
     }
     
+    var items : List<T> { get { return list } }
+    
     // return the index in the collection that matches 'match'
     private func getIndexOf(match : T) -> Int? {
         for i in 0..<list.count {
@@ -102,29 +120,72 @@ class SLBaseObjectCollection<T : SLBaseObject> {
     }
 }
 
-// MARK: SLAsset
+// MARK: - SLAsset
 
 //
 // an 'asset' - photo, video, etc...
 //
 typealias SLAssetCollection = SLBaseObjectCollection<SLAsset>
 class SLAsset : SLBaseObjectId {
-    dynamic var title : String?
-    dynamic var externalId : String? 
-    dynamic var dateTaken : NSDate?
     
-    // enums need to be persisted as Ints - so we do that privately while
-    //  exposing the enum publically
-    private dynamic var _status : Int = SLAssetStatus.None.rawValue
-    var status : SLAssetStatus {
+    // realm instructions 
+    override static func indexedProperties() -> [String] {
+        return ["externalId"]
+    }
+
+    // properties
+    var caption : String {
         get {
-            return SLAssetStatus(rawValue: _status)!
-        }
-        set {
-            _status = newValue.rawValue
+            if let dt = dateTaken {
+                return NSDateFormatter.localizedStringFromDate(
+                    dt,
+                    dateStyle: .ShortStyle,
+                    timeStyle: .ShortStyle)
+            }
+            return city ?? ""
         }
     }
     
+    dynamic var externalId : String?
+
+    dynamic var dateTaken : NSDate?
+    
+    // location
+    dynamic var isLocationSet : Bool = false
+    dynamic var longitude : Double = 0
+    dynamic var latitude : Double = 0
+    dynamic var address : String?
+    dynamic var city : String?
+    dynamic var state : String?
+    dynamic var country : String?
+    dynamic var postalCode : String?
+    
+    private dynamic var _likeStatus : Int = SLAssetLikeStatus.None.rawValue
+    var likeStatus : SLAssetLikeStatus {
+        get {
+            return SLAssetLikeStatus(rawValue: _likeStatus)!
+        }
+        set {
+            _likeStatus = newValue.rawValue
+        }
+    }
+    var isLiked : Bool {
+        get { return likeStatus == .Liked }
+        set {
+            likeStatus = (newValue) ? SLAssetLikeStatus.Liked : SLAssetLikeStatus.Unliked
+        }
+    }
+
+    private dynamic var _assetType : Int = SLAssetType.Unknown.rawValue
+    var assetType : SLAssetType {
+        get {
+            return SLAssetType(rawValue: _assetType)!
+        }
+        set {
+            _assetType = newValue.rawValue
+        }
+    }
+
     private let _tags = List<SLTag>()
     var tags : SLTagsCollection { get { return self.getCollection(__FUNCTION__, list: _tags) } }
     
@@ -132,7 +193,7 @@ class SLAsset : SLBaseObjectId {
     var events : SLEventCollection { get { return self.getCollection(__FUNCTION__, list: _events) } }
 }
 
-// MARK: SLTag
+// MARK: - SLTag
 typealias SLTagsCollection = SLBaseObjectCollection<SLTag>
 class SLTag : SLBaseObject {
     dynamic var value = ""
@@ -152,7 +213,7 @@ class SLTag : SLBaseObject {
     var assets : SLAssetCollection { get { return self.getCollection(__FUNCTION__, list: _assets) } }
 }
 
-// MARK: SLEvent
+// MARK: - SLEvent
 typealias SLEventCollection = SLBaseObjectCollection<SLEvent>
 class SLEvent : SLBaseObjectId {
     dynamic var title = ""

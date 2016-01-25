@@ -16,6 +16,9 @@ class RealmSloth : RealmBase {
     func getAsset(id: String) -> SLAsset? {
         return self.getBaseObjectId(id)
     }
+    func getAssetByExternalId(externalId : String) -> SLAsset? {
+        return self.select(SLAsset).filter("externalId = '\(externalId)'").first
+    }
     func addTagToMemory(asset : SLAsset, tagValue : String) {
         var write = false
         var tag = getTag(tagValue)
@@ -36,7 +39,7 @@ class RealmSloth : RealmBase {
             }
         }
     }
-    func addMemory(asset : SLAsset, tagValues : String...) {
+    func addAsset(asset : SLAsset, tagValues : String...) {
         self.write {
             self.add(asset)
         }

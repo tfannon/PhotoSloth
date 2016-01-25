@@ -12,7 +12,6 @@ import PhotosUI
 
 class PhotosController: UICollectionViewController {
     var fetchResult: PHFetchResult!
-    var photos: [Photo?]!
 
     var thumbSize: CGSize!
     var imageManager: PHCachingImageManager!
@@ -26,8 +25,7 @@ class PhotosController: UICollectionViewController {
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         fetchResult = PHAsset.fetchAssetsWithOptions(options)
-        photos = [Photo?](count: fetchResult.count, repeatedValue:nil)
-        print ("\(photos.count) photos detected")
+        print ("\(fetchResult.count) photos detected")
         
         imageManager = PHCachingImageManager()
         
@@ -39,11 +37,6 @@ class PhotosController: UICollectionViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        /*
-        let scale = UIScreen.mainScreen().scale
-        let cellSize = (self.collectionViewLayout as! PinterestLayout).itemSize
-        self.thumbSize = CGSize(width: cellSize.width * scale, height: cellSize.height * scale)
-        */
     }
 
    
@@ -54,39 +47,16 @@ class PhotosController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("AnnotatedPhotoCell", forIndexPath: indexPath) as! AnnotatedPhotoCell
 
-        let asset: PHAsset = self.fetchResult[indexPath.row] as! PHAsset
-        self.imageManager.requestImageForAsset(asset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .AspectFill, options: nil) { image,info in
-            var creationDateLabel: String = ""
-            
-            if let creationDate = asset.creationDate {
-                creationDateLabel = NSDateFormatter.localizedStringFromDate(creationDate,
-                    dateStyle: .ShortStyle,
-                    timeStyle: .ShortStyle
-                )
-            }
-            //let ratio: Double = Double(asset.pixelHeight) / (Double)(asset.pixelWidth)
-            //print("\(asset.pixelHeight)h  \(asset.pixelWidth)w  \(ratio)  fav:\(asset.favorite), \(asset.localIdentifier)")
-            if let location = asset.location {
-                //print ("\(location.coordinate.latitude),\(location.coordinate.longitude)")
-                Googles.getLocationTags(location.coordinate.latitude, longitude: location.coordinate.longitude) {
-                    cell.setTags($0)
-                }
-            }
-            
-            /* this retrieves all the metadata
-            let options = PHContentEditingInputRequestOptions()
-            options.networkAccessAllowed = true //download asset metadata from iCloud if needed
-            asset.requestContentEditingInputWithOptions(options) { (contentEditingInput: PHContentEditingInput?, _) -> Void in
-                let fullImage = CIImage(contentsOfURL: contentEditingInput!.fullSizeImageURL!)
-                print(fullImage!.properties)
-            }
-            */
-            
-            let photo = Photo(caption: creationDateLabel, comment: "", image: image!)
-            photo.liked = asset.favorite
-            self.photos[indexPath.row] = photo
-            cell.photo = photo
+        let photoAsset: PHAsset = self.fetchResult[indexPath.row] as! PHAsset
+        var asset = slothRealm.getAssetByExternalId(photoAsset.localIdentifier)
+        if asset == nil {
+            asset = SLAsset()
+            asset!.longitude = photoAsset.location?.coordinate.longitude ?? 0
+            asset!.latitude = photoAsset.location?.coordinate.longitude ?? 0
+            asset!.dateTaken = photoAsset.creationDate
+            slothRealm.addAsset(asset!)
         }
+        cell.setup(imageManager, photoAsset: photoAsset, asset: asset!)
         return cell
     }
 }
