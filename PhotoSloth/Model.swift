@@ -136,13 +136,27 @@ class SLAsset : SLBaseObjectId {
     // properties
     var caption : String {
         get {
+            var s = ""
             if let dt = dateTaken {
-                return NSDateFormatter.localizedStringFromDate(
+                s += NSDateFormatter.localizedStringFromDate(
                     dt,
                     dateStyle: .ShortStyle,
                     timeStyle: .ShortStyle)
             }
-            return city ?? country ?? ""
+            return s
+        }
+    }
+    
+    var locationText : String {
+        get {
+            var s = ""
+            if let c = city {
+                s += " " + c
+            }
+            if let c = country {
+                s += " " + c
+            }
+            return s
         }
     }
     
