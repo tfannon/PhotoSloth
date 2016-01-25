@@ -10,7 +10,7 @@ import UIKit
 import Photos
 import PhotosUI
 
-class PhotosController: UICollectionViewController {
+class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate {
 
     var thumbSize: CGSize!
     var imageManager: PHCachingImageManager!
@@ -37,6 +37,13 @@ class PhotosController: UICollectionViewController {
         if let layout = collectionView?.collectionViewLayout as? PinterestLayout {
             layout.delegate = self
         }
+        
+        
+        let gesture = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
+        gesture.minimumPressDuration = 0.5
+        gesture.delaysTouchesBegan = true
+        gesture.delegate = self
+        self.collectionView?.addGestureRecognizer(gesture)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -65,6 +72,41 @@ class PhotosController: UICollectionViewController {
         let fetchResult = PHAsset.fetchAssetsWithLocalIdentifiers([asset.externalId!], options: nil)
         let photoAsset = fetchResult[0] as! PHAsset
         return photoAsset
+    }
+    
+    func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
+        if gestureReconizer.state != UIGestureRecognizerState.Ended {
+            return
+        }
+        
+        let p = gestureReconizer.locationInView(self.collectionView)
+        let indexPath = self.collectionView!.indexPathForItemAtPoint(p)
+        
+        if let index = indexPath {
+            let cell = self.collectionView!.cellForItemAtIndexPath(index) as! AnnotatedPhotoCell
+            actionSheetButtonPressed(cell)
+            // do stuff with your cell, for example print the indexPath
+            print(index.row)
+        } else {
+            print("Could not find index path")
+        }
+    }
+    
+    func actionSheetButtonPressed(cell: AnnotatedPhotoCell) {
+        let asset = cell.asset
+        
+        let alert = UIAlertController(title: "\(asset.locationText)", message: "\(asset.potentialPOI)", preferredStyle: .Alert) // 1
+        let firstAction = UIAlertAction(title: "one", style: .Default) { (alert: UIAlertAction!) -> Void in
+            NSLog("You pressed button one")
+        } // 2
+        
+        let secondAction = UIAlertAction(title: "two", style: .Default) { (alert: UIAlertAction!) -> Void in
+            NSLog("You pressed button two")
+        } // 3
+        
+        alert.addAction(firstAction) // 4
+        alert.addAction(secondAction) // 5
+        presentViewController(alert, animated: true, completion:nil) // 6
     }
 }
 
