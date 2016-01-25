@@ -77,7 +77,6 @@ class RealmBase
     // deletes the database
     func delete() {
         RealmBase.delete(self.name)
-        realm.invalidate()
     }
     
     func write(block: () -> Void) {

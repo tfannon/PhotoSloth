@@ -12,7 +12,6 @@ import Realm
 
 class TestViewController: UIViewController {
 
-    @IBOutlet weak var button1: UIButton!
     @IBOutlet weak var lblDocumentPath: UILabel!
 
     // MARK: - Actions
@@ -26,11 +25,25 @@ class TestViewController: UIViewController {
         }
     }
     
+    @IBAction func handleClearDatabaseButton(sender: AnyObject) {
+        clearDatabase()
+    }
+    @IBAction func handleGatherButton(sender: AnyObject) {
+        gather()
+    }
+    @IBAction func handleClearGatherButton(sender: AnyObject) {
+        clearDatabase()
+        gather()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        lblDocumentPath.text = File.documentDirectory.fileSystemString
+        let gesture = UITapGestureRecognizer(target: self, action: "refreshDirectoryLabel")
+        self.lblDocumentPath.addGestureRecognizer(gesture)
+        self.lblDocumentPath.userInteractionEnabled = true
+        refreshDirectoryLabel()
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,6 +57,24 @@ class TestViewController: UIViewController {
         print (File.exists(dir))
         
         AssetGatherer.gather()
+    }
+    
+    func clearDatabase() {
+        slothRealm.delete()
+    }
+    func gather() {
+        AssetGatherer.gather()
+    }
+    
+    func refreshDirectoryLabel() {
+        let slothPath = File.documentDirectory.combine("sloth")
+        lblDocumentPath.text = slothPath.fileSystemString
+        if File.exists(slothPath) {
+            lblDocumentPath.textColor = UIColor.greenColor()
+        }
+        else {
+            lblDocumentPath.textColor = UIColor.redColor()
+        }
     }
     
     // MARK: - Navigation
