@@ -19,19 +19,19 @@ class AnnotatedPhotoCell: UICollectionViewCell {
     
     var asset : SLAsset!
 
-    func setup(imageManager : PHCachingImageManager, photoAsset : PHAsset, asset : SLAsset) {
+    func setup(asset : SLAsset) {
         // set the asset
         self.asset = asset
         // immediately set the image to nil so we don't see a stale photo
         self.imageView.image = nil
-        // load up the image async
-        imageManager.requestImageForAsset(photoAsset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .AspectFill, options: nil) { image, info in
-            self.imageView.image = image
-        }
         // set the easy properties
         self.captionLabel.text = asset.caption
         self.buttonLike.alpha = asset.isLiked ? 1.0 : 0.2
         self.commentLabel.text = asset.tags.items.map { item in item.value }.joinWithSeparator(", ")
+    }
+    
+    func setImage(image : UIImage?) {
+        self.imageView.image = image
     }
     
     //invert the sloth and release the kracken!
