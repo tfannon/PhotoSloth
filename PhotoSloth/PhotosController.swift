@@ -68,6 +68,7 @@ class PhotosController: UICollectionViewController {
                     asset.city = tagObject.city
                     asset.state = tagObject.state
                     asset.postalCode = tagObject.zipCode
+                    asset.isLocationSet = true
                 }
             }
         }
