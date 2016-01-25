@@ -21,10 +21,9 @@ class TestViewController: UIViewController {
     }
     
     @IBAction func handleButton2(sender: AnyObject) {
-//        let tagObject = TagObject()
-//        Googles.getPlaces(tagObject: tagObject) { result in
-//            print (result)
-//        }
+        Googles.getPlaces(29.879500, longitude:  -81.287000) { result in
+            print (result.places)
+        }
     }
     
     override func viewDidLoad() {
@@ -41,6 +40,8 @@ class TestViewController: UIViewController {
     
     func testDataModel() {
         RealmSloth.delete("sloth")
+        let dir = File.documentDirectory.combine("sloth")
+        print (File.exists(dir))
     }
     
     // MARK: - Navigation
