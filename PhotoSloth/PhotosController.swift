@@ -54,6 +54,7 @@ class PhotosController: UICollectionViewController {
             asset!.longitude = photoAsset.location?.coordinate.longitude ?? 0
             asset!.latitude = photoAsset.location?.coordinate.longitude ?? 0
             asset!.dateTaken = photoAsset.creationDate
+            asset!.externalId = photoAsset.localIdentifier
             slothRealm.addAsset(asset!)
         }
         imageManager.requestImageForAsset(photoAsset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .AspectFill, options: nil) { image, info in

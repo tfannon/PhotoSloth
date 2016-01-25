@@ -99,4 +99,22 @@ class RealmBase
         let results = self.select(T.self).filter("Id = '\(id)'")
         return results.first
     }
+    
+    func addNotificationBlock(block: NotificationBlock) -> NotificationToken {
+        return realm.addNotificationBlock(block)
+    }
+
+    func removeNotificationBlock(token: NotificationToken) {
+        realm.removeNotification(token)
+    }
 }
+
+
+
+
+
+
+
+
+
+

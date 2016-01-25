@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import RealmSwift
 
 class AnnotatedPhotoCell: UICollectionViewCell {
   
@@ -18,16 +19,41 @@ class AnnotatedPhotoCell: UICollectionViewCell {
     @IBOutlet weak var buttonLike: UIButton!
     
     var asset : SLAsset!
+    var realmToken : NotificationToken?
 
+    let alphaSelected : CGFloat = 1.0
+    let alphaNotSelected : CGFloat = 0.2
+    
     func setup(asset : SLAsset) {
+        recycle()
+        
         // set the asset
         self.asset = asset
+        // setup the notification 
+        realmToken = slothRealm.addNotificationBlock { notification, realm in
+            // re-get the asset
+            self.refreshViewFromAsset()
+        }
         // immediately set the image to nil so we don't see a stale photo
         self.imageView.image = nil
-        // set the easy properties
+        refreshViewFromAsset()
+    }
+    
+    private func refreshViewFromAsset() {
         self.captionLabel.text = asset.caption
-        self.buttonLike.alpha = asset.isLiked ? 1.0 : 0.2
+        self.buttonLike.alpha = asset.isLiked ? alphaSelected : alphaNotSelected
         self.commentLabel.text = asset.tags.items.map { item in item.value }.joinWithSeparator(", ")
+    }
+    
+    func recycle() {
+        if let t = realmToken {
+            slothRealm.removeNotificationBlock(t)
+        }
+        self.asset = nil
+        self.imageView.image = nil
+        self.captionLabel.text = nil
+        self.buttonLike.alpha = alphaNotSelected
+        self.commentLabel.text = nil
     }
     
     func setImage(image : UIImage?) {

@@ -142,7 +142,7 @@ class SLAsset : SLBaseObjectId {
                     dateStyle: .ShortStyle,
                     timeStyle: .ShortStyle)
             }
-            return city ?? ""
+            return city ?? country ?? ""
         }
     }
     
