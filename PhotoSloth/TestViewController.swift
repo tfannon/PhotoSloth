@@ -14,6 +14,8 @@ class TestViewController: UIViewController {
 
     @IBOutlet weak var lblDocumentPath: UILabel!
 
+    @IBOutlet weak var clearDatabaseButton: UIButton!
+    @IBOutlet weak var clearDatabaseGatherButton: UIButton!
     // MARK: - Actions
     @IBAction func handleButton1(sender: AnyObject) {
         testDataModel()
@@ -26,16 +28,28 @@ class TestViewController: UIViewController {
     }
     
     @IBAction func handleClearDatabaseButton(sender: AnyObject) {
-        clearDatabase()
+        if !clearDatabase() {
+            clearDatabaseButton.enabled = false
+            clearDatabaseGatherButton.enabled = false
+        }
     }
     @IBAction func handleGatherButton(sender: AnyObject) {
         gather()
     }
     @IBAction func handleClearGatherButton(sender: AnyObject) {
-        clearDatabase()
-        gather()
+        if clearDatabase() {
+            gather()
+        }
+        else {
+            clearDatabaseButton.enabled = false
+            clearDatabaseGatherButton.enabled = false
+        }
     }
-    
+    @IBAction func handleDeleteObjectsButton(sender: AnyObject) {
+        deleteObjectsFromDatabase()
+    }
+
+    // MARK - View
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -61,14 +75,21 @@ class TestViewController: UIViewController {
         }
     }
     
-    func clearDatabase() {
-        RealmBase.delete("sloth")
+    func clearDatabase() -> Bool {
+        let result = RealmBase.delete("sloth")
+        if !result {
+            self.alert("Test", message: "You can't clear the database because it's already been used.  Shutdown and restart the app if you need to do this.")
+        }
         refreshDirectoryLabel()
+        return result
     }
     func gather() {
         AssetGatherer.gather{
             self.refreshDirectoryLabel()
         }
+    }
+    func deleteObjectsFromDatabase() {
+        slothRealm.deleteAll()
     }
     
     func refreshDirectoryLabel() {

@@ -12,6 +12,7 @@ import RealmSwift
 class RealmBase
 {
     private let fileName = "default.realm"
+    private static var realmNamesInstantiated = Set<String>()
 
     private var realmConfiguration : Realm.Configuration!
     private var realm : Realm { get { return try! Realm(configuration: realmConfiguration) } }
@@ -23,6 +24,7 @@ class RealmBase
     init(name : String = "realm") {
         self.name = name
         configure()
+        RealmBase.realmNamesInstantiated.insert(name)
     }
     
     private func configure() {
@@ -43,10 +45,16 @@ class RealmBase
             readOnly: false
         )
     }
+    
+    // MARK - Statics
 
     private static func getPath(name : String) -> NSURL {
         let v = File.documentDirectory.combine(name)
         return v
+    }
+    
+    static func isNameInstantianted(name : String) -> Bool {
+        return RealmBase.realmNamesInstantiated.contains(name)
     }
     
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -64,9 +72,13 @@ class RealmBase
     // MARK: public functions
     
     // deletes the database and recreates a new one
-    static func delete(name: String) {
+    static func delete(name: String) -> Bool {
+        if RealmBase.isNameInstantianted(name) {
+            return false
+        }
         let path = RealmBase.getPath(name)
         File.deleteDirectory(path)
+        return !File.exists(path)
     }
     
     func write(block: () -> Void) {

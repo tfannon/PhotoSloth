@@ -176,25 +176,35 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w8i-q1-eXs">
-                                <rect key="frame" x="20" y="193" width="122" height="30"/>
+                                <rect key="frame" x="163" y="117" width="122" height="30"/>
                                 <state key="normal" title="Clear then Gather"/>
                                 <connections>
                                     <action selector="handleClearGatherButton:" destination="SID-n0-e8m" eventType="touchUpInside" id="9sm-MY-Ojx"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QIp-hR-es3">
+                                <rect key="frame" x="20" y="193" width="284" height="30"/>
+                                <state key="normal" title="Delete Objects from Database (data only)"/>
+                                <connections>
+                                    <action selector="handleDeleteObjectsButton:" destination="SID-n0-e8m" eventType="touchUpInside" id="dG8-I1-hV7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="w8i-q1-eXs" firstAttribute="leading" secondItem="HuQ-Rf-KY0" secondAttribute="trailing" constant="38" id="1g1-8R-HPm"/>
                             <constraint firstItem="eAW-hL-4PL" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="D45-Vs-SD0"/>
+                            <constraint firstItem="QIp-hR-es3" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="DmO-1L-xwN"/>
                             <constraint firstItem="4K5-xi-zJU" firstAttribute="trailing" secondItem="b8c-aT-BCI" secondAttribute="trailingMargin" id="EYW-Qz-Spd"/>
                             <constraint firstItem="4K5-xi-zJU" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="GF4-Z7-dXw"/>
                             <constraint firstItem="3uB-Aq-rkR" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="IrU-GC-o0V"/>
                             <constraint firstItem="HuQ-Rf-KY0" firstAttribute="top" secondItem="4K5-xi-zJU" secondAttribute="bottom" constant="8" id="RIC-t6-WjA"/>
-                            <constraint firstItem="w8i-q1-eXs" firstAttribute="top" secondItem="3uB-Aq-rkR" secondAttribute="bottom" constant="8" id="VGx-yV-j8f"/>
+                            <constraint firstItem="QIp-hR-es3" firstAttribute="top" secondItem="3uB-Aq-rkR" secondAttribute="bottom" constant="8" id="UGy-HT-oss"/>
                             <constraint firstItem="6fm-f3-LYB" firstAttribute="top" secondItem="gVk-yt-N5A" secondAttribute="bottom" id="ZQf-WU-wuj"/>
-                            <constraint firstItem="w8i-q1-eXs" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="aqW-eo-j9Q"/>
                             <constraint firstItem="3uB-Aq-rkR" firstAttribute="top" secondItem="HuQ-Rf-KY0" secondAttribute="bottom" constant="8" id="c5Y-93-xdn"/>
+                            <constraint firstItem="w8i-q1-eXs" firstAttribute="centerY" secondItem="HuQ-Rf-KY0" secondAttribute="centerY" id="e05-rw-3P0"/>
                             <constraint firstItem="6fm-f3-LYB" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="ehb-rh-ynL"/>
+                            <constraint firstItem="w8i-q1-eXs" firstAttribute="height" secondItem="HuQ-Rf-KY0" secondAttribute="height" id="hv7-2I-Krf"/>
                             <constraint firstItem="4K5-xi-zJU" firstAttribute="top" secondItem="eAW-hL-4PL" secondAttribute="bottom" constant="8" id="jGE-ab-5MN"/>
                             <constraint firstItem="eAW-hL-4PL" firstAttribute="top" secondItem="6fm-f3-LYB" secondAttribute="bottom" constant="8" id="qnF-Oz-3mk"/>
                             <constraint firstItem="HuQ-Rf-KY0" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="xhP-b3-SN4"/>
@@ -202,12 +212,14 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Test" image="991-test-tube" id="5Ip-rh-jkx"/>
                     <connections>
+                        <outlet property="clearDatabaseButton" destination="HuQ-Rf-KY0" id="BL7-r6-pqO"/>
+                        <outlet property="clearDatabaseGatherButton" destination="w8i-q1-eXs" id="BwO-bj-vwd"/>
                         <outlet property="lblDocumentPath" destination="4K5-xi-zJU" id="PZl-sP-rD1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="63E-jQ-Ys8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3530" y="-3141"/>
+            <point key="canvasLocation" x="-3813" y="-3141"/>
         </scene>
     </scenes>
     <resources>
