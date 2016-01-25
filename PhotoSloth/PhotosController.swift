@@ -68,8 +68,9 @@ class PhotosController: UICollectionViewController {
             //print("\(asset.pixelHeight)h  \(asset.pixelWidth)w  \(ratio)  fav:\(asset.favorite), \(asset.localIdentifier)")
             if let location = asset.location {
                 //print ("\(location.coordinate.latitude),\(location.coordinate.longitude)")
-                Googles.getLocationTags(location.coordinate.latitude, longitude: location.coordinate.longitude) {
-                    cell.setTags($0)
+                Googles.getLocationTags(location.coordinate.latitude, longitude: location.coordinate.longitude, tagObject: TagObject()) {
+                    //cell.setTags($0)
+                    print($0)
                 }
             }
             

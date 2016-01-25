@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		651B90561C55A3000048ADCA /* TagObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651B90551C55A3000048ADCA /* TagObject.swift */; };
 		657F700D1C549B3D008D793B /* AnnotatedPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F6FFF1C549B3D008D793B /* AnnotatedPhotoCell.swift */; };
 		657F700E1C549B3D008D793B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F70001C549B3D008D793B /* AppDelegate.swift */; };
 		657F700F1C549B3D008D793B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657F70011C549B3D008D793B /* Assets.xcassets */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		305E9AFF8DA2E2804CBA65AE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		3BB11B99F5945FFB5DF8DFA0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		651B90551C55A3000048ADCA /* TagObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagObject.swift; sourceTree = "<group>"; };
 		653379F41C53E18A007A911E /* PhotoSloth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoSloth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		657F6FFF1C549B3D008D793B /* AnnotatedPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotatedPhotoCell.swift; sourceTree = "<group>"; };
 		657F70001C549B3D008D793B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				665CA54B1C5523210065EA01 /* Model.swift */,
 				657F70081C549B3D008D793B /* Photo.swift */,
 				665CA54F1C55232E0065EA01 /* RealmSloth.swift */,
+				651B90551C55A3000048ADCA /* TagObject.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -362,6 +365,7 @@
 				665CA5591C5526F20065EA01 /* StringExtensions.swift in Sources */,
 				665CA5611C5527AB0065EA01 /* UIViewControllerExtensions.swift in Sources */,
 				665CA5631C5527C70065EA01 /* NSTimerExtensions.swift in Sources */,
+				651B90561C55A3000048ADCA /* TagObject.swift in Sources */,
 				657F70171C549B3D008D793B /* RoundedCornersView.swift in Sources */,
 				665CA5531C5526730065EA01 /* ArrayExtensions.swift in Sources */,
 				665CA5671C5528E20065EA01 /* ProgressCalculator.swift in Sources */,

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GoogleMaps
+//import GoogleMaps
 
 // global realm database access
 var slothRealm : RealmSloth = {

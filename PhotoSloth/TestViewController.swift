@@ -8,7 +8,7 @@
 
 import UIKit
 import Realm
-import GoogleMaps
+
 
 class TestViewController: UIViewController {
 
@@ -20,8 +20,9 @@ class TestViewController: UIViewController {
     }
     
     @IBAction func handleButton2(sender: AnyObject) {
-        Googles.getPlaces() { places in
-            print (places)
+        let tagObject = TagObject()
+        Googles.getPlaces(tagObject: tagObject) { result in
+            print (result)
         }
     }
     
@@ -49,15 +50,6 @@ class TestViewController: UIViewController {
         slothRealm.addMemory(memory2, tagValues: "whatever1")
     }
     
-    func testServices() {
-        //let config = GMSPlacePickerConfig(
-        let placePicker = GMSPlacePicker()
-        placePicker.pickPlaceWithCallback { result in
-            print(result)
-        }
-    }
-    
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -65,6 +57,6 @@ class TestViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+
 
 }
