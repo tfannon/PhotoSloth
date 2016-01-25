@@ -61,7 +61,11 @@ class PhotosController: UICollectionViewController {
         }
         if let coordinates = photoAsset.location?.coordinate {
             Googles.getLocationTags(coordinates.latitude, longitude: coordinates.longitude) { tags in
-                
+                slothRealm.write {
+                    for tag in tags {
+                        asset?.tags.append(SLTag(string: tag))
+                    }
+                }
             }
         }
         cell.setup(asset!)
