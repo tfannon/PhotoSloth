@@ -16,7 +16,7 @@ class Googles {
     static var IOSKEY: String = "AIzaSyBkTQikOVA5PLkmBf1SGbrvwOQIgL-vbbA"
     static var BROWSER_KEY = "AIzaSyAencAZogMezvzaufB5c2Nf7wqXXrKdFn8"
     
-    class func getLocationTags(latitude: Double = 29.879500, longitude: Double = -81.287000, tagObject: TagObject, completion:(result: TagObject)->()) {
+    class func getLocationTags(latitude: Double = 29.879500, longitude: Double = -81.287000, completion:(result: TagObject)->()) {
         let testUrl = ("https://maps.googleapis.com/maps/api/geocode/json?latlng=\(latitude),\(longitude)&sensor=true")
         print (testUrl)
         Alamofire.request(.GET, testUrl, parameters: nil)
@@ -27,7 +27,7 @@ class Googles {
                 print(response.data)     // server data
                 print(response.result)   // result of response serialization
                 */
-                
+                let tagObject = TagObject()
                 if let value = response.result.value {
                     let json = JSON(value)
                     print (json)

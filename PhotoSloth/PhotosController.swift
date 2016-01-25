@@ -46,50 +46,26 @@ class PhotosController: UICollectionViewController {
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("AnnotatedPhotoCell", forIndexPath: indexPath) as! AnnotatedPhotoCell
-
-        let asset: PHAsset = self.fetchResult[indexPath.row] as! PHAsset
-        self.imageManager.requestImageForAsset(asset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .AspectFill, options: nil) { image,info in
-            var creationDateLabel: String = ""
-            
-            if let creationDate = asset.creationDate {
-                creationDateLabel = NSDateFormatter.localizedStringFromDate(creationDate,
-                    dateStyle: .ShortStyle,
-                    timeStyle: .ShortStyle
-                )
-            }
-            //let ratio: Double = Double(asset.pixelHeight) / (Double)(asset.pixelWidth)
-            //print("\(asset.pixelHeight)h  \(asset.pixelWidth)w  \(ratio)  fav:\(asset.favorite), \(asset.localIdentifier)")
-            if let location = asset.location {
-                //print ("\(location.coordinate.latitude),\(location.coordinate.longitude)")
-                Googles.getLocationTags(location.coordinate.latitude, longitude: location.coordinate.longitude, tagObject: TagObject()) {
-                    //cell.setTags($0)
-                    print($0)
-                }
-            }
-            
-            /* this retrieves all the metadata
-            let options = PHContentEditingInputRequestOptions()
-            options.networkAccessAllowed = true //download asset metadata from iCloud if needed
-            asset.requestContentEditingInputWithOptions(options) { (contentEditingInput: PHContentEditingInput?, _) -> Void in
-                let fullImage = CIImage(contentsOfURL: contentEditingInput!.fullSizeImageURL!)
-                print(fullImage!.properties)
-            }
-            */
-            
-            let photo = Photo(caption: creationDateLabel, comment: "", image: image!)
-            photo.liked = asset.favorite
-            self.photos[indexPath.row] = photo
-            cell.photo = photo
+        
+        let photoAsset: PHAsset = self.fetchResult[indexPath.row] as! PHAsset
+        var asset = slothRealm.getAssetByExternalId(photoAsset.localIdentifier)
+        if asset == nil {
+            asset = SLAsset()
+            asset!.longitude = photoAsset.location?.coordinate.longitude ?? 0
+            asset!.latitude = photoAsset.location?.coordinate.longitude ?? 0
+            asset!.dateTaken = photoAsset.creationDate
+            slothRealm.addAsset(asset!)
         }
         imageManager.requestImageForAsset(photoAsset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .AspectFill, options: nil) { image, info in
             cell.setImage(image)
         }
         if let coordinates = photoAsset.location?.coordinate {
-            Googles.getLocationTags(coordinates.latitude, longitude: coordinates.longitude) { tags in
+            Googles.getLocationTags(coordinates.latitude, longitude: coordinates.longitude) { tagObject in
                 slothRealm.write {
-                    for tag in tags {
-                        asset?.tags.append(SLTag(string: tag))
-                    }
+                    asset!.country = tagObject.country
+                    asset!.city = tagObject.city
+                    asset!.state = tagObject.state
+                    asset!.postalCode = tagObject.zipCode
                 }
             }
         }
