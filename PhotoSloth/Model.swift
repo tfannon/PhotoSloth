@@ -153,7 +153,7 @@ class SLAsset : SLBaseObjectId {
             if let c = city {
                 s += " " + c
             }
-            if let c = country {
+            if let c = state {
                 s += " " + c
             }
             return s
