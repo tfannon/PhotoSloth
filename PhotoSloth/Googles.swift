@@ -13,7 +13,7 @@ import SwiftyJSON
 
 class Googles {
 
-    static var IOSKEY: String = "AIzaSyBkTQikOVA5PLkmBf1SGbrvwOQIgL-vbbA"
+    //static var IOSKEY: String = "AIzaSyBkTQikOVA5PLkmBf1SGbrvwOQIgL-vbbA"
     static var BROWSER_KEY = "AIzaSyAencAZogMezvzaufB5c2Nf7wqXXrKdFn8"
     
     class func getLocationTags(latitude: Double = 29.879500, longitude: Double = -81.287000, completion:(result: TagObject)->()) {
@@ -30,7 +30,7 @@ class Googles {
                 let tagObject = TagObject()
                 if let value = response.result.value {
                     let json = JSON(value)
-                    print (json)
+                    //print (json)
                     let first = json["results"][0]["address_components"]
                     for (_,subJson) in first {
                         //city
@@ -59,7 +59,8 @@ class Googles {
     }
     
     //29.879500,-81.287000  - Anastasia Fitness
-    class func getPlaces(latitude: Double = 29.879500, longitude: Double = -81.287000, tagObject: TagObject, completion:(result: TagObject)->()) {
+    class func getPlaces(latitude: Double, longitude: Double, completion:(result: TagObject)->()) {
+        let tagObject = TagObject()
         let testUrl = ("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(latitude),\(longitude)&radius=200&key=\(BROWSER_KEY)")
         Alamofire.request(.GET, testUrl, parameters: nil)
             .responseJSON { response in
