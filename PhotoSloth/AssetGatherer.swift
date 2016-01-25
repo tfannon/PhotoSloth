@@ -25,6 +25,20 @@ class AssetGatherer {
     static func gather(
         progress : ((Progress) -> Void)? = nil,
         completion : (() -> Void)? = nil) {
+            
+            if let delay = UserSettings.delayGather {
+                NSTimer.schedule(delay: Double(delay)) { _ in
+                    gatherImpl(progress, completion : completion)
+                }
+            }
+            else {
+                gatherImpl(progress, completion : completion)
+            }
+    }
+    
+    private static func gatherImpl(
+        progress : ((Progress) -> Void)? = nil,
+        completion : (() -> Void)? = nil) {
         Async.background {
             let options = PHFetchOptions()
             options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
@@ -33,8 +47,8 @@ class AssetGatherer {
                 
                 // progress callback
                 progress?(Progress(current: i+1, total: fetchResult.count))
-
-                // get the photoAsset and 
+                
+                // get the photoAsset and
                 // get or create a new SLAsset's
                 let photoAsset: PHAsset = fetchResult[i] as! PHAsset
                 var asset: SLAsset!
@@ -92,8 +106,8 @@ class AssetGatherer {
                     print ("\(asset.id) poi: \(asset.potentialPOI.any ? asset.potentialPOI : ["no poi data"])")
                 }
             }
-        }.main {
-            completion?()
+            }.main {
+                completion?()
         }
     }
 }

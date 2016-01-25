@@ -35,10 +35,10 @@ class TestViewController: UIViewController {
     }
     
     @IBAction func delayGatherHandleChanged(sender: AnyObject) {
-        UserSettings.delayGather = NSNumberFormatter().numberFromString((sender as! UITextField).text ?? "")?.integerValue ?? 0
+        UserSettings.delayGather = NSNumberFormatter().numberFromString((sender as! UITextField).text ?? "")?.integerValue
     }
     @IBAction func delayGatherBetweenHandleChanged(sender: AnyObject) {
-        UserSettings.delayGatherBetween = NSNumberFormatter().numberFromString((sender as! UITextField).text ?? "")?.integerValue ?? 0
+        UserSettings.delayGatherBetween = NSNumberFormatter().numberFromString((sender as! UITextField).text ?? "")?.integerValue
     }
     @IBAction func handleClearDatabaseButton(sender: AnyObject) {
         if !clearDatabase() {
@@ -67,6 +67,8 @@ class TestViewController: UIViewController {
         refreshDirectoryLabel()
         updateProgress(0, animated: false)
         self.googleMockSwitch.setOn(UserSettings.mockGoogle, animated: false)
+        delayGatherText.text = (UserSettings.delayGather == nil) ? nil : String(UserSettings.delayGather!)
+        delayGatherBetweenText.text = (UserSettings.delayGatherBetween == nil) ? nil : String(UserSettings.delayGatherBetween!)
     }
     
     override func didReceiveMemoryWarning() {
@@ -92,10 +94,8 @@ class TestViewController: UIViewController {
         return result
     }
     func gather() {
-        NSTimer.schedule(delay: 5) { _ in
-            AssetGatherer.gather({ progress in self.updateProgress(progress.progress) }) {
-                self.refreshDirectoryLabel()
-            }
+        AssetGatherer.gather({ progress in self.updateProgress(progress.progress) }) {
+            self.refreshDirectoryLabel()
         }
     }
     func deleteObjectsFromDatabase() {

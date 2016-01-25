@@ -18,17 +18,17 @@ class UserSettings {
             set(__FUNCTION__, value : newValue)
         }
     }
-    static var delayGather : Int {
+    static var delayGather : Int? {
         get {
-        return get(__FUNCTION__) ?? 0
+        return get(__FUNCTION__) 
         }
         set {
             set(__FUNCTION__, value : newValue)
         }
     }
-    static var delayGatherBetween : Int {
+    static var delayGatherBetween : Int? {
         get {
-        return get(__FUNCTION__) ?? 0
+        return get(__FUNCTION__)
         }
         set {
             set(__FUNCTION__, value : newValue)
