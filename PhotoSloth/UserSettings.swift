@@ -18,6 +18,22 @@ class UserSettings {
             set(__FUNCTION__, value : newValue)
         }
     }
+    static var delayGather : Int {
+        get {
+        return get(__FUNCTION__) ?? 0
+        }
+        set {
+            set(__FUNCTION__, value : newValue)
+        }
+    }
+    static var delayGatherBetween : Int {
+        get {
+        return get(__FUNCTION__) ?? 0
+        }
+        set {
+            set(__FUNCTION__, value : newValue)
+        }
+    }
     
     private static func get<T>(key : String) -> T? {
         let defaults = NSUserDefaults.standardUserDefaults()

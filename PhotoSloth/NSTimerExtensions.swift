@@ -13,7 +13,7 @@ extension NSTimer {
      Creates and schedules a one-time `NSTimer` instance.
      
      - Parameters:
-     - delay: The delay before execution.
+     - delay: The delay (in seconds) before execution.
      - handler: A closure to execute after `delay`.
      
      - Returns: The newly-created `NSTimer` instance.

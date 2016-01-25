@@ -16,6 +16,8 @@ class TestViewController: UIViewController {
     @IBOutlet weak var progress1: UIProgressView!
     @IBOutlet weak var googleMockSwitch: UISwitch!
 
+    @IBOutlet weak var delayGatherText: UITextField!
+    @IBOutlet weak var delayGatherBetweenText: UITextField!
     @IBOutlet weak var clearDatabaseButton: UIButton!
     @IBOutlet weak var clearDatabaseGatherButton: UIButton!
     // MARK: - Actions
@@ -32,6 +34,12 @@ class TestViewController: UIViewController {
         }
     }
     
+    @IBAction func delayGatherHandleChanged(sender: AnyObject) {
+        UserSettings.delayGather = NSNumberFormatter().numberFromString((sender as! UITextField).text ?? "")?.integerValue ?? 0
+    }
+    @IBAction func delayGatherBetweenHandleChanged(sender: AnyObject) {
+        UserSettings.delayGatherBetween = NSNumberFormatter().numberFromString((sender as! UITextField).text ?? "")?.integerValue ?? 0
+    }
     @IBAction func handleClearDatabaseButton(sender: AnyObject) {
         if !clearDatabase() {
             clearDatabaseButton.enabled = false
@@ -84,8 +92,10 @@ class TestViewController: UIViewController {
         return result
     }
     func gather() {
-        AssetGatherer.gather({ progress in self.updateProgress(progress.progress) }) {
-            self.refreshDirectoryLabel()
+        NSTimer.schedule(delay: 5) { _ in
+            AssetGatherer.gather({ progress in self.updateProgress(progress.progress) }) {
+                self.refreshDirectoryLabel()
+            }
         }
     }
     func deleteObjectsFromDatabase() {
