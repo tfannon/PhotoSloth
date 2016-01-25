@@ -14,6 +14,7 @@ class RealmBase
     private let fileName = "default.realm"
 
     private var realmConfiguration : Realm.Configuration!
+    private static var _realm : Realm?
     private var realm : Realm { get { return try! Realm(configuration: realmConfiguration) } }
     
     private var name : String!
@@ -23,6 +24,7 @@ class RealmBase
     init(name : String = "realm") {
         self.name = name
         configure()
+        RealmBase._realm = try? Realm(configuration: self.realmConfiguration)
     }
     
     private func configure() {
@@ -67,16 +69,6 @@ class RealmBase
     static func delete(name: String) {
         let path = RealmBase.getPath(name)
         File.deleteDirectory(path)
-    }
-    
-    func reset() {
-        delete()
-        configure()
-    }
-    
-    // deletes the database
-    func delete() {
-        RealmBase.delete(self.name)
     }
     
     func write(block: () -> Void) {

@@ -60,7 +60,7 @@ class TestViewController: UIViewController {
     }
     
     func clearDatabase() {
-        slothRealm.delete()
+        RealmBase.delete("sloth")
         refreshDirectoryLabel()
     }
     func gather() {
