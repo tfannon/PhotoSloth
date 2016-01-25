@@ -185,6 +185,18 @@
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ppG-O5-MXl">
                                 <rect key="frame" x="163" y="169" width="417" height="2"/>
                             </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mock Google" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZ5-y7-0kq">
+                                <rect key="frame" x="20" y="269" width="101.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="YhN-Tc-6S4">
+                                <rect key="frame" x="129" y="264" width="51" height="31"/>
+                                <connections>
+                                    <action selector="handleGoogleMockSwitch:" destination="SID-n0-e8m" eventType="valueChanged" id="kjv-Fb-Fd5"/>
+                                </connections>
+                            </switch>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QIp-hR-es3">
                                 <rect key="frame" x="20" y="193" width="284" height="30"/>
                                 <state key="normal" title="Delete Objects from Database (data only)"/>
@@ -195,17 +207,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="dZ5-y7-0kq" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="BfC-au-sr8"/>
                             <constraint firstItem="eAW-hL-4PL" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="D45-Vs-SD0"/>
                             <constraint firstItem="QIp-hR-es3" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="DmO-1L-xwN"/>
                             <constraint firstItem="4K5-xi-zJU" firstAttribute="trailing" secondItem="b8c-aT-BCI" secondAttribute="trailingMargin" id="EYW-Qz-Spd"/>
                             <constraint firstItem="4K5-xi-zJU" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="GF4-Z7-dXw"/>
                             <constraint firstItem="3uB-Aq-rkR" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="IrU-GC-o0V"/>
+                            <constraint firstItem="YhN-Tc-6S4" firstAttribute="leading" secondItem="dZ5-y7-0kq" secondAttribute="trailing" constant="7.5" id="Kb2-oG-fpB"/>
+                            <constraint firstItem="YhN-Tc-6S4" firstAttribute="centerY" secondItem="dZ5-y7-0kq" secondAttribute="centerY" id="NwC-XO-aFk"/>
                             <constraint firstItem="HuQ-Rf-KY0" firstAttribute="top" secondItem="4K5-xi-zJU" secondAttribute="bottom" constant="8" id="RIC-t6-WjA"/>
                             <constraint firstItem="QIp-hR-es3" firstAttribute="top" secondItem="3uB-Aq-rkR" secondAttribute="bottom" constant="8" id="UGy-HT-oss"/>
                             <constraint firstItem="6fm-f3-LYB" firstAttribute="top" secondItem="gVk-yt-N5A" secondAttribute="bottom" id="ZQf-WU-wuj"/>
                             <constraint firstItem="3uB-Aq-rkR" firstAttribute="top" secondItem="HuQ-Rf-KY0" secondAttribute="bottom" constant="8" id="c5Y-93-xdn"/>
                             <constraint firstItem="ppG-O5-MXl" firstAttribute="trailing" secondItem="b8c-aT-BCI" secondAttribute="trailingMargin" id="c8y-xe-eL4"/>
                             <constraint firstItem="6fm-f3-LYB" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="ehb-rh-ynL"/>
+                            <constraint firstItem="dZ5-y7-0kq" firstAttribute="top" secondItem="w8i-q1-eXs" secondAttribute="bottom" constant="8" id="fOd-2b-fdq"/>
                             <constraint firstItem="4K5-xi-zJU" firstAttribute="top" secondItem="eAW-hL-4PL" secondAttribute="bottom" constant="8" id="jGE-ab-5MN"/>
                             <constraint firstItem="ppG-O5-MXl" firstAttribute="centerY" secondItem="3uB-Aq-rkR" secondAttribute="centerY" id="neX-JO-r0T"/>
                             <constraint firstItem="w8i-q1-eXs" firstAttribute="top" secondItem="QIp-hR-es3" secondAttribute="bottom" constant="8" id="o6J-bP-Y1x"/>
@@ -219,6 +235,7 @@
                     <connections>
                         <outlet property="clearDatabaseButton" destination="HuQ-Rf-KY0" id="BL7-r6-pqO"/>
                         <outlet property="clearDatabaseGatherButton" destination="w8i-q1-eXs" id="BwO-bj-vwd"/>
+                        <outlet property="googleMockSwitch" destination="YhN-Tc-6S4" id="u1Q-U8-Cs2"/>
                         <outlet property="lblDocumentPath" destination="4K5-xi-zJU" id="PZl-sP-rD1"/>
                         <outlet property="progress1" destination="ppG-O5-MXl" id="LpS-uJ-Mwm"/>
                     </connections>

@@ -14,12 +14,16 @@ class TestViewController: UIViewController {
 
     @IBOutlet weak var lblDocumentPath: UILabel!
     @IBOutlet weak var progress1: UIProgressView!
+    @IBOutlet weak var googleMockSwitch: UISwitch!
 
     @IBOutlet weak var clearDatabaseButton: UIButton!
     @IBOutlet weak var clearDatabaseGatherButton: UIButton!
     // MARK: - Actions
     @IBAction func handleButton1(sender: AnyObject) {
         misc()
+    }
+    @IBAction func handleGoogleMockSwitch(sender: AnyObject) {
+        UserSettings.mockGoogle = (sender as! UISwitch).on
     }
     
     @IBAction func handleButton2(sender: AnyObject) {
@@ -54,8 +58,9 @@ class TestViewController: UIViewController {
         self.lblDocumentPath.userInteractionEnabled = true
         refreshDirectoryLabel()
         updateProgress(0, animated: false)
+        self.googleMockSwitch.setOn(UserSettings.mockGoogle, animated: false)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
