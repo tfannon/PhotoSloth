@@ -27,7 +27,7 @@ class PhotosController: UICollectionViewController {
             a.externalId != nil }.sort { a1, a2 in
             if let d1 = a1.dateTaken {
                 if let d2 = a2.dateTaken {
-                    return d1.compare(d2) == NSComparisonResult.OrderedAscending
+                    return d1.compare(d2) == NSComparisonResult.OrderedDescending
                 }
             }
             return true
