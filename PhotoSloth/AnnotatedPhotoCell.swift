@@ -42,7 +42,7 @@ class AnnotatedPhotoCell: UICollectionViewCell {
     private func refreshViewFromAsset() {
         self.captionLabel.text = asset.caption
         self.buttonLike.alpha = asset.isLiked ? alphaSelected : alphaNotSelected
-        self.commentLabel.text = asset.tags.items.map { item in item.value }.joinWithSeparator(", ")
+        self.commentLabel.text = asset.locationText // asset.tags.items.map { item in item.value }.joinWithSeparator(", ")
     }
     
     func recycle() {
