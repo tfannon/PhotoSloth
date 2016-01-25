@@ -49,15 +49,16 @@ class AssetGatherer {
                     newAssetId = asset.id
                     slothRealm.addAsset(asset)
                 }
+                
                 if !asset.isLocationSet {
                     if let coordinates = photoAsset.location?.coordinate {
                         Googles.getLocationTags(coordinates.latitude, longitude: coordinates.longitude) { tagObject in
                             // if the asset was created on the other thread - we need our own
-                            var assetForLocationUpdate = asset
+                            var assetForUpdate = asset
                             if let id = newAssetId {
-                                assetForLocationUpdate = slothRealm.getAsset(id)
+                                assetForUpdate = slothRealm.getAsset(id)
                             }
-                            if let a = assetForLocationUpdate {
+                            if let a = assetForUpdate {
                                 slothRealm.write {
                                     a.country = tagObject.country
                                     a.city = tagObject.city
@@ -68,21 +69,28 @@ class AssetGatherer {
                             }
                         }
                     }
+                } else {
+                    print ("\(asset.id) city: \(asset.city != nil ? asset.city! : "no city data") ")
                 }
-//                if !asset.isPotentialPOIsSet {
-//                    if let coordinates = photoAsset.location?.coordinate {
-//                        Googles.getPlaces(coordinates.latitude, longitude: coordinates.longitude) {
-//                            tagObject in
-//                            if tagObject.places.count > 1 {
-//                                slothRealm.write {
-//                                    asset.potentialPOIs = tagObject.places
-//                                    asset.isPotentialPOIsSet = true }
-//                            }
-//                        }
-//                    }
-//                } else {
-//                    print (asset.potentialPOIs)
-//                }
+                
+                if !asset.isPotentialPOISet {
+                    if let coordinates = photoAsset.location?.coordinate {
+                        Googles.getPlaces(coordinates.latitude, longitude: coordinates.longitude) { tagObject in
+                            var assetForUpdate = asset
+                            if let id = newAssetId {
+                                assetForUpdate = slothRealm.getAsset(id)
+                            }
+                            if let a = assetForUpdate {
+                                slothRealm.write {
+                                    a.potentialPOI = tagObject.places
+                                    a.isPotentialPOISet = true
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    print ("\(asset.id) poi: \(asset.potentialPOI.any ? asset.potentialPOI : ["no poi data"])")
+                }
             }
         }.main {
             completion?()

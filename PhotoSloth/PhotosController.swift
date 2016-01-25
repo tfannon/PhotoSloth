@@ -23,15 +23,15 @@ class PhotosController: UICollectionViewController {
         collectionView!.contentInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
 
         imageManager = PHCachingImageManager()
-        assets = slothRealm.getAssets().filter { a in
-            a.externalId != nil }.sort { a1, a2 in
-            if let d1 = a1.dateTaken {
-                if let d2 = a2.dateTaken {
+        assets = slothRealm.getAssets()
+            .filter { a in a.externalId != nil }
+            .sort { a1, a2 in
+                if let d1 = a1.dateTaken,
+                   let d2 = a2.dateTaken {
                     return d1.compare(d2) == NSComparisonResult.OrderedDescending
                 }
+                return true
             }
-            return true
-        }
         
         // Set the PinterestLayout delegate
         if let layout = collectionView?.collectionViewLayout as? PinterestLayout {

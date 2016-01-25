@@ -132,6 +132,11 @@ class SLAsset : SLBaseObjectId {
     override static func indexedProperties() -> [String] {
         return ["externalId"]
     }
+    
+    override static func ignoredProperties() -> [String] {
+        return ["potentialPOI"]
+    }
+    
 
     // properties
     var caption : String {
@@ -159,18 +164,30 @@ class SLAsset : SLBaseObjectId {
             return s
         }
     }
-    
 
-    //store string array as nsdata since we cant store List<String>
-    private dynamic var potentialPOIsEncoded: NSData?
+    //realm cant store list of strings so put it into a format that can be shuttled back and forth
+    private dynamic var _potentialPOIEncoded: NSData?
+    var potentialPOI: [String] {
+        get {
+            if let encodedString = _potentialPOIEncoded,
+                let newStrings: [String] = NSKeyedUnarchiver.unarchiveObjectWithData(encodedString) as? [String] {
+                    return newStrings
+            }
+            return []
+        }
+        set {
+            let data = NSKeyedArchiver.archivedDataWithRootObject(newValue)
+            _potentialPOIEncoded = data
+        }
+    }
     
 
     dynamic var externalId : String?
-
     dynamic var dateTaken : NSDate?
     
     // location
     dynamic var isLocationSet = false
+    dynamic var isPotentialPOISet = false
     dynamic var longitude : Double = 0
     dynamic var latitude : Double = 0
     dynamic var address : String?
