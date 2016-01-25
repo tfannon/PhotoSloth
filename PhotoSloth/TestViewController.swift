@@ -42,6 +42,8 @@ class TestViewController: UIViewController {
         RealmSloth.delete("sloth")
         let dir = File.documentDirectory.combine("sloth")
         print (File.exists(dir))
+        
+        AssetGatherer.gather()
     }
     
     // MARK: - Navigation

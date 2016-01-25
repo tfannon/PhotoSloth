@@ -11,10 +11,10 @@ import Photos
 import PhotosUI
 
 class PhotosController: UICollectionViewController {
-    var fetchResult: PHFetchResult!
 
     var thumbSize: CGSize!
     var imageManager: PHCachingImageManager!
+    var assets = [SLAsset]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,12 +22,16 @@ class PhotosController: UICollectionViewController {
         collectionView!.backgroundColor = UIColor.clearColor()
         collectionView!.contentInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
 
-        let options = PHFetchOptions()
-        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        fetchResult = PHAsset.fetchAssetsWithOptions(options)
-        print ("\(fetchResult.count) photos detected")
-        
         imageManager = PHCachingImageManager()
+        assets = slothRealm.getAssets().filter { a in
+            a.externalId != nil }.sort { a1, a2 in
+            if let d1 = a1.dateTaken {
+                if let d2 = a2.dateTaken {
+                    return d1.compare(d2) == NSComparisonResult.OrderedAscending
+                }
+            }
+            return true
+        }
         
         // Set the PinterestLayout delegate
         if let layout = collectionView?.collectionViewLayout as? PinterestLayout {
@@ -41,50 +45,36 @@ class PhotosController: UICollectionViewController {
 
    
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fetchResult.count;
+        return assets.count;
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("AnnotatedPhotoCell", forIndexPath: indexPath) as! AnnotatedPhotoCell
         
-        let photoAsset: PHAsset = self.fetchResult[indexPath.row] as! PHAsset
-        var asset: SLAsset!
-        asset = slothRealm.getAssetByExternalId(photoAsset.localIdentifier)
-        if asset == nil {
-            asset = SLAsset()
-            asset.longitude = photoAsset.location?.coordinate.longitude ?? 0
-            asset.latitude = photoAsset.location?.coordinate.longitude ?? 0
-            asset.dateTaken = photoAsset.creationDate
-            asset.externalId = photoAsset.localIdentifier
-            slothRealm.addAsset(asset)
-        }
+        let asset = assets[indexPath.row]
+        let photoAsset = getPhotoAsset(asset)
+        
         imageManager.requestImageForAsset(photoAsset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .AspectFill, options: nil) { image, info in
             cell.setImage(image)
         }
-        if !asset.isLocationSet {
-            if let coordinates = photoAsset.location?.coordinate {
-                Googles.getLocationTags(coordinates.latitude, longitude: coordinates.longitude) { tagObject in
-                    slothRealm.write {
-                        asset.country = tagObject.country
-                        asset.city = tagObject.city
-                        asset.state = tagObject.state
-                        asset.postalCode = tagObject.zipCode
-                        asset.isLocationSet = true
-                    }
-                }
-            }
-        }
         cell.setup(asset)
         return cell
+    }
+    
+    func getPhotoAsset(asset : SLAsset) -> PHAsset {
+        let fetchResult = PHAsset.fetchAssetsWithLocalIdentifiers([asset.externalId!], options: nil)
+        let photoAsset = fetchResult[0] as! PHAsset
+        return photoAsset
     }
 }
 
 extension PhotosController : PinterestLayoutDelegate {
         // 1. Returns the photo height
     func collectionView(collectionView:UICollectionView, heightForPhotoAtIndexPath indexPath:NSIndexPath , withWidth width:CGFloat) -> CGFloat {
-        let asset: PHAsset = self.fetchResult[indexPath.row] as! PHAsset
+        let asset = assets[indexPath.row]
+        let photoAsset = getPhotoAsset(asset)
         let boundingRect =  CGRect(x: 0, y: 0, width: width, height: CGFloat(MAXFLOAT))
-        let size = CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
+        let size = CGSize(width: photoAsset.pixelWidth, height: photoAsset.pixelHeight)
         let rect = AVMakeRectWithAspectRatioInsideRect(size, boundingRect)
         //print ("\(size.height)h  \(size.width)w  \(size.height/size.width) ")
         return rect.size.height

@@ -13,8 +13,8 @@ class RealmBase
 {
     private let fileName = "default.realm"
 
-    private var _realm : Realm?
-    private var realm : Realm { get { return _realm! } }
+    private var realmConfiguration : Realm.Configuration!
+    private var realm : Realm { get { return try! Realm(configuration: realmConfiguration) } }
     
     private var name : String!
     private var path : NSURL!
@@ -25,17 +25,12 @@ class RealmBase
         configure()
     }
     
-    private static func getPath(name : String) -> NSURL {
-        let v = File.documentDirectory.combine(name)
-        return v
-    }
-    
     private func configure() {
         self.path = RealmBase.getPath(self.name)
         File.createDirectory(path)
         self.fullPath = path.combine(fileName)
         
-        let config = Realm.Configuration(
+        realmConfiguration = Realm.Configuration(
             
             // Set the block which will be called automatically when opening a Realm with
             // a schema version lower than the one set above
@@ -47,10 +42,13 @@ class RealmBase
             // readonly
             readOnly: false
         )
-
-        _realm = try! Realm(configuration: config)
     }
 
+    private static func getPath(name : String) -> NSURL {
+        let v = File.documentDirectory.combine(name)
+        return v
+    }
+    
     //////////////////////////////////////////////////////////////////////////////////////////
     // handles the schema migration across versions
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -79,8 +77,7 @@ class RealmBase
     // deletes the database
     func delete() {
         RealmBase.delete(self.name)
-        _realm?.invalidate()
-        _realm = nil
+        realm.invalidate()
     }
     
     func write(block: () -> Void) {
@@ -96,7 +93,7 @@ class RealmBase
     }
     
     func getBaseObjectId<T : Object>(id : String) -> T? {
-        let results = self.select(T.self).filter("Id = '\(id)'")
+        let results = self.select(T.self).filter("id = '\(id)'")
         return results.first
     }
     

@@ -16,6 +16,9 @@ class RealmSloth : RealmBase {
     func getAsset(id: String) -> SLAsset? {
         return self.getBaseObjectId(id)
     }
+    func getAssets() -> Results<SLAsset> {
+        return self.select(SLAsset)
+    }
     func getAssetByExternalId(externalId : String) -> SLAsset? {
         return self.select(SLAsset).filter("externalId = '\(externalId)'").first
     }
