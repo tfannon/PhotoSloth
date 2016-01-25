@@ -15,7 +15,7 @@ class AssetGatherer {
     
     // queries the device's photo assets (PHPhotoAsset)
     // and populates the SLAssets
-    static func gather() {
+    static func gather(completion : (() -> Void)? = nil) {
         Async.background {
             let options = PHFetchOptions()
             options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
@@ -38,21 +38,26 @@ class AssetGatherer {
                 if !asset.isLocationSet {
                     if let coordinates = photoAsset.location?.coordinate {
                         Googles.getLocationTags(coordinates.latitude, longitude: coordinates.longitude) { tagObject in
+                            // if the asset was created on the other thread - we need our own
                             var assetForLocationUpdate = asset
                             if let id = newAssetId {
                                 assetForLocationUpdate = slothRealm.getAsset(id)
                             }
-                            slothRealm.write {
-                                assetForLocationUpdate.country = tagObject.country
-                                assetForLocationUpdate.city = tagObject.city
-                                assetForLocationUpdate.state = tagObject.state
-                                assetForLocationUpdate.postalCode = tagObject.zipCode
-                                assetForLocationUpdate.isLocationSet = true
+                            if let a = assetForLocationUpdate {
+                                slothRealm.write {
+                                    a.country = tagObject.country
+                                    a.city = tagObject.city
+                                    a.state = tagObject.state
+                                    a.postalCode = tagObject.zipCode
+                                    a.isLocationSet = true
+                                }
                             }
                         }
                     }
                 }
             }
+        }.main {
+            completion?()
         }
     }
 }

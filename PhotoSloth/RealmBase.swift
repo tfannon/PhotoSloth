@@ -14,7 +14,6 @@ class RealmBase
     private let fileName = "default.realm"
 
     private var realmConfiguration : Realm.Configuration!
-    private static var _realm : Realm?
     private var realm : Realm { get { return try! Realm(configuration: realmConfiguration) } }
     
     private var name : String!
@@ -24,7 +23,6 @@ class RealmBase
     init(name : String = "realm") {
         self.name = name
         configure()
-        RealmBase._realm = try? Realm(configuration: self.realmConfiguration)
     }
     
     private func configure() {
@@ -73,6 +71,12 @@ class RealmBase
     
     func write(block: () -> Void) {
         try! realm.write(block)
+    }
+    
+    func deleteAll() {
+        write {
+            self.realm.deleteAll()
+        }
     }
     
     func add(object: Object) {

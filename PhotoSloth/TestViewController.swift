@@ -56,7 +56,9 @@ class TestViewController: UIViewController {
         let dir = File.documentDirectory.combine("sloth")
         print (File.exists(dir))
         
-        AssetGatherer.gather()
+        AssetGatherer.gather {
+            self.refreshDirectoryLabel()
+        }
     }
     
     func clearDatabase() {
@@ -64,7 +66,9 @@ class TestViewController: UIViewController {
         refreshDirectoryLabel()
     }
     func gather() {
-        AssetGatherer.gather()
+        AssetGatherer.gather{
+            self.refreshDirectoryLabel()
+        }
     }
     
     func refreshDirectoryLabel() {
