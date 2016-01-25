@@ -69,6 +69,20 @@ class AssetGatherer {
                         }
                     }
                 }
+//                if !asset.isPotentialPOIsSet {
+//                    if let coordinates = photoAsset.location?.coordinate {
+//                        Googles.getPlaces(coordinates.latitude, longitude: coordinates.longitude) {
+//                            tagObject in
+//                            if tagObject.places.count > 1 {
+//                                slothRealm.write {
+//                                    asset.potentialPOIs = tagObject.places
+//                                    asset.isPotentialPOIsSet = true }
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    print (asset.potentialPOIs)
+//                }
             }
         }.main {
             completion?()

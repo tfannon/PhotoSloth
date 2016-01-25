@@ -16,7 +16,17 @@ class Googles {
     //static var IOSKEY: String = "AIzaSyBkTQikOVA5PLkmBf1SGbrvwOQIgL-vbbA"
     static var BROWSER_KEY = "AIzaSyAencAZogMezvzaufB5c2Nf7wqXXrKdFn8"
     
+    private class func mocked(completion:(result: TagObject)->()) {
+        completion(result: TagObject())
+    }
+    
     class func getLocationTags(latitude: Double = 29.879500, longitude: Double = -81.287000, completion:(result: TagObject)->()) {
+        // return immediately if mocked
+        if UserSettings.mockGoogle {
+            mocked(completion)
+            return
+        }
+        
         let testUrl = ("https://maps.googleapis.com/maps/api/geocode/json?latlng=\(latitude),\(longitude)&sensor=true")
         print (testUrl)
         Alamofire.request(.GET, testUrl, parameters: nil)
@@ -60,6 +70,12 @@ class Googles {
     
     //29.879500,-81.287000  - Anastasia Fitness
     class func getPlaces(latitude: Double, longitude: Double, completion:(result: TagObject)->()) {
+        // return immediately if mocked
+        if UserSettings.mockGoogle {
+            mocked(completion)
+            return
+        }
+
         let tagObject = TagObject()
         let testUrl = ("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(latitude),\(longitude)&radius=200&key=\(BROWSER_KEY)")
         Alamofire.request(.GET, testUrl, parameters: nil)
