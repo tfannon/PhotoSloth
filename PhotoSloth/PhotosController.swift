@@ -61,14 +61,16 @@ class PhotosController: UICollectionViewController {
         imageManager.requestImageForAsset(photoAsset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .AspectFill, options: nil) { image, info in
             cell.setImage(image)
         }
-        if let coordinates = photoAsset.location?.coordinate {
-            Googles.getLocationTags(coordinates.latitude, longitude: coordinates.longitude) { tagObject in
-                slothRealm.write {
-                    asset.country = tagObject.country
-                    asset.city = tagObject.city
-                    asset.state = tagObject.state
-                    asset.postalCode = tagObject.zipCode
-                    asset.isLocationSet = true
+        if !asset.isLocationSet {
+            if let coordinates = photoAsset.location?.coordinate {
+                Googles.getLocationTags(coordinates.latitude, longitude: coordinates.longitude) { tagObject in
+                    slothRealm.write {
+                        asset.country = tagObject.country
+                        asset.city = tagObject.city
+                        asset.state = tagObject.state
+                        asset.postalCode = tagObject.zipCode
+                        asset.isLocationSet = true
+                    }
                 }
             }
         }
