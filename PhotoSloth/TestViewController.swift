@@ -61,6 +61,7 @@ class TestViewController: UIViewController {
     
     func clearDatabase() {
         slothRealm.delete()
+        refreshDirectoryLabel()
     }
     func gather() {
         AssetGatherer.gather()
