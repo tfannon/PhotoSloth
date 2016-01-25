@@ -13,6 +13,7 @@ import Realm
 class TestViewController: UIViewController {
 
     @IBOutlet weak var button1: UIButton!
+    @IBOutlet weak var lblDocumentPath: UILabel!
 
     // MARK: - Actions
     @IBAction func handleButton1(sender: AnyObject) {
@@ -30,6 +31,7 @@ class TestViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        lblDocumentPath.text = File.documentDirectory.fileSystemString
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,14 +42,12 @@ class TestViewController: UIViewController {
     func testDataModel() {
         RealmSloth.delete("sloth")
         
-        let memory = Memory()
-        memory.title = "My Memory"
-        memory.status = .Liked
-        slothRealm.addMemory(memory, tagValues: "whatever1", "whatever2", "whatever2")
+        let asset = SLAsset()
+        asset.isLiked = true
+        slothRealm.addAsset(asset, tagValues: "whatever1", "whatever2", "whatever2")
         
-        let memory2 = Memory()
-        memory2.title = "another memory"
-        slothRealm.addMemory(memory2, tagValues: "whatever1")
+        let asset2 = SLAsset()
+        slothRealm.addAsset(asset2, tagValues: "whatever1")
     }
     
     // MARK: - Navigation

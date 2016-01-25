@@ -12,7 +12,6 @@ import PhotosUI
 
 class PhotosController: UICollectionViewController {
     var fetchResult: PHFetchResult!
-    var photos: [Photo?]!
 
     var thumbSize: CGSize!
     var imageManager: PHCachingImageManager!
@@ -26,8 +25,7 @@ class PhotosController: UICollectionViewController {
         let options = PHFetchOptions()
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         fetchResult = PHAsset.fetchAssetsWithOptions(options)
-        photos = [Photo?](count: fetchResult.count, repeatedValue:nil)
-        print ("\(photos.count) photos detected")
+        print ("\(fetchResult.count) photos detected")
         
         imageManager = PHCachingImageManager()
         
@@ -39,11 +37,6 @@ class PhotosController: UICollectionViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        /*
-        let scale = UIScreen.mainScreen().scale
-        let cellSize = (self.collectionViewLayout as! PinterestLayout).itemSize
-        self.thumbSize = CGSize(width: cellSize.width * scale, height: cellSize.height * scale)
-        */
     }
 
    
@@ -88,6 +81,7 @@ class PhotosController: UICollectionViewController {
             self.photos[indexPath.row] = photo
             cell.photo = photo
         }
+        cell.setup(imageManager, photoAsset: photoAsset, asset: asset!)
         return cell
     }
 }

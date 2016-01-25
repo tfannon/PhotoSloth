@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="30p-zj-j2C">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="30p-zj-j2C">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -148,23 +148,35 @@
                                     <action selector="handleButton1:" destination="SID-n0-e8m" eventType="touchUpInside" id="FBm-Ki-IkG"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eAW-hL-4PL">
-                                <rect key="frame" x="20" y="68" width="104" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eAW-hL-4PL">
+                                <rect key="frame" x="20" y="58" width="46" height="30"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="handleButton2:" destination="SID-n0-e8m" eventType="touchUpInside" id="S9c-D7-zsv"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Document Path" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4K5-xi-zJU">
+                                <rect key="frame" x="20" y="96" width="560" height="13.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="eAW-hL-4PL" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="D45-Vs-SD0"/>
+                            <constraint firstItem="4K5-xi-zJU" firstAttribute="trailing" secondItem="b8c-aT-BCI" secondAttribute="trailingMargin" id="EYW-Qz-Spd"/>
+                            <constraint firstItem="4K5-xi-zJU" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="GF4-Z7-dXw"/>
                             <constraint firstItem="6fm-f3-LYB" firstAttribute="top" secondItem="gVk-yt-N5A" secondAttribute="bottom" id="ZQf-WU-wuj"/>
                             <constraint firstItem="6fm-f3-LYB" firstAttribute="leading" secondItem="b8c-aT-BCI" secondAttribute="leadingMargin" id="ehb-rh-ynL"/>
+                            <constraint firstItem="4K5-xi-zJU" firstAttribute="top" secondItem="eAW-hL-4PL" secondAttribute="bottom" constant="8" id="jGE-ab-5MN"/>
+                            <constraint firstItem="eAW-hL-4PL" firstAttribute="top" secondItem="6fm-f3-LYB" secondAttribute="bottom" constant="8" id="qnF-Oz-3mk"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Test" image="991-test-tube" id="5Ip-rh-jkx"/>
                     <connections>
                         <outlet property="button1" destination="6fm-f3-LYB" id="zes-ME-YWU"/>
+                        <outlet property="lblDocumentPath" destination="4K5-xi-zJU" id="PZl-sP-rD1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="63E-jQ-Ys8" userLabel="First Responder" sceneMemberID="firstResponder"/>
