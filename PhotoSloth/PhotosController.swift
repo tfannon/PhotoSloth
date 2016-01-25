@@ -48,14 +48,15 @@ class PhotosController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("AnnotatedPhotoCell", forIndexPath: indexPath) as! AnnotatedPhotoCell
         
         let photoAsset: PHAsset = self.fetchResult[indexPath.row] as! PHAsset
-        var asset = slothRealm.getAssetByExternalId(photoAsset.localIdentifier)
+        var asset: SLAsset!
+        asset = slothRealm.getAssetByExternalId(photoAsset.localIdentifier)
         if asset == nil {
             asset = SLAsset()
-            asset!.longitude = photoAsset.location?.coordinate.longitude ?? 0
-            asset!.latitude = photoAsset.location?.coordinate.longitude ?? 0
-            asset!.dateTaken = photoAsset.creationDate
-            asset!.externalId = photoAsset.localIdentifier
-            slothRealm.addAsset(asset!)
+            asset.longitude = photoAsset.location?.coordinate.longitude ?? 0
+            asset.latitude = photoAsset.location?.coordinate.longitude ?? 0
+            asset.dateTaken = photoAsset.creationDate
+            asset.externalId = photoAsset.localIdentifier
+            slothRealm.addAsset(asset)
         }
         imageManager.requestImageForAsset(photoAsset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .AspectFill, options: nil) { image, info in
             cell.setImage(image)
@@ -63,14 +64,14 @@ class PhotosController: UICollectionViewController {
         if let coordinates = photoAsset.location?.coordinate {
             Googles.getLocationTags(coordinates.latitude, longitude: coordinates.longitude) { tagObject in
                 slothRealm.write {
-                    asset!.country = tagObject.country
-                    asset!.city = tagObject.city
-                    asset!.state = tagObject.state
-                    asset!.postalCode = tagObject.zipCode
+                    asset.country = tagObject.country
+                    asset.city = tagObject.city
+                    asset.state = tagObject.state
+                    asset.postalCode = tagObject.zipCode
                 }
             }
         }
-        cell.setup(asset!)
+        cell.setup(asset)
         return cell
     }
 }

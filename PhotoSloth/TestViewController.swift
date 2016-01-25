@@ -21,10 +21,10 @@ class TestViewController: UIViewController {
     }
     
     @IBAction func handleButton2(sender: AnyObject) {
-        let tagObject = TagObject()
-        Googles.getPlaces(tagObject: tagObject) { result in
-            print (result)
-        }
+//        let tagObject = TagObject()
+//        Googles.getPlaces(tagObject: tagObject) { result in
+//            print (result)
+//        }
     }
     
     override func viewDidLoad() {
