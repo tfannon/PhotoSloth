@@ -41,13 +41,6 @@ class TestViewController: UIViewController {
     
     func testDataModel() {
         RealmSloth.delete("sloth")
-        
-        let asset = SLAsset()
-        asset.isLiked = true
-        slothRealm.addAsset(asset, tagValues: "whatever1", "whatever2", "whatever2")
-        
-        let asset2 = SLAsset()
-        slothRealm.addAsset(asset2, tagValues: "whatever1")
     }
     
     // MARK: - Navigation
