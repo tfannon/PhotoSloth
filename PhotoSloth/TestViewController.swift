@@ -20,7 +20,9 @@ class TestViewController: UIViewController {
     }
     
     @IBAction func handleButton2(sender: AnyObject) {
-        testServices()
+        Googles.getPlaces() { places in
+            print (places)
+        }
     }
     
     override func viewDidLoad() {
