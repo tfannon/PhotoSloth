@@ -26,6 +26,9 @@ class AssetGatherer {
         progress : ((Progress) -> Void)? = nil,
         completion : (() -> Void)? = nil) {
             
+            // progress 0
+            progress?(Progress())
+
             let f : () -> Void = {
                 gatherImpl(progress, completion : completion)
             }

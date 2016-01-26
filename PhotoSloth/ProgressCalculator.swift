@@ -29,10 +29,18 @@ class Progress {
     private(set) var total : Int = 0
 
     lazy var progress : Float = {
-        return ProgressCalculator.get(self.current, total: self.total)
+        if self.total == 0 {
+            return 0
+        }
+        else {
+            return ProgressCalculator.get(self.current, total: self.total)
+        }
     }()
     
-    required init(current : Int, total : Int) {
+    init() {
+        
+    }
+    init(current : Int, total : Int) {
         self.current = current
         self.total = total
     }
