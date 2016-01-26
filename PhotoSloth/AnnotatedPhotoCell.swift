@@ -24,6 +24,10 @@ class AnnotatedPhotoCell: UICollectionViewCell {
     let alphaSelected : CGFloat = 1.0
     let alphaNotSelected : CGFloat = 0.2
     
+    deinit {
+        slothRealm.removeNotificationBlock(realmToken)
+    }
+    
     func setup(asset : SLAsset) {
         recycle()
         
@@ -32,23 +36,28 @@ class AnnotatedPhotoCell: UICollectionViewCell {
         // setup the notification 
         realmToken = slothRealm.addNotificationBlock { notification, realm in
             // re-get the asset
-            self.refreshViewFromAsset()
+            self.handleRealmUpdate()
         }
         // immediately set the image to nil so we don't see a stale photo
         self.imageView.image = nil
-        refreshViewFromAsset()
+        handleRealmUpdate()
     }
     
-    private func refreshViewFromAsset() {
-        self.captionLabel.text = asset.caption
-        self.buttonLike.alpha = asset.isLiked ? alphaSelected : alphaNotSelected
-        self.commentLabel.text = asset.locationText // asset.tags.items.map { item in item.value }.joinWithSeparator(", ")
+    private func handleRealmUpdate() {
+        if asset.invalidated {
+            recycle()
+        }
+        else {
+            self.captionLabel.text = asset.caption
+            self.buttonLike.alpha = asset.isLiked ? alphaSelected : alphaNotSelected
+            self.commentLabel.text = asset.locationText
+        }
     }
     
     func recycle() {
-        if let t = realmToken {
-            slothRealm.removeNotificationBlock(t)
-        }
+        slothRealm.removeNotificationBlock(realmToken)
+        slothRealm.removeNotificationBlock(realmToken)
+        
         self.asset = nil
         self.imageView.image = nil
         self.captionLabel.text = nil

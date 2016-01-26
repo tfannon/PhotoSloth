@@ -108,8 +108,10 @@ class RealmBase
         return realm.addNotificationBlock(block)
     }
 
-    func removeNotificationBlock(token: NotificationToken) {
-        realm.removeNotification(token)
+    func removeNotificationBlock(token: NotificationToken?) {
+        if let t = token {
+            realm.removeNotification(t)
+        }
     }
 }
 
