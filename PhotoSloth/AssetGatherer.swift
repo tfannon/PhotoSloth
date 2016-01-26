@@ -26,13 +26,17 @@ class AssetGatherer {
         progress : ((Progress) -> Void)? = nil,
         completion : (() -> Void)? = nil) {
             
+            let f : () -> Void = {
+                gatherImpl(progress, completion : completion)
+            }
+            
             if let delay = UserSettings.delayGather {
                 NSTimer.schedule(delay: Double(delay)) { _ in
-                    gatherImpl(progress, completion : completion)
+                    f()
                 }
             }
             else {
-                gatherImpl(progress, completion : completion)
+                f()
             }
     }
     
@@ -44,6 +48,10 @@ class AssetGatherer {
             options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
             let fetchResult = PHAsset.fetchAssetsWithOptions(options)
             for i in 0..<fetchResult.count {
+                
+                if let delay = UserSettings.delayGatherBetween {
+                    sleep(UInt32(delay))
+                }
                 
                 // progress callback
                 progress?(Progress(current: i+1, total: fetchResult.count))

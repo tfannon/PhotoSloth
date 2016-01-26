@@ -216,7 +216,7 @@
                                     <constraint firstAttribute="width" constant="60" id="lYZ-Bb-4Y3"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <action selector="delayGatherHandleChanged:" destination="SID-n0-e8m" eventType="editingDidEnd" id="ykK-87-Kur"/>
                                 </connections>
@@ -230,9 +230,8 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="A7a-Ei-0Ji">
                                 <rect key="frame" x="222" y="332" width="60" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="delatGatherBetweenHandleChanged:" destination="SID-n0-e8m" eventType="editingDidEnd" id="1Wc-Z0-4in"/>
                                     <action selector="delayGatherBetweenHandleChanged:" destination="SID-n0-e8m" eventType="editingDidEnd" id="4sY-ao-bHD"/>
                                 </connections>
                             </textField>
