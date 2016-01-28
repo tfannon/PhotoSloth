@@ -109,7 +109,6 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     func recycle() {
         slothRealm.removeNotificationBlock(realmToken)
-        slothRealm.removeNotificationBlock(realmToken)
         
         self.asset = nil
         self.imageView.image = nil
