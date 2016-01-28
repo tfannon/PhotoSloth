@@ -10,7 +10,7 @@ import UIKit
 import Photos
 import RealmSwift
 
-class AnnotatedPhotoCell: UICollectionViewCell {
+class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
   
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var imageViewHeightLayoutConstraint: NSLayoutConstraint!
@@ -23,6 +23,59 @@ class AnnotatedPhotoCell: UICollectionViewCell {
 
     let alphaSelected : CGFloat = 1.0
     let alphaNotSelected : CGFloat = 0.2
+    
+    
+    var pulldownGestureRecognizer: UIPanGestureRecognizer!
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        pulldownGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handleGesture:")
+        pulldownGestureRecognizer.minimumNumberOfTouches = 1
+        pulldownGestureRecognizer.delegate = self
+        self.addGestureRecognizer(pulldownGestureRecognizer)
+    }
+    
+//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+//        super.touchesBegan(touches, withEvent: event)
+//    }
+    
+    enum Direction {
+        case Undefined
+        case Up
+        case Down
+        case Left
+        case Right
+    }
+    
+    static var direction = Direction.Undefined
+    
+    func handleGesture(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case UIGestureRecognizerState.Began:
+            if AnnotatedPhotoCell.direction == .Undefined {
+                let vel = sender.velocityInView(self)
+                let isVertical = fabs(vel.y) > fabs(vel.x)
+                if isVertical {
+                    AnnotatedPhotoCell.direction = vel.y > 0 ? .Down : .Up
+                }
+                else {
+                    AnnotatedPhotoCell.direction = vel.x > 0 ? .Right : .Left
+                }
+            }
+        case .Changed:
+            switch AnnotatedPhotoCell.direction {
+            case .Up: print ("up")
+            case .Down: print ("down")
+            case .Left: print ("left")
+            case .Right: print ("right")
+            case.Undefined: break
+            }
+        case UIGestureRecognizerState.Ended: AnnotatedPhotoCell.direction = .Undefined
+        default: break
+        }
+        
+        //var direction: UIPanGestureRecognizerDirection
+    }
     
     deinit {
         slothRealm.removeNotificationBlock(realmToken)

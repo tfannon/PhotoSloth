@@ -64,8 +64,24 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         imageManager.requestImageForAsset(photoAsset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .AspectFill, options: nil) { image, info in
             cell.setImage(image)
         }
+        
+        cell.pulldownGestureRecognizer.requireGestureRecognizerToFail(cell.pulldownGestureRecognizer)
+        
+//        let cSelector = Selector("removeCell:")
+//        let swipe = UISwipeGestureRecognizer(target: self, action: cSelector )
+//        swipe.direction = UISwipeGestureRecognizerDirection.Left
+        //cell.addGestureRecognizer(swipe)
         cell.setup(asset)
         return cell
+    }
+    
+    
+    func removeCell(sender: UISwipeGestureRecognizer) {
+        let cell = sender.view as! UICollectionViewCell
+        let i = self.collectionView!.indexPathForCell(cell)!
+        self.collectionView?.deleteItemsAtIndexPaths([i])
+        //assets.removeAtIndex(i)  //replace favoritesInstance.favoritesArray with your own array
+        //self.collectionView!.reloadData() // replace favoritesCV with your own collection view.
     }
     
     func getPhotoAsset(asset : SLAsset) -> PHAsset {
