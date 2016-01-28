@@ -56,7 +56,6 @@ class AnnotatedPhotoCell: UICollectionViewCell {
     
     func recycle() {
         slothRealm.removeNotificationBlock(realmToken)
-        slothRealm.removeNotificationBlock(realmToken)
         
         self.asset = nil
         self.imageView.image = nil
