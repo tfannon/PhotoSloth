@@ -119,7 +119,26 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fes-Po-SSb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3530" y="-2375"/>
+            <point key="canvasLocation" x="-3813" y="-2413"/>
+        </scene>
+        <!--Chooser-->
+        <scene sceneID="TkP-Uc-rxX">
+            <objects>
+                <viewController id="1Ao-mn-5dO" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FYw-x6-I97"/>
+                        <viewControllerLayoutGuide type="bottom" id="fHz-fM-Y5X"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5ZS-gi-j5S">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Chooser" image="708-search" id="gAL-JO-rcn"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="44I-HH-gJT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3824" y="-1676"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="iR1-cH-kYm">
@@ -133,6 +152,7 @@
                     <connections>
                         <segue destination="SID-n0-e8m" kind="relationship" relationship="viewControllers" id="Hfv-83-Egd"/>
                         <segue destination="zju-zZ-fL0" kind="relationship" relationship="viewControllers" id="ZhI-Wk-K2G"/>
+                        <segue destination="1Ao-mn-5dO" kind="relationship" relationship="viewControllers" id="CXn-Nc-NfT"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BzM-24-uhp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -298,6 +318,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="708-search" width="28" height="28"/>
         <image name="926-photos" width="26" height="28"/>
         <image name="991-test-tube" width="16" height="28"/>
         <image name="Sloth" width="129" height="97"/>
