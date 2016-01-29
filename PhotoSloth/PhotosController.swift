@@ -38,7 +38,7 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
             layout.delegate = self
         }
         
-        
+        //the long press brings up the fetched nearby locations for choosing
         let gesture = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
         gesture.minimumPressDuration = 0.5
         gesture.delaysTouchesBegan = true
@@ -64,25 +64,14 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         imageManager.requestImageForAsset(photoAsset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .AspectFill, options: nil) { image, info in
             cell.setImage(image)
         }
+     
+        //uncomment this line if you want indivual cell gesture recognizers to take over the view recognizer
+        //cell.pulldownGestureRecognizer.requireGestureRecognizerToFail(cell.pulldownGestureRecognizer)
         
-        cell.pulldownGestureRecognizer.requireGestureRecognizerToFail(cell.pulldownGestureRecognizer)
-        
-//        let cSelector = Selector("removeCell:")
-//        let swipe = UISwipeGestureRecognizer(target: self, action: cSelector )
-//        swipe.direction = UISwipeGestureRecognizerDirection.Left
-        //cell.addGestureRecognizer(swipe)
         cell.setup(asset)
         return cell
     }
     
-    
-    func removeCell(sender: UISwipeGestureRecognizer) {
-        let cell = sender.view as! UICollectionViewCell
-        let i = self.collectionView!.indexPathForCell(cell)!
-        self.collectionView?.deleteItemsAtIndexPaths([i])
-        //assets.removeAtIndex(i)  //replace favoritesInstance.favoritesArray with your own array
-        //self.collectionView!.reloadData() // replace favoritesCV with your own collection view.
-    }
     
     func getPhotoAsset(asset : SLAsset) -> PHAsset {
         let fetchResult = PHAsset.fetchAssetsWithLocalIdentifiers([asset.externalId!], options: nil)
@@ -111,7 +100,7 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         if asset.potentialPOI.count == 0 {
             return
         }
-        let alert = UIAlertController(title: "Nearby places", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet) // 1
+        let alert = UIAlertController(title: "Nearby places", message: "Choose one to tag photo", preferredStyle: UIAlertControllerStyle.ActionSheet) // 1
         let maxChoices = 5
         var idx = 0
         for x in asset.potentialPOI {
@@ -125,6 +114,11 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
                 break
             }
         }
+        alert.addAction(UIAlertAction(title: "Clear tag", style: UIAlertActionStyle.Destructive, handler: { _ in
+            slothRealm.write {
+                asset.chosenPOI = nil
+            }
+        }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler:nil))
         presentViewController(alert, animated: true, completion:nil)
     }

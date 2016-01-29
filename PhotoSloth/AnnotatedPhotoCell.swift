@@ -19,27 +19,15 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     @IBOutlet weak var tagLabel: UILabel!
     @IBOutlet weak var buttonLike: UIButton!
     
+    @IBAction func handleLikePressed(sender: AnyObject) { handleLike() }
+    
     var asset : SLAsset!
     var realmToken : NotificationToken?
 
     let alphaSelected : CGFloat = 1.0
     let alphaNotSelected : CGFloat = 0.2
     
-    
-    var pulldownGestureRecognizer: UIPanGestureRecognizer!
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        pulldownGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handleGesture:")
-        pulldownGestureRecognizer.minimumNumberOfTouches = 1
-        pulldownGestureRecognizer.delegate = self
-        self.addGestureRecognizer(pulldownGestureRecognizer)
-    }
-    
-//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//        super.touchesBegan(touches, withEvent: event)
-//    }
-    
+    var panGestureRecognizer: UIPanGestureRecognizer!
     enum Direction {
         case Undefined
         case Up
@@ -47,35 +35,17 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         case Left
         case Right
     }
-    
     static var direction = Direction.Undefined
     
-    func handleGesture(sender: UIPanGestureRecognizer) {
-        switch sender.state {
-        case UIGestureRecognizerState.Began:
-            if AnnotatedPhotoCell.direction == .Undefined {
-                let vel = sender.velocityInView(self)
-                let isVertical = fabs(vel.y) > fabs(vel.x)
-                if isVertical {
-                    AnnotatedPhotoCell.direction = vel.y > 0 ? .Down : .Up
-                }
-                else {
-                    AnnotatedPhotoCell.direction = vel.x > 0 ? .Right : .Left
-                }
-            }
-        case .Changed:
-            switch AnnotatedPhotoCell.direction {
-            case .Up: print ("up")
-            case .Down: print ("down")
-            case .Left: print ("left")
-            case .Right: print ("right")
-            case.Undefined: break
-            }
-        case UIGestureRecognizerState.Ended: AnnotatedPhotoCell.direction = .Undefined
-        default: break
-        }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
         
-        //var direction: UIPanGestureRecognizerDirection
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handleGesture:")
+        panGestureRecognizer.minimumNumberOfTouches = 1
+        panGestureRecognizer.delegate = self
+        //uncomment this line to add the cell recognizer
+        //self.addGestureRecognizer(panGestureRecognizer)
     }
     
     deinit {
@@ -123,18 +93,40 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         self.imageView.image = image
     }
     
+    func handleGesture(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case UIGestureRecognizerState.Began:
+            if AnnotatedPhotoCell.direction == .Undefined {
+                let vel = sender.velocityInView(self)
+                let isVertical = fabs(vel.y) > fabs(vel.x)
+                if isVertical {
+                    AnnotatedPhotoCell.direction = vel.y > 0 ? .Down : .Up
+                }
+                else {
+                    AnnotatedPhotoCell.direction = vel.x > 0 ? .Right : .Left
+                }
+            }
+        case .Changed:
+            switch AnnotatedPhotoCell.direction {
+            case .Up: print ("up")
+            case .Down: print ("down")
+            case .Left: print ("left")
+            case .Right: print ("right")
+            case.Undefined: break
+            }
+        case UIGestureRecognizerState.Ended: AnnotatedPhotoCell.direction = .Undefined
+        default: break
+        }
+    }
+
     //invert the sloth and release the kracken!
-    @IBAction func handleLikePressed(sender: AnyObject) {
+    func handleLike() {
         slothRealm.write {
             self.asset.isLiked = !self.asset.isLiked
         }
         self.buttonLike.alpha = (self.asset.likeStatus == .Liked) ? 1.0 : 0.2
     }
     
-    func setTags(tags: [String]) {
-        commentLabel.text = tags.joinWithSeparator(",")
-    }
-  
     override func applyLayoutAttributes(layoutAttributes: UICollectionViewLayoutAttributes) {
         super.applyLayoutAttributes(layoutAttributes)
         if let attributes = layoutAttributes as? PinterestLayoutAttributes {
