@@ -101,8 +101,6 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         if let index = indexPath {
             let cell = self.collectionView!.cellForItemAtIndexPath(index) as! AnnotatedPhotoCell
             actionSheetButtonPressed(cell)
-            // do stuff with your cell, for example print the indexPath
-            print(index.row)
         } else {
             print("Could not find index path")
         }
@@ -110,19 +108,25 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
     
     func actionSheetButtonPressed(cell: AnnotatedPhotoCell) {
         let asset = cell.asset
-        
-        let alert = UIAlertController(title: "\(asset.locationText)", message: "\(asset.potentialPOI)", preferredStyle: .Alert) // 1
-        let firstAction = UIAlertAction(title: "one", style: .Default) { (alert: UIAlertAction!) -> Void in
-            NSLog("You pressed button one")
-        } // 2
-        
-        let secondAction = UIAlertAction(title: "two", style: .Default) { (alert: UIAlertAction!) -> Void in
-            NSLog("You pressed button two")
-        } // 3
-        
-        alert.addAction(firstAction) // 4
-        alert.addAction(secondAction) // 5
-        presentViewController(alert, animated: true, completion:nil) // 6
+        if asset.potentialPOI.count == 0 {
+            return
+        }
+        let alert = UIAlertController(title: "Nearby places", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet) // 1
+        let maxChoices = 5
+        var idx = 0
+        for x in asset.potentialPOI {
+            let action = UIAlertAction(title: x, style: .Default) { (alert: UIAlertAction!) -> Void in
+                slothRealm.write {
+                    asset.chosenPOI = x
+                }
+            }
+            alert.addAction(action)
+            if ++idx > maxChoices {
+                break
+            }
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler:nil))
+        presentViewController(alert, animated: true, completion:nil)
     }
 }
 
@@ -141,7 +145,7 @@ extension PhotosController : PinterestLayoutDelegate {
     
     // 2. Returns the annotation size based on the text
     func collectionView(collectionView: UICollectionView, heightForAnnotationAtIndexPath indexPath: NSIndexPath, withWidth width: CGFloat) -> CGFloat {
-        return CGFloat(40)
+        return CGFloat(50)
         
 //        let annotationPadding = CGFloat(4)
 //        let annotationHeaderHeight = CGFloat(17)

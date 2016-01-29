@@ -16,6 +16,7 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     @IBOutlet private weak var imageViewHeightLayoutConstraint: NSLayoutConstraint!
     @IBOutlet private weak var captionLabel: UILabel!
     @IBOutlet private weak var commentLabel: UILabel!
+    @IBOutlet weak var tagLabel: UILabel!
     @IBOutlet weak var buttonLike: UIButton!
     
     var asset : SLAsset!
@@ -104,6 +105,7 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
             self.captionLabel.text = asset.caption
             self.buttonLike.alpha = asset.isLiked ? alphaSelected : alphaNotSelected
             self.commentLabel.text = asset.locationText
+            self.tagLabel.text = asset.chosenPOI != nil ? asset.chosenPOI! : ""
         }
     }
     
