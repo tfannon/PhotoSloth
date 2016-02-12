@@ -156,10 +156,10 @@ class SLAsset : SLBaseObjectId {
         get {
             var s = ""
             if let c = city {
-                s += " " + c
+                s += c
             }
             if let c = state {
-                s += " " + c
+                s += (s.length>0 ? ", " : "") + c
             }
             return s
         }
@@ -195,6 +195,8 @@ class SLAsset : SLBaseObjectId {
     dynamic var state : String?
     dynamic var country : String?
     dynamic var postalCode : String?
+    dynamic var chosenPOI: String?
+    
     
     private dynamic var _likeStatus : Int = SLAssetLikeStatus.None.rawValue
     var likeStatus : SLAssetLikeStatus {

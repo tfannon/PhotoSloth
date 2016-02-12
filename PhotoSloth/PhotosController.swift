@@ -46,7 +46,7 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
             layout.delegate = self
         }
         
-        
+        //the long press brings up the fetched nearby locations for choosing
         let gesture = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
         gesture.minimumPressDuration = 0.5
         gesture.delaysTouchesBegan = true
@@ -91,9 +91,14 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         imageManager.requestImageForAsset(photoAsset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .AspectFill, options: nil) { image, info in
             cell.setImage(image)
         }
+     
+        //uncomment this line if you want indivual cell gesture recognizers to take over the view recognizer
+        //cell.pulldownGestureRecognizer.requireGestureRecognizerToFail(cell.pulldownGestureRecognizer)
+        
         cell.setup(asset)
         return cell
     }
+    
     
     func getPhotoAsset(asset : SLAsset) -> PHAsset {
         let fetchResult = PHAsset.fetchAssetsWithLocalIdentifiers([asset.externalId!], options: nil)
@@ -112,8 +117,6 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         if let index = indexPath {
             let cell = self.collectionView!.cellForItemAtIndexPath(index) as! AnnotatedPhotoCell
             actionSheetButtonPressed(cell)
-            // do stuff with your cell, for example print the indexPath
-            print(index.row)
         } else {
             print("Could not find index path")
         }
@@ -152,7 +155,7 @@ extension PhotosController : PinterestLayoutDelegate {
     
     // 2. Returns the annotation size based on the text
     func collectionView(collectionView: UICollectionView, heightForAnnotationAtIndexPath indexPath: NSIndexPath, withWidth width: CGFloat) -> CGFloat {
-        return CGFloat(40)
+        return CGFloat(50)
         
 //        let annotationPadding = CGFloat(4)
 //        let annotationHeaderHeight = CGFloat(17)

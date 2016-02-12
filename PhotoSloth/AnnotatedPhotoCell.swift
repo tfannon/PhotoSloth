@@ -10,12 +10,13 @@ import UIKit
 import Photos
 import RealmSwift
 
-class AnnotatedPhotoCell: UICollectionViewCell {
+class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
   
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var imageViewHeightLayoutConstraint: NSLayoutConstraint!
     @IBOutlet private weak var captionLabel: UILabel!
     @IBOutlet private weak var commentLabel: UILabel!
+    @IBOutlet weak var tagLabel: UILabel!
     @IBOutlet weak var buttonLike: UIButton!
     
     private(set) var asset : SLAsset?
@@ -23,6 +24,27 @@ class AnnotatedPhotoCell: UICollectionViewCell {
     
     let alphaSelected : CGFloat = 1.0
     let alphaNotSelected : CGFloat = 0.2
+    
+    var panGestureRecognizer: UIPanGestureRecognizer!
+    enum Direction {
+        case Undefined
+        case Up
+        case Down
+        case Left
+        case Right
+    }
+    static var direction = Direction.Undefined
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handleGesture:")
+        panGestureRecognizer.minimumNumberOfTouches = 1
+        panGestureRecognizer.delegate = self
+        //uncomment this line to add the cell recognizer
+        //self.addGestureRecognizer(panGestureRecognizer)
+    }
     
     deinit {
         slothRealm.removeNotificationBlock(realmToken)
@@ -83,6 +105,32 @@ class AnnotatedPhotoCell: UICollectionViewCell {
         self.imageView.image = image
     }
     
+    func handleGesture(sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case UIGestureRecognizerState.Began:
+            if AnnotatedPhotoCell.direction == .Undefined {
+                let vel = sender.velocityInView(self)
+                let isVertical = fabs(vel.y) > fabs(vel.x)
+                if isVertical {
+                    AnnotatedPhotoCell.direction = vel.y > 0 ? .Down : .Up
+                }
+                else {
+                    AnnotatedPhotoCell.direction = vel.x > 0 ? .Right : .Left
+                }
+            }
+        case .Changed:
+            switch AnnotatedPhotoCell.direction {
+            case .Up: print ("up")
+            case .Down: print ("down")
+            case .Left: print ("left")
+            case .Right: print ("right")
+            case.Undefined: break
+            }
+        case UIGestureRecognizerState.Ended: AnnotatedPhotoCell.direction = .Undefined
+        default: break
+        }
+    }
+
     //invert the sloth and release the kracken!
     @IBAction func handleLikePressed(sender: AnyObject) {
         if isInvalid {
