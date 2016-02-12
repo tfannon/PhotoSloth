@@ -9,12 +9,14 @@
 import UIKit
 import Photos
 import PhotosUI
+import RealmSwift
 
 class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate {
 
     var thumbSize: CGSize!
     var imageManager: PHCachingImageManager!
     var assets = [SLAsset]()
+    var realmToken : NotificationToken?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +34,12 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
                 }
                 return true
             }
+
+        // setup the notification
+        realmToken = slothRealm.addNotificationBlock { notification, realm in
+            // re-get the asset
+            self.handleRealmUpdate()
+        }
         
         // Set the PinterestLayout delegate
         if let layout = collectionView?.collectionViewLayout as? PinterestLayout {
@@ -50,7 +58,26 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         super.viewWillAppear(animated)
     }
 
-   
+    // MARK: - Realm 
+    private func handleRealmUpdate() {
+        if let cells = self.collectionView?.visibleCells() {
+            var indexPaths = [NSIndexPath]()
+            for cell in cells.map( { x in x as! AnnotatedPhotoCell } ) {
+                if cell.isInvalid {
+                    if let indexPath = self.collectionView?.indexPathForCell(cell) {
+                        indexPaths.append(indexPath)
+                    }
+                }
+            }
+            if indexPaths.any {
+                collectionView!.performBatchUpdates({
+                    self.collectionView?.deleteItemsAtIndexPaths(indexPaths)
+                    }, completion: nil)
+            }
+        }
+    }
+    
+    // MARK: - CollectionView
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return assets.count;
     }
@@ -93,20 +120,20 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
     }
     
     func actionSheetButtonPressed(cell: AnnotatedPhotoCell) {
-        let asset = cell.asset
-        
-        let alert = UIAlertController(title: "\(asset.locationText)", message: "\(asset.potentialPOI)", preferredStyle: .Alert) // 1
-        let firstAction = UIAlertAction(title: "one", style: .Default) { (alert: UIAlertAction!) -> Void in
-            NSLog("You pressed button one")
-        } // 2
-        
-        let secondAction = UIAlertAction(title: "two", style: .Default) { (alert: UIAlertAction!) -> Void in
-            NSLog("You pressed button two")
-        } // 3
-        
-        alert.addAction(firstAction) // 4
-        alert.addAction(secondAction) // 5
-        presentViewController(alert, animated: true, completion:nil) // 6
+        if let asset = cell.asset {
+            let alert = UIAlertController(title: "\(asset.locationText)", message: "\(asset.potentialPOI)", preferredStyle: .Alert) // 1
+            let firstAction = UIAlertAction(title: "one", style: .Default) { (alert: UIAlertAction!) -> Void in
+                NSLog("You pressed button one")
+            } // 2
+            
+            let secondAction = UIAlertAction(title: "two", style: .Default) { (alert: UIAlertAction!) -> Void in
+                NSLog("You pressed button two")
+            } // 3
+            
+            alert.addAction(firstAction) // 4
+            alert.addAction(secondAction) // 5
+            presentViewController(alert, animated: true, completion:nil) // 6
+        }
     }
 }
 
