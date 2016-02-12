@@ -19,9 +19,11 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     @IBOutlet weak var tagLabel: UILabel!
     @IBOutlet weak var buttonLike: UIButton!
     
-    private(set) var asset : SLAsset?
+    private(set) var asset : SLAsset!
     private var realmToken : NotificationToken?
+    @IBAction func handleLikePressed(sender: AnyObject) { handleLike() }
     
+
     let alphaSelected : CGFloat = 1.0
     let alphaNotSelected : CGFloat = 0.2
     
@@ -80,7 +82,7 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     var isInvalid : Bool {
         get {
-            return asset?.invalidated ?? false
+            return asset?.invalidated ?? true
         }
     }
     
@@ -132,11 +134,7 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     }
 
     //invert the sloth and release the kracken!
-    @IBAction func handleLikePressed(sender: AnyObject) {
-        if isInvalid {
-            return
-        }
-
+    func handleLike() {
         slothRealm.write {
             self.asset!.isLiked = !self.asset!.isLiked
         }

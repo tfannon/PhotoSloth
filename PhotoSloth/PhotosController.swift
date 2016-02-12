@@ -123,20 +123,31 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
     }
     
     func actionSheetButtonPressed(cell: AnnotatedPhotoCell) {
-        if let asset = cell.asset {
-            let alert = UIAlertController(title: "\(asset.locationText)", message: "\(asset.potentialPOI)", preferredStyle: .Alert) // 1
-            let firstAction = UIAlertAction(title: "one", style: .Default) { (alert: UIAlertAction!) -> Void in
-                NSLog("You pressed button one")
-            } // 2
-            
-            let secondAction = UIAlertAction(title: "two", style: .Default) { (alert: UIAlertAction!) -> Void in
-                NSLog("You pressed button two")
-            } // 3
-            
-            alert.addAction(firstAction) // 4
-            alert.addAction(secondAction) // 5
-            presentViewController(alert, animated: true, completion:nil) // 6
+        let asset = cell.asset
+        if asset.potentialPOI.count == 0 {
+            return
         }
+        let alert = UIAlertController(title: "Nearby places", message: "Choose one to tag photo", preferredStyle: UIAlertControllerStyle.ActionSheet) // 1
+        let maxChoices = 5
+        var idx = 0
+        for x in asset.potentialPOI {
+            let action = UIAlertAction(title: x, style: .Default) { (alert: UIAlertAction!) -> Void in
+                slothRealm.write {
+                    asset.chosenPOI = x
+                }
+            }
+            alert.addAction(action)
+            if ++idx > maxChoices {
+                break
+            }
+        }
+        alert.addAction(UIAlertAction(title: "Clear tag", style: UIAlertActionStyle.Destructive, handler: { _ in
+            slothRealm.write {
+                asset.chosenPOI = nil
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler:nil))
+        presentViewController(alert, animated: true, completion:nil)
     }
 }
 
