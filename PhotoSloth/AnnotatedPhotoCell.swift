@@ -91,6 +91,9 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         Misc.updateIfChanged(&self.captionLabel.text, source: self.asset!.caption)
         Misc.updateIfChanged(&self.buttonLike.alpha, source: self.asset!.isLiked ? self.alphaSelected : self.alphaNotSelected)
         Misc.updateIfChanged(&self.commentLabel.text, source: self.asset!.locationText)
+        if let poi = self.asset!.chosenPOI {
+            Misc.updateIfChanged(&self.tagLabel.text, source: poi)
+        }
     }
     
     private func reset() {
@@ -101,6 +104,7 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         self.captionLabel.text = nil
         self.buttonLike.alpha = self.alphaNotSelected
         self.commentLabel.text = nil
+        self.tagLabel.text = nil
     }
     
     func setImage(image : UIImage?) {
