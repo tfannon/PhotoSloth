@@ -10,19 +10,19 @@ import Foundation
 import RealmSwift
 
 class RealmSloth : RealmBase {
+
+    // MARK:- Tag
+    
+    // returns a Tag object given the tag string value
     func getTag(value: String) -> SLTag? {
         return self.select(SLTag).filter("value = '\(value)'").first
     }
-    func getAsset(id: String) -> SLAsset? {
-        return self.getBaseObjectId(id)
-    }
-    func getAssets() -> Results<SLAsset> {
-        return self.select(SLAsset)
-    }
-    func getAssetByExternalId(externalId : String) -> SLAsset? {
-        return self.select(SLAsset).filter("externalId = '\(externalId)'").first
-    }
-    func addTagToMemory(asset : SLAsset, tagValue : String) {
+    
+    // adds a tag to an asset
+    // this is particularily useful because we want to reuse a Tag 
+    //  object that is already in the database.  So we first lookup the Tag
+    //  on the tagValue and use it, otherwise we create a new Tag
+    func addTag(asset : SLAsset, tagValue : String) {
         var write = false
         var tag = getTag(tagValue)
         if tag != nil {
@@ -42,12 +42,29 @@ class RealmSloth : RealmBase {
             }
         }
     }
+    
+    // MARK:- Asset
+    
+    // returns an Asset given the id
+    func getAsset(id id: String) -> SLAsset? {
+        return self.get(id)
+    }
+    // returns an Asset given the external id
+    func getAsset(externalId id : String) -> SLAsset? {
+        return self.select(SLAsset).filter("externalId = '\(id)'").first
+    }
+    // returns all Assets
+    func getAssets() -> Results<SLAsset> {
+        return self.select(SLAsset)
+    }
+    // adds an Asset with optional Tags
     func addAsset(asset : SLAsset, tagValues : String...) {
         self.write {
             self.add(asset)
         }
+        // enumerate all tags and add them to the asset
         for tagValue in tagValues {
-            addTagToMemory(asset, tagValue: tagValue)
+            addTag(asset, tagValue: tagValue)
         }
     }
 }

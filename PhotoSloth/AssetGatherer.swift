@@ -49,7 +49,7 @@ class AssetGatherer {
                 let photoAsset: PHAsset = fetchResult[i] as! PHAsset
                 var asset: SLAsset!
                 var newAssetId: String? = nil
-                asset = slothRealm.getAssetByExternalId(photoAsset.localIdentifier)
+                asset = slothRealm.getAsset(externalId: photoAsset.localIdentifier)
                 if asset == nil {
                     asset = SLAsset()
                     asset.longitude = photoAsset.location?.coordinate.longitude ?? 0
@@ -66,7 +66,7 @@ class AssetGatherer {
                             // if the asset was created on the other thread - we need our own
                             var assetForUpdate = asset
                             if let id = newAssetId {
-                                assetForUpdate = slothRealm.getAsset(id)
+                                assetForUpdate = slothRealm.getAsset(id: id)
                             }
                             if let a = assetForUpdate {
                                 slothRealm.write {
@@ -88,7 +88,7 @@ class AssetGatherer {
                         Googles.getPlaces(coordinates.latitude, longitude: coordinates.longitude) { tagObject in
                             var assetForUpdate = asset
                             if let id = newAssetId {
-                                assetForUpdate = slothRealm.getAsset(id)
+                                assetForUpdate = slothRealm.getAsset(id: id)
                             }
                             if let a = assetForUpdate {
                                 slothRealm.write {
