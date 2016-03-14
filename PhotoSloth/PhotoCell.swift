@@ -17,7 +17,7 @@ class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var imageViewHeightLayoutConstraint: NSLayoutConstraint!
     @IBOutlet private weak var captionLabel: UILabel!
-    @IBOutlet private weak var commentLabel: UILabel!
+    @IBOutlet private weak var locationLabel: UILabel!
     @IBOutlet weak var poiLabel: UILabel!
     @IBOutlet weak var buttonLike: UIButton!
     
@@ -49,9 +49,10 @@ class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     }
     
     func setup(assetId : String) {
+        // bind the view model to our controls
         viewModel = PhotoCellVM(assetId: assetId)
         viewModel.caption.bindTo(self.captionLabel.rx_text).addDisposableTo(disposeBag)
-        viewModel.comments.bindTo(self.commentLabel.rx_text).addDisposableTo(disposeBag)
+        viewModel.location.bindTo(self.locationLabel.rx_text).addDisposableTo(disposeBag)
         viewModel.isLiked.subscribeNext{ value in
             self.buttonLike.alpha = (value) ? self.alphaSelected : self.alphaNotSelected
         }.addDisposableTo(disposeBag)
@@ -63,6 +64,7 @@ class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     }
 
     func setImage(image : UIImage?) {
+        // this is done async - so this gets called when the image is available
         viewModel.setImage(image)
     }
 

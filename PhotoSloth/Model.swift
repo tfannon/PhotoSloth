@@ -137,6 +137,12 @@ class SLAsset : SLBaseObjectId {
         return ["potentialPOI"]
     }
     
+    enum Properties : String {
+        case caption = "caption"
+        case locationText = "locationText"
+        case chosenPOI = "chosenPOI"
+        case isLiked = "isLiked"
+    }
 
     // properties
     var caption : String {

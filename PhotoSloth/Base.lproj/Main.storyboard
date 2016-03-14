@@ -103,9 +103,9 @@
                                 <connections>
                                     <outlet property="buttonLike" destination="X5Y-aK-VhW" id="7iL-Vg-lwS"/>
                                     <outlet property="captionLabel" destination="WJL-o3-wqI" id="91e-fo-6X5"/>
-                                    <outlet property="commentLabel" destination="Y8U-WH-xsR" id="rqR-kv-VAz"/>
                                     <outlet property="imageView" destination="JbX-zI-xxs" id="eyc-an-CHk"/>
                                     <outlet property="imageViewHeightLayoutConstraint" destination="hMO-Ke-LaM" id="hXK-d4-4fX"/>
+                                    <outlet property="locationLabel" destination="Y8U-WH-xsR" id="xZT-oA-76m"/>
                                     <outlet property="poiLabel" destination="Tfa-3S-Swj" id="23y-Ty-Kba"/>
                                 </connections>
                             </collectionViewCell>
