@@ -34,22 +34,14 @@ class PhotoCellVM {
             }.addDisposableTo(disposeBag)
             self.poi.onNext(self.asset.chosenPOI ?? "")
             
-            asset.rx_observe(String.self, SLAsset.Properties.caption.rawValue)
-                .subscribeNext { value in
-                    self.caption.onNext(value!)
-                }.addDisposableTo(disposeBag)
-            asset.rx_observe(String.self, SLAsset.Properties.locationText.rawValue)
-                .subscribeNext { value in
-                    self.location.onNext(value!)
-                }.addDisposableTo(disposeBag)
-            asset.rx_observe(Bool.self, SLAsset.Properties.isLiked.rawValue)
-                .subscribeNext { value in
-                    self.isLiked.onNext(value!)
-                }.addDisposableTo(disposeBag)
-            asset.rx_observe(String.self, SLAsset.Properties.chosenPOI.rawValue)
-                .subscribeNext { value in
-                    self.poi.onNext(value ?? "")
-                }.addDisposableTo(disposeBag)
+//            asset.rx_observe(Bool.self, SLAsset.Properties.isLiked.rawValue)
+//                .subscribeNext { value in
+//                    self.isLiked.onNext(value!)
+//                }.addDisposableTo(disposeBag)
+//            asset.rx_observe(String.self, SLAsset.Properties.chosenPOI.rawValue)
+//                .subscribeNext { value in
+//                    self.poi.onNext(value ?? "")
+//                }.addDisposableTo(disposeBag)
         }
         else {
             clear()
