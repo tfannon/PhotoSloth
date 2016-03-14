@@ -18,7 +18,7 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     @IBOutlet private weak var imageViewHeightLayoutConstraint: NSLayoutConstraint!
     @IBOutlet private weak var captionLabel: UILabel!
     @IBOutlet private weak var commentLabel: UILabel!
-    @IBOutlet weak var tagLabel: UILabel!
+    @IBOutlet weak var poiLabel: UILabel!
     @IBOutlet weak var buttonLike: UIButton!
     
     private var viewModel : PhotoCellVM!
@@ -56,6 +56,7 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
             self.buttonLike.alpha = (value) ? self.alphaSelected : self.alphaNotSelected
         }.addDisposableTo(disposeBag)
         viewModel.image.bindTo(self.imageView.rx_image).addDisposableTo(disposeBag)
+        viewModel.poi.bindTo(self.poiLabel.rx_text).addDisposableTo(disposeBag)
         
         // enable user interaction
         self.userInteractionEnabled = true

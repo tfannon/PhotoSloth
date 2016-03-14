@@ -106,7 +106,7 @@
                                     <outlet property="commentLabel" destination="Y8U-WH-xsR" id="rqR-kv-VAz"/>
                                     <outlet property="imageView" destination="JbX-zI-xxs" id="eyc-an-CHk"/>
                                     <outlet property="imageViewHeightLayoutConstraint" destination="hMO-Ke-LaM" id="hXK-d4-4fX"/>
-                                    <outlet property="tagLabel" destination="Tfa-3S-Swj" id="igW-sQ-tkZ"/>
+                                    <outlet property="poiLabel" destination="Tfa-3S-Swj" id="23y-Ty-Kba"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>

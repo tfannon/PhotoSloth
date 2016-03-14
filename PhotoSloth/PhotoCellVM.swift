@@ -16,6 +16,7 @@ class PhotoCellVM {
     var comments = BehaviorSubject<String>(value: "")
     var isLiked = BehaviorSubject<Bool>(value: false)
     var image = BehaviorSubject<UIImage?>(value: nil)
+    var poi = BehaviorSubject<String>(value: "")
     let disposeBag = DisposeBag()
 
     private var asset : SLAsset!
@@ -30,6 +31,7 @@ class PhotoCellVM {
                 self.asset.isLiked = value
             }
         }.addDisposableTo(disposeBag)
+        self.poi.onNext(self.asset.chosenPOI ?? "")
     }
     
     func setImage(image : UIImage?) {
