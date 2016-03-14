@@ -9,6 +9,8 @@
 import UIKit
 import Photos
 import RealmSwift
+import RxSwift
+import RxCocoa
 
 class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
   
@@ -19,13 +21,12 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     @IBOutlet weak var tagLabel: UILabel!
     @IBOutlet weak var buttonLike: UIButton!
     
-    private(set) var asset : SLAsset!
-    private var realmToken : NotificationToken?
+    private var viewModel : PhotoCellVM!
+    private let disposeBag = DisposeBag()
     @IBAction func handleLikePressed(sender: AnyObject) { handleLike() }
-    
 
-    let alphaSelected : CGFloat = 1.0
-    let alphaNotSelected : CGFloat = 0.2
+    private let alphaSelected : CGFloat = 1.0
+    private let alphaNotSelected : CGFloat = 0.2
     
     var panGestureRecognizer: UIPanGestureRecognizer!
     enum Direction {
@@ -37,7 +38,6 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     }
     static var direction = Direction.Undefined
     
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
@@ -48,69 +48,23 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         //self.addGestureRecognizer(panGestureRecognizer)
     }
     
-    deinit {
-        slothRealm.removeNotificationBlock(realmToken)
-    }
-    
-    func setup(asset : SLAsset) {
-        // make sure we have a clean slate
-        reset()
+    func setup(assetId : String) {
+        viewModel = PhotoCellVM(assetId: assetId)
+        viewModel.caption.bindTo(self.captionLabel.rx_text).addDisposableTo(disposeBag)
+        viewModel.comments.bindTo(self.commentLabel.rx_text).addDisposableTo(disposeBag)
+        viewModel.isLiked.subscribeNext{ value in
+            self.buttonLike.alpha = (value) ? self.alphaSelected : self.alphaNotSelected
+        }.addDisposableTo(disposeBag)
+        viewModel.image.bindTo(self.imageView.rx_image).addDisposableTo(disposeBag)
         
-        // set the asset
-        self.asset = asset
-        // setup the notification
-        realmToken = slothRealm.addNotificationBlock { notification, realm in
-            // handle any changes to our asset
-            if let a = self.asset {
-                if a.invalidated {
-                    self.userInteractionEnabled = false
-                    self.reset()
-                }
-                else {
-                    self.assetUpdate()
-                }
-            }
-        }
-        // immediately set the image to nil so we don't see a stale photo
-        self.imageView.image = nil
         // enable user interaction
         self.userInteractionEnabled = true
+    }
 
-        // draw the data for the asset
-        self.assetUpdate()
-    }
-    
-    var isInvalid : Bool {
-        get {
-            return asset?.invalidated ?? true
-        }
-    }
-    
-    private func assetUpdate() {
-        // refresh UI data
-        Misc.updateIfChanged(&self.captionLabel.text, source: self.asset!.caption)
-        Misc.updateIfChanged(&self.buttonLike.alpha, source: self.asset!.isLiked ? self.alphaSelected : self.alphaNotSelected)
-        Misc.updateIfChanged(&self.commentLabel.text, source: self.asset!.locationText)
-        if let poi = self.asset!.chosenPOI {
-            Misc.updateIfChanged(&self.tagLabel.text, source: poi)
-        }
-    }
-    
-    private func reset() {
-        slothRealm.removeNotificationBlock(self.realmToken)
-        self.realmToken = nil
-        self.asset = nil
-        self.imageView.image = nil
-        self.captionLabel.text = nil
-        self.buttonLike.alpha = self.alphaNotSelected
-        self.commentLabel.text = nil
-        self.tagLabel.text = nil
-    }
-    
     func setImage(image : UIImage?) {
-        self.imageView.image = image
+        viewModel.setImage(image)
     }
-    
+
     func handleGesture(sender: UIPanGestureRecognizer) {
         switch sender.state {
         case UIGestureRecognizerState.Began:
@@ -139,10 +93,7 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
 
     //invert the sloth and release the kracken!
     func handleLike() {
-        slothRealm.write {
-            self.asset!.isLiked = !self.asset!.isLiked
-        }
-        self.buttonLike.alpha = (self.asset!.likeStatus == .Liked) ? alphaSelected : alphaNotSelected
+        viewModel.toggleLiked()
     }
     
     override func applyLayoutAttributes(layoutAttributes: UICollectionViewLayoutAttributes) {

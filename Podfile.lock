@@ -6,6 +6,10 @@ PODS:
   - Realm/Headers (0.97.0)
   - RealmSwift (0.97.0):
     - Realm (= 0.97.0)
+  - RxBlocking (2.2.0):
+    - RxSwift (~> 2.2)
+  - RxCocoa (2.2.0):
+    - RxSwift (~> 2.2)
   - RxSwift (2.2.0)
   - SwiftyJSON (2.3.2)
 
@@ -13,6 +17,8 @@ DEPENDENCIES:
   - Alamofire (~> 3.0)
   - AsyncSwift
   - RealmSwift
+  - RxBlocking (~> 2.0)
+  - RxCocoa (~> 2.0)
   - RxSwift (~> 2.0)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
 
@@ -30,6 +36,8 @@ SPEC CHECKSUMS:
   AsyncSwift: 3c90beed237324f1b57e1f1c414dc5501985d208
   Realm: b498a6fb9d288b171ff98d0e2d4384c295be8990
   RealmSwift: d014810dec75c9a3f1a33926d2dabfed855c582c
+  RxBlocking: 5bbc826774c4290effa8fe070841e9d45e864639
+  RxCocoa: 42efb7a7145a8d1d5878e94ce48a580d29e0c796
   RxSwift: b8a749f2204c6c7a5c29b306a9c3bc11d5b87c5b
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 

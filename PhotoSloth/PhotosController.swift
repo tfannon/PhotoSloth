@@ -16,7 +16,6 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
     var thumbSize: CGSize!
     var imageManager: PHCachingImageManager!
     var assets = [SLAsset]()
-    var realmToken : NotificationToken?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,12 +34,6 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
                 return true
             }
 
-        // setup the notification
-        realmToken = slothRealm.addNotificationBlock { notification, realm in
-            // re-get the asset
-            self.handleRealmUpdate()
-        }
-        
         // Set the PinterestLayout delegate
         if let layout = collectionView?.collectionViewLayout as? PinterestLayout {
             layout.delegate = self
@@ -58,25 +51,6 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         super.viewWillAppear(animated)
     }
 
-    // MARK: - Realm 
-    private func handleRealmUpdate() {
-        if let cells = self.collectionView?.visibleCells() {
-            var indexPaths = [NSIndexPath]()
-            for cell in cells.map( { x in x as! AnnotatedPhotoCell } ) {
-                if cell.isInvalid {
-                    if let indexPath = self.collectionView?.indexPathForCell(cell) {
-                        indexPaths.append(indexPath)
-                    }
-                }
-            }
-            if indexPaths.any {
-                collectionView!.performBatchUpdates({
-                    self.collectionView?.deleteItemsAtIndexPaths(indexPaths)
-                    }, completion: nil)
-            }
-        }
-    }
-    
     // MARK: - CollectionView
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return assets.count;
@@ -88,6 +62,7 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         let asset = assets[indexPath.row]
         let photoAsset = getPhotoAsset(asset)
         
+        cell.setup(asset.id)
         imageManager.requestImageForAsset(photoAsset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .AspectFill, options: nil) { image, info in
             cell.setImage(image)
         }
@@ -95,7 +70,6 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         //uncomment this line if you want indivual cell gesture recognizers to take over the view recognizer
         //cell.pulldownGestureRecognizer.requireGestureRecognizerToFail(cell.pulldownGestureRecognizer)
         
-        cell.setup(asset)
         return cell
     }
     
@@ -123,7 +97,7 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
     }
     
     func actionSheetButtonPressed(cell: AnnotatedPhotoCell) {
-        let asset = cell.asset
+        let asset = SLAsset()// cell.asset
         if asset.potentialPOI.count == 0 {
             return
         }
