@@ -57,7 +57,7 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("AnnotatedPhotoCell", forIndexPath: indexPath) as! AnnotatedPhotoCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoCell", forIndexPath: indexPath) as! PhotoCell
         
         let asset = assets[indexPath.row]
         let photoAsset = getPhotoAsset(asset)
@@ -89,14 +89,14 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         let indexPath = self.collectionView!.indexPathForItemAtPoint(p)
         
         if let index = indexPath {
-            let cell = self.collectionView!.cellForItemAtIndexPath(index) as! AnnotatedPhotoCell
+            let cell = self.collectionView!.cellForItemAtIndexPath(index) as! PhotoCell
             actionSheetButtonPressed(cell)
         } else {
             print("Could not find index path")
         }
     }
     
-    func actionSheetButtonPressed(cell: AnnotatedPhotoCell) {
+    func actionSheetButtonPressed(cell: PhotoCell) {
         let asset = SLAsset()// cell.asset
         if asset.potentialPOI.count == 0 {
             return

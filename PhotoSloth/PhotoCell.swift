@@ -1,5 +1,5 @@
 //
-//  AnnotatedPhotoCell.swift
+//  PhotoCell.swift
 //  RWDevCon
 //
 //  Created by Mic Pringle on 26/02/2015.
@@ -12,7 +12,7 @@ import RealmSwift
 import RxSwift
 import RxCocoa
 
-class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
+class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
   
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var imageViewHeightLayoutConstraint: NSLayoutConstraint!
@@ -69,25 +69,25 @@ class AnnotatedPhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     func handleGesture(sender: UIPanGestureRecognizer) {
         switch sender.state {
         case UIGestureRecognizerState.Began:
-            if AnnotatedPhotoCell.direction == .Undefined {
+            if PhotoCell.direction == .Undefined {
                 let vel = sender.velocityInView(self)
                 let isVertical = fabs(vel.y) > fabs(vel.x)
                 if isVertical {
-                    AnnotatedPhotoCell.direction = vel.y > 0 ? .Down : .Up
+                    PhotoCell.direction = vel.y > 0 ? .Down : .Up
                 }
                 else {
-                    AnnotatedPhotoCell.direction = vel.x > 0 ? .Right : .Left
+                    PhotoCell.direction = vel.x > 0 ? .Right : .Left
                 }
             }
         case .Changed:
-            switch AnnotatedPhotoCell.direction {
+            switch PhotoCell.direction {
             case .Up: print ("up")
             case .Down: print ("down")
             case .Left: print ("left")
             case .Right: print ("right")
             case.Undefined: break
             }
-        case UIGestureRecognizerState.Ended: AnnotatedPhotoCell.direction = .Undefined
+        case UIGestureRecognizerState.Ended: PhotoCell.direction = .Undefined
         default: break
         }
     }

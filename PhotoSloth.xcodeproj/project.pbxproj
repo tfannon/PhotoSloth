@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		651B90561C55A3000048ADCA /* TagObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651B90551C55A3000048ADCA /* TagObject.swift */; };
-		657F700D1C549B3D008D793B /* AnnotatedPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F6FFF1C549B3D008D793B /* AnnotatedPhotoCell.swift */; };
+		657F700D1C549B3D008D793B /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F6FFF1C549B3D008D793B /* PhotoCell.swift */; };
 		657F700E1C549B3D008D793B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F70001C549B3D008D793B /* AppDelegate.swift */; };
 		657F700F1C549B3D008D793B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657F70011C549B3D008D793B /* Assets.xcassets */; };
 		657F70101C549B3D008D793B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 657F70021C549B3D008D793B /* LaunchScreen.storyboard */; };
@@ -52,7 +52,7 @@
 		3BB11B99F5945FFB5DF8DFA0 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		651B90551C55A3000048ADCA /* TagObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagObject.swift; sourceTree = "<group>"; };
 		653379F41C53E18A007A911E /* PhotoSloth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoSloth.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		657F6FFF1C549B3D008D793B /* AnnotatedPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotatedPhotoCell.swift; sourceTree = "<group>"; };
+		657F6FFF1C549B3D008D793B /* PhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		657F70001C549B3D008D793B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		657F70011C549B3D008D793B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		657F70031C549B3D008D793B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 		65E4D3181C549DFC007E9BC7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				657F6FFF1C549B3D008D793B /* AnnotatedPhotoCell.swift */,
+				657F6FFF1C549B3D008D793B /* PhotoCell.swift */,
 				657F700B1C549B3D008D793B /* RoundedCornersView.swift */,
 				657F700A1C549B3D008D793B /* PinterestLayout.swift */,
 			);
@@ -398,7 +398,7 @@
 				657F70171C549B3D008D793B /* RoundedCornersView.swift in Sources */,
 				665CA5531C5526730065EA01 /* ArrayExtensions.swift in Sources */,
 				665CA5671C5528E20065EA01 /* ProgressCalculator.swift in Sources */,
-				657F700D1C549B3D008D793B /* AnnotatedPhotoCell.swift in Sources */,
+				657F700D1C549B3D008D793B /* PhotoCell.swift in Sources */,
 				665CA54E1C55232A0065EA01 /* RealmBase.swift in Sources */,
 				665CA5481C5523020065EA01 /* Error.swift in Sources */,
 				665CA5451C5522D30065EA01 /* FileExtensions.swift in Sources */,
