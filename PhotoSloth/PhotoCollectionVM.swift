@@ -12,11 +12,20 @@ import RxSwift
 
 class PhotoCollectionVM {
 
-    private var results : Results<SLAsset>
+    private var assetResults : Results<SLAsset>
     private var token : NotificationToken?
+    var onModified : (() -> ())?
+    var onError : ((NSError) -> ())?
     
-    init(assetId : String) {
-        results = slothRealm.getAssets()
-        token = nil
+    init() {
+        assetResults = slothRealm.getAssets()
+        token = assetResults.addNotificationBlock{ results, error in
+            self.onModified?()
+            if let e = error {
+                self.onError?(e)
+            }
+        }
     }
+    
+    
 }
