@@ -44,6 +44,7 @@
 		665CA56B1C5529560065EA01 /* NSUUIDExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665CA56A1C5529560065EA01 /* NSUUIDExtensions.swift */; };
 		6672867E1C950C4800B3F754 /* PhotoCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6672867D1C950C4800B3F754 /* PhotoCellVM.swift */; };
 		667A08651C55E36F0079FD9E /* AssetGatherer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667A08641C55E36F0079FD9E /* AssetGatherer.swift */; };
+		66BC254F1CA6161F00AD8932 /* PhotoCollectionVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BC254E1CA6161F00AD8932 /* PhotoCollectionVM.swift */; };
 		B182C8404E56C0544B9C7A97 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE91188173E5ADE72F0138D /* Pods.framework */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,7 @@
 		665CA56A1C5529560065EA01 /* NSUUIDExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSUUIDExtensions.swift; sourceTree = "<group>"; };
 		6672867D1C950C4800B3F754 /* PhotoCellVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCellVM.swift; sourceTree = "<group>"; };
 		667A08641C55E36F0079FD9E /* AssetGatherer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetGatherer.swift; sourceTree = "<group>"; };
+		66BC254E1CA6161F00AD8932 /* PhotoCollectionVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionVM.swift; sourceTree = "<group>"; };
 		7FE91188173E5ADE72F0138D /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -227,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				6672867D1C950C4800B3F754 /* PhotoCellVM.swift */,
+				66BC254E1CA6161F00AD8932 /* PhotoCollectionVM.swift */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 				665CA5671C5528E20065EA01 /* ProgressCalculator.swift in Sources */,
 				657F700D1C549B3D008D793B /* PhotoCell.swift in Sources */,
 				665CA54E1C55232A0065EA01 /* RealmBase.swift in Sources */,
+				66BC254F1CA6161F00AD8932 /* PhotoCollectionVM.swift in Sources */,
 				665CA5481C5523020065EA01 /* Error.swift in Sources */,
 				665CA5451C5522D30065EA01 /* FileExtensions.swift in Sources */,
 				665CA56B1C5529560065EA01 /* NSUUIDExtensions.swift in Sources */,
@@ -523,6 +527,7 @@
 					"$(PROJECT_DIR)/PhotoSloth",
 				);
 				INFOPLIST_FILE = PhotoSloth/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stingraydev.PhotoSloth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -542,6 +547,7 @@
 					"$(PROJECT_DIR)/PhotoSloth",
 				);
 				INFOPLIST_FILE = PhotoSloth/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.stingraydev.PhotoSloth;
 				PRODUCT_NAME = "$(TARGET_NAME)";

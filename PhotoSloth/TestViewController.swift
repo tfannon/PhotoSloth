@@ -61,7 +61,7 @@ class TestViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let gesture = UITapGestureRecognizer(target: self, action: "refreshDirectoryLabel")
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(TestViewController.refreshDirectoryLabel))
         self.lblDocumentPath.addGestureRecognizer(gesture)
         self.lblDocumentPath.userInteractionEnabled = true
         refreshDirectoryLabel()

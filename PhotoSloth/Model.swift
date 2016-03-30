@@ -231,10 +231,10 @@ class SLAsset : SLBaseObjectId {
     }
 
     private let _tags = List<SLTag>()
-    var tags : SLTagsCollection { get { return self.getCollection(__FUNCTION__, list: _tags) } }
+    var tags : SLTagsCollection { get { return self.getCollection(#function, list: _tags) } }
     
     let _events = List<SLEvent>()
-    var events : SLEventCollection { get { return self.getCollection(__FUNCTION__, list: _events) } }
+    var events : SLEventCollection { get { return self.getCollection(#function, list: _events) } }
 }
 
 // MARK: - SLTag
@@ -254,7 +254,7 @@ class SLTag : SLBaseObject {
     }
 
     private let _assets = List<SLAsset>()
-    var assets : SLAssetCollection { get { return self.getCollection(__FUNCTION__, list: _assets) } }
+    var assets : SLAssetCollection { get { return self.getCollection(#function, list: _assets) } }
 }
 
 // MARK: - SLEvent

@@ -55,7 +55,7 @@ class RealmSloth : RealmBase {
     }
     // returns all Assets
     func getAssets() -> Results<SLAsset> {
-        return self.select(SLAsset)
+        return self.select(SLAsset.self)
     }
     // adds an Asset with optional Tags
     func addAsset(asset : SLAsset, tagValues : String...) {

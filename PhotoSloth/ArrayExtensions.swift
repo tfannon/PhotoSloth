@@ -61,7 +61,7 @@ extension Array{
         var count = 0
         for x in self {
             if condition(x) {
-                count++
+                count += 1
             }
         }
         return count

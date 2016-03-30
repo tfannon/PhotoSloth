@@ -12,26 +12,26 @@ class UserSettings {
     
     static var mockGoogle : Bool {
         get {
-            return get(__FUNCTION__) ?? false
+            return get(#function) ?? false
         }
         set {
-            set(__FUNCTION__, value : newValue)
+            set(#function, value : newValue)
         }
     }
     static var delayGather : Int? {
         get {
-        return get(__FUNCTION__) 
+        return get(#function)
         }
         set {
-            set(__FUNCTION__, value : newValue)
+            set(#function, value : newValue)
         }
     }
     static var delayGatherBetween : Int? {
         get {
-        return get(__FUNCTION__)
+        return get(#function)
         }
         set {
-            set(__FUNCTION__, value : newValue)
+            set(#function, value : newValue)
         }
     }
     

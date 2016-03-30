@@ -41,7 +41,7 @@ class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handleGesture:")
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(PhotoCell.handleGesture(_:)))
         panGestureRecognizer.minimumNumberOfTouches = 1
         panGestureRecognizer.delegate = self
         //uncomment this line to add the cell recognizer

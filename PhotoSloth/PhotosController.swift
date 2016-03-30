@@ -40,7 +40,7 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         }
         
         //the long press brings up the fetched nearby locations for choosing
-        let gesture = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(PhotosController.handleLongPress(_:)))
         gesture.minimumPressDuration = 0.5
         gesture.delaysTouchesBegan = true
         gesture.delegate = self
@@ -111,7 +111,8 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
                 }
             }
             alert.addAction(action)
-            if ++idx > maxChoices {
+            idx += 1
+            if idx > maxChoices {
                 break
             }
         }

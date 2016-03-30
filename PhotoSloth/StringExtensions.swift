@@ -57,7 +57,7 @@ extension String {
         var count : Int = 0
         for c in self.characters {
             if (c == char) {
-                count++
+                count += 1
                 if count >= 2 {
                     return true
                 }
