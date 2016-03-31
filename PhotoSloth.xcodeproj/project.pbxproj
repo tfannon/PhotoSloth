@@ -133,7 +133,6 @@
 				65E4D31C1C549E2E007E9BC7 /* Misc */,
 				665CA5461C5522EC0065EA01 /* Util */,
 				65E4D31B1C549E14007E9BC7 /* Services */,
-				65E4D3191C549E01007E9BC7 /* Controllers */,
 				65E4D3171C549DF2007E9BC7 /* Models */,
 				6672867C1C950BEB00B3F754 /* ViewModels */,
 				65E4D3181C549DFC007E9BC7 /* Views */,
@@ -154,20 +153,13 @@
 		65E4D3181C549DFC007E9BC7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				665CA5491C55230D0065EA01 /* TestViewController.swift */,
+				657F70091C549B3D008D793B /* PhotosController.swift */,
 				657F6FFF1C549B3D008D793B /* PhotoCell.swift */,
 				657F700B1C549B3D008D793B /* RoundedCornersView.swift */,
 				657F700A1C549B3D008D793B /* PinterestLayout.swift */,
 			);
 			name = Views;
-			sourceTree = "<group>";
-		};
-		65E4D3191C549E01007E9BC7 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				657F70091C549B3D008D793B /* PhotosController.swift */,
-				665CA5491C55230D0065EA01 /* TestViewController.swift */,
-			);
-			name = Controllers;
 			sourceTree = "<group>";
 		};
 		65E4D31B1C549E14007E9BC7 /* Services */ = {
@@ -228,8 +220,8 @@
 		6672867C1C950BEB00B3F754 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				6672867D1C950C4800B3F754 /* PhotoCellVM.swift */,
 				66BC254E1CA6161F00AD8932 /* PhotoCollectionVM.swift */,
+				6672867D1C950C4800B3F754 /* PhotoCellVM.swift */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";

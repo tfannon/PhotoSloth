@@ -16,9 +16,12 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
     var thumbSize: CGSize!
     var imageManager: PHCachingImageManager!
     var assets = [SLAsset]()
+    var viewModel : PhotoCollectionVM!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel = PhotoCollectionVM()
         
         collectionView!.backgroundColor = UIColor.clearColor()
         collectionView!.contentInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
