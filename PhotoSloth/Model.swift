@@ -138,10 +138,13 @@ class SLAsset : SLBaseObjectId {
     }
     
     enum Properties : String {
+        case id = "id"
         case caption = "caption"
         case locationText = "locationText"
         case chosenPOI = "chosenPOI"
         case isLiked = "isLiked"
+        case dateTaken = "dateTaken"
+        case externalId = "externalId"
     }
 
     // properties

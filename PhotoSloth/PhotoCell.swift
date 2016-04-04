@@ -18,8 +18,8 @@ class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     @IBOutlet private weak var imageViewHeightLayoutConstraint: NSLayoutConstraint!
     @IBOutlet private weak var captionLabel: UILabel!
     @IBOutlet private weak var locationLabel: UILabel!
-    @IBOutlet weak var poiLabel: UILabel!
-    @IBOutlet weak var buttonLike: UIButton!
+    @IBOutlet private weak var poiLabel: UILabel!
+    @IBOutlet private weak var buttonLike: UIButton!
     
     private var viewModel : PhotoCellVM!
     private let disposeBag = DisposeBag()
@@ -48,9 +48,9 @@ class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         //self.addGestureRecognizer(panGestureRecognizer)
     }
     
-    func setup(assetId : String) {
+    func setup(assetId : String, imageSize : CGSize) {
         // bind the view model to our controls
-        viewModel = PhotoCellVM(assetId: assetId)
+        viewModel = PhotoCellVM(assetId: assetId, imageSize: imageSize)
         viewModel.caption.bindTo(self.captionLabel.rx_text).addDisposableTo(disposeBag)
         viewModel.location.bindTo(self.locationLabel.rx_text).addDisposableTo(disposeBag)
         viewModel.isLiked.subscribeNext{ value in
@@ -61,11 +61,6 @@ class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         
         // enable user interaction
         self.userInteractionEnabled = true
-    }
-
-    func setImage(image : UIImage?) {
-        // this is done async - so this gets called when the image is available
-        viewModel.setImage(image)
     }
 
     func handleGesture(sender: UIPanGestureRecognizer) {

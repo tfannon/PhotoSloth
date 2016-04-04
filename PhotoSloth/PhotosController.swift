@@ -7,35 +7,21 @@
 //
 
 import UIKit
-import Photos
 import PhotosUI
 import RealmSwift
 
 class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate {
 
     var thumbSize: CGSize!
-    var imageManager: PHCachingImageManager!
-    var assets = [SLAsset]()
-    var viewModel : PhotoCollectionVM!
+    var viewModel : AssetCollectionVM!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewModel = PhotoCollectionVM()
+        viewModel = AssetCollectionVM()
         
         collectionView!.backgroundColor = UIColor.clearColor()
         collectionView!.contentInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
-
-        imageManager = PHCachingImageManager()
-        assets = slothRealm.getAssets()
-            .filter { a in a.externalId != nil }
-            .sort { a1, a2 in
-                if let d1 = a1.dateTaken,
-                   let d2 = a2.dateTaken {
-                    return d1.compare(d2) == NSComparisonResult.OrderedDescending
-                }
-                return true
-            }
 
         // Set the PinterestLayout delegate
         if let layout = collectionView?.collectionViewLayout as? PinterestLayout {
@@ -48,39 +34,23 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         gesture.delaysTouchesBegan = true
         gesture.delegate = self
         self.collectionView?.addGestureRecognizer(gesture)
+        
+        // behaviors
+        
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
     // MARK: - CollectionView
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return assets.count;
+        return viewModel.count;
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoCell", forIndexPath: indexPath) as! PhotoCell
         
-        let asset = assets[indexPath.row]
-        let photoAsset = getPhotoAsset(asset)
-        
-        cell.setup(asset.id)
-        imageManager.requestImageForAsset(photoAsset, targetSize: CGSize(width: 100.0, height: 100.0), contentMode: .AspectFill, options: nil) { image, info in
-            cell.setImage(image)
-        }
-     
-        //uncomment this line if you want indivual cell gesture recognizers to take over the view recognizer
-        //cell.pulldownGestureRecognizer.requireGestureRecognizerToFail(cell.pulldownGestureRecognizer)
+        let assetId = viewModel.getId(indexPath.row)
+        cell.setup(assetId, imageSize: CGSize(width: 100.0, height: 100.0))
         
         return cell
-    }
-    
-    
-    func getPhotoAsset(asset : SLAsset) -> PHAsset {
-        let fetchResult = PHAsset.fetchAssetsWithLocalIdentifiers([asset.externalId!], options: nil)
-        let photoAsset = fetchResult[0] as! PHAsset
-        return photoAsset
     }
     
     func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
@@ -132,10 +102,10 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
 extension PhotosController : PinterestLayoutDelegate {
         // 1. Returns the photo height
     func collectionView(collectionView:UICollectionView, heightForPhotoAtIndexPath indexPath:NSIndexPath , withWidth width:CGFloat) -> CGFloat {
-        let asset = assets[indexPath.row]
-        let photoAsset = getPhotoAsset(asset)
+        let externalId = viewModel.getExternalId(indexPath.row)
+        let photoAssetSize = PhotoAssetService.getSize(externalId)
         let boundingRect =  CGRect(x: 0, y: 0, width: width, height: CGFloat(MAXFLOAT))
-        let size = CGSize(width: photoAsset.pixelWidth, height: photoAsset.pixelHeight)
+        let size = CGSize(width: photoAssetSize.width, height: photoAssetSize.height)
         let rect = AVMakeRectWithAspectRatioInsideRect(size, boundingRect)
         //print ("\(size.height)h  \(size.width)w  \(size.height/size.width) ")
         return rect.size.height

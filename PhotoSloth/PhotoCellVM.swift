@@ -20,7 +20,7 @@ class PhotoCellVM {
 
     private var asset : SLAsset!
     
-    init(assetId : String) {
+    init(assetId : String, imageSize : CGSize) {
         if let a = slothRealm.getAsset(id: assetId) {
             self.asset = a
             self.caption.onNext(self.asset.caption)
@@ -32,23 +32,20 @@ class PhotoCellVM {
                 }
             }.addDisposableTo(disposeBag)
             self.poi.onNext(self.asset.chosenPOI ?? "")
-            
-//            asset.rx_observe(Bool.self, SLAsset.Properties.isLiked.rawValue)
-//                .subscribeNext { value in
-//                    self.isLiked.onNext(value!)
-//                }.addDisposableTo(disposeBag)
-//            asset.rx_observe(String.self, SLAsset.Properties.chosenPOI.rawValue)
-//                .subscribeNext { value in
-//                    self.poi.onNext(value ?? "")
-//                }.addDisposableTo(disposeBag)
+
+            // start loading the image
+            if let externalId = self.asset.externalId {
+                PhotoAssetService.requestImage(externalId, targetSize: imageSize) { image in
+                    self.image.onNext(image)
+                }
+            }
+            else {
+                self.image.onNext(nil)
+            }
         }
         else {
             clear()
         }
-    }
-    
-    func setImage(image : UIImage?) {
-        self.image.onNext(image)
     }
     
     func toggleLiked() {
