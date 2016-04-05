@@ -23,15 +23,27 @@ class PhotoAssetService {
         return photoAsset
     }
     
-    class func requestImage(id : String, targetSize : CGSize, onComplete: (UIImage?) -> Void) {
+    class func requestImage(id : String, targetSize : CGSize, onComplete: (UIImage?) -> Void) -> PhotoAssetRequest {
         let photoAsset = getAsset(id)
-        imageManager.requestImageForAsset(photoAsset, targetSize: targetSize, contentMode: .AspectFill, options: nil) { image, _ in
+        let requestId = imageManager.requestImageForAsset(photoAsset, targetSize: targetSize, contentMode: .AspectFill, options: nil) { image, _ in
                 onComplete(image)
         }
+        return PhotoAssetRequest(id: requestId)
+    }
+    
+    class func cancelRequest(request : PhotoAssetRequest) {
+        imageManager.cancelImageRequest(request.id)
     }
     
     class func getSize(id : String) -> CGSize {
         let asset = getAsset(id)
         return CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
+    }
+}
+
+class PhotoAssetRequest {
+    private(set) var id : PHImageRequestID
+    init(id : PHImageRequestID) {
+        self.id = id
     }
 }

@@ -10,6 +10,9 @@ PODS:
     - RxSwift (~> 2.2)
   - RxCocoa (2.2.0):
     - RxSwift (~> 2.2)
+  - RxGesture (0.1.2):
+    - RxCocoa
+    - RxSwift
   - RxSwift (2.2.0)
   - SwiftyJSON (2.3.2)
 
@@ -19,6 +22,7 @@ DEPENDENCIES:
   - RealmSwift (= 0.98.6)
   - RxBlocking (~> 2.0)
   - RxCocoa (~> 2.0)
+  - RxGesture
   - RxSwift (~> 2.0)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
 
@@ -38,6 +42,7 @@ SPEC CHECKSUMS:
   RealmSwift: c7239c52c83f8c43525a5269ba7be1694da33afc
   RxBlocking: 5bbc826774c4290effa8fe070841e9d45e864639
   RxCocoa: 42efb7a7145a8d1d5878e94ce48a580d29e0c796
+  RxGesture: 5a5d7ee565fb24b1dbede801e7a98d4169ac5818
   RxSwift: b8a749f2204c6c7a5c29b306a9c3bc11d5b87c5b
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 

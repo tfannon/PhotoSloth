@@ -8,12 +8,21 @@
 
 import UIKit
 import PhotosUI
-import RealmSwift
+import RxSwift
+
+extension ObservableType {
+    public func filterNil() -> RxSwift.Observable<E> {
+        return self.filter{ $0 != nil }
+    }
+}
 
 class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate {
 
     var thumbSize: CGSize!
     var viewModel : AssetCollectionVM!
+    private let disposeBag = DisposeBag()
+    var x : Optional<Int>
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,13 +38,39 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         }
         
         //the long press brings up the fetched nearby locations for choosing
-        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(PhotosController.handleLongPress(_:)))
+        let gesture = UILongPressGestureRecognizer()
         gesture.minimumPressDuration = 0.5
         gesture.delaysTouchesBegan = true
-        gesture.delegate = self
         self.collectionView?.addGestureRecognizer(gesture)
-        
-        // behaviors
+        gesture.rx_event
+            .filter { g in
+                g.state == UIKit.UIGestureRecognizerState.Ended
+            }
+            .map { (g) -> NSIndexPath? in
+                let p = g.locationInView(self.collectionView)
+                let ip = self.collectionView!.indexPathForItemAtPoint(p)
+                return ip
+            }
+            .filterNil()
+            .map { indexPath in self.collectionView!.cellForItemAtIndexPath(indexPath!) as! PhotoCell }
+            .subscribeNext{ photoCell in
+                print( "hi")
+                self.actionSheetButtonPressed(photoCell)
+            }
+            .addDisposableTo(disposeBag)
+
+/*
+            .map { gesture in
+                let p = gesture.locationInView(self.collectionView)
+                let indexPath = self.collectionView!.indexPathForItemAtPoint(p)
+                return indexPath
+            }
+            .subscribeNext { indexPath in
+                let ip = indexPath as! NSIndexPath
+                print( ip.row)
+            }
+            .addDisposableTo(disposeBag)
+*/
         
     }
     
@@ -51,22 +86,6 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         cell.setup(assetId, imageSize: CGSize(width: 100.0, height: 100.0))
         
         return cell
-    }
-    
-    func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
-        if gestureReconizer.state != UIGestureRecognizerState.Ended {
-            return
-        }
-        
-        let p = gestureReconizer.locationInView(self.collectionView)
-        let indexPath = self.collectionView!.indexPathForItemAtPoint(p)
-        
-        if let index = indexPath {
-            let cell = self.collectionView!.cellForItemAtIndexPath(index) as! PhotoCell
-            actionSheetButtonPressed(cell)
-        } else {
-            print("Could not find index path")
-        }
     }
     
     func actionSheetButtonPressed(cell: PhotoCell) {

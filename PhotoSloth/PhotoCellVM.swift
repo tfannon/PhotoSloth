@@ -19,23 +19,40 @@ class PhotoCellVM {
     let disposeBag = DisposeBag()
 
     private var asset : SLAsset!
-    
+    private var photoAssetRequest : PhotoAssetRequest?
+
+    // 
+    // initialize the view model with an asset id & image size
+    // we wire up the BehaviorSubjects for two-way communication
+    //  between UI and view model 
+    //  and start loading the image from the PhotoAssetService
+    //
     init(assetId : String, imageSize : CGSize) {
         if let a = slothRealm.getAsset(id: assetId) {
             self.asset = a
             self.caption.onNext(self.asset.caption)
             self.location.onNext(self.asset.locationText)
             self.isLiked.onNext(self.asset.isLiked)
+            
+            self.poi.onNext(self.asset.chosenPOI ?? "")
+            
+            // whenever the image is set - nil out the request
+            // the request is no longer needed once we've set the image to any new value
+            self.image.subscribeNext { _ in
+                self.photoAssetRequest = nil
+            }.addDisposableTo(disposeBag)
+
+            // whenever the UI clicks on the like button - write that to the db
             self.isLiked.subscribeNext { value in
                 slothRealm.write {
                     self.asset.isLiked = value
                 }
             }.addDisposableTo(disposeBag)
-            self.poi.onNext(self.asset.chosenPOI ?? "")
 
             // start loading the image
+            // if you cannot load it - set it to nil
             if let externalId = self.asset.externalId {
-                PhotoAssetService.requestImage(externalId, targetSize: imageSize) { image in
+                photoAssetRequest = PhotoAssetService.requestImage(externalId, targetSize: imageSize) { image in
                     self.image.onNext(image)
                 }
             }
@@ -53,6 +70,9 @@ class PhotoCellVM {
     }
     
     private func clear() {
+        if let r = photoAssetRequest {
+            PhotoAssetService.cancelRequest(r)
+        }
         self.caption.onNext("")
         self.location.onNext("")
         self.isLiked.onNext(false)
