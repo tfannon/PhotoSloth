@@ -87,14 +87,18 @@ class PhotoCellVM {
         }
     }
     
+    deinit {
+        clear()
+    }
+    
     private func clear() {
         if let r = photoAssetRequest {
             PhotoAssetService.cancelRequest(r)
         }
-        self.caption.onNext("")
-        self.location.onNext("")
-        self.isLiked.onNext(false)
-        self.chosenPOI.onNext("")
-        self.image.onNext(nil)
+        self.caption.dispose()
+        self.location.dispose()
+        self.isLiked.dispose()
+        self.chosenPOI.dispose()
+        self.image.dispose()
     }
 }

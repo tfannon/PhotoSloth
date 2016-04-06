@@ -88,6 +88,12 @@ class PhotoCell: UICollectionViewCell {
         // enable user interaction
         self.userInteractionEnabled = true
     }
+    
+    // called to reset it's state to default
+    // since cells are reused by the controller
+    func clean() {
+        viewModel = nil
+    }
 
     //
     // alert box for picking the POI
