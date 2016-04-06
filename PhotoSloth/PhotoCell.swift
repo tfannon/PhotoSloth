@@ -9,10 +9,11 @@
 import UIKit
 import Photos
 import RealmSwift
-import RxSwift
 import RxCocoa
+import RxSwift
+import RxGesture
 
-class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
+class PhotoCell: UICollectionViewCell {
   
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var imageViewHeightLayoutConstraint: NSLayoutConstraint!
@@ -23,32 +24,22 @@ class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     private var viewModel : PhotoCellVM!
     private let disposeBag = DisposeBag()
-    @IBAction func handleLikePressed(sender: AnyObject) { handleLike() }
 
     private let alphaSelected : CGFloat = 1.0
     private let alphaNotSelected : CGFloat = 0.2
     
-    var panGestureRecognizer: UIPanGestureRecognizer!
-    enum Direction {
-        case Undefined
-        case Up
-        case Down
-        case Left
-        case Right
-    }
-    static var direction = Direction.Undefined
+    // weak reference back to the view controller
+    // so we can display an alert box
+    private weak var viewController : UIViewController?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(PhotoCell.handleGesture(_:)))
-        panGestureRecognizer.minimumNumberOfTouches = 1
-        panGestureRecognizer.delegate = self
-        //uncomment this line to add the cell recognizer
-        //self.addGestureRecognizer(panGestureRecognizer)
     }
     
-    func setup(assetId : String, imageSize : CGSize) {
+    func setup(viewController : UIViewController, assetId : String, imageSize : CGSize) {
+        // parent view controller
+        self.viewController = viewController
+        
         // bind the view model to our controls
         viewModel = PhotoCellVM(assetId: assetId, imageSize: imageSize)
         viewModel.caption.bindTo(self.captionLabel.rx_text).addDisposableTo(disposeBag)
@@ -57,41 +48,71 @@ class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
             self.buttonLike.alpha = (value) ? self.alphaSelected : self.alphaNotSelected
         }.addDisposableTo(disposeBag)
         viewModel.image.bindTo(self.imageView.rx_image).addDisposableTo(disposeBag)
-        viewModel.poi.bindTo(self.poiLabel.rx_text).addDisposableTo(disposeBag)
+        viewModel.chosenPOI.bindTo(self.poiLabel.rx_text).addDisposableTo(disposeBag)
+        
+        // pan gesture
+        self.rx_gesture(.Pan(.Changed))
+            .subscribeNext { gesture in
+                switch gesture {
+                    case .Pan(let data):
+                        print("offset: \(data.translation)")
+                    default: break
+                }
+            }
+            .addDisposableTo(disposeBag)
+        
+        //the long press brings up the fetched nearby locations for choosing
+        let poiGesture = UILongPressGestureRecognizer()
+        poiGesture.minimumPressDuration = 0.5
+        poiGesture.delaysTouchesBegan = true
+        self.addGestureRecognizer(poiGesture)
+        poiGesture.rx_event
+            .filter { g in
+                g.state == UIKit.UIGestureRecognizerState.Ended
+                && self.viewModel.potentialPOIs.any
+            }
+            .map { _ in
+                self.viewModel.potentialPOIs
+            }
+            .subscribeNext{ pois in
+                self.pickPOI(pois)
+            }
+            .addDisposableTo(disposeBag)
+        
+        // 'like' tap gesture
+        buttonLike.rx_tap.subscribeNext{ _ in
+            self.viewModel.isLiked.onNext(try! !self.viewModel.isLiked.value())
+        }
+        .addDisposableTo(disposeBag)
         
         // enable user interaction
         self.userInteractionEnabled = true
     }
 
-    func handleGesture(sender: UIPanGestureRecognizer) {
-        switch sender.state {
-        case UIGestureRecognizerState.Began:
-            if PhotoCell.direction == .Undefined {
-                let vel = sender.velocityInView(self)
-                let isVertical = fabs(vel.y) > fabs(vel.x)
-                if isVertical {
-                    PhotoCell.direction = vel.y > 0 ? .Down : .Up
-                }
-                else {
-                    PhotoCell.direction = vel.x > 0 ? .Right : .Left
-                }
+    //
+    // alert box for picking the POI
+    //
+    func pickPOI(pois : [String]) {
+        let alert = UIAlertController(title: "Nearby places", message: "Choose one to tag photo", preferredStyle: UIAlertControllerStyle.ActionSheet) // 1
+        let maxChoices = 5
+        var idx = 0
+        for x in pois {
+            let action = UIAlertAction(title: x, style: .Default) { (y:UIAlertAction!) in
+                self.viewModel.chosenPOI.onNext(x)
             }
-        case .Changed:
-            switch PhotoCell.direction {
-            case .Up: print ("up")
-            case .Down: print ("down")
-            case .Left: print ("left")
-            case .Right: print ("right")
-            case.Undefined: break
+            alert.addAction(action)
+            idx += 1
+            if idx > maxChoices {
+                break
             }
-        case UIGestureRecognizerState.Ended: PhotoCell.direction = .Undefined
-        default: break
         }
-    }
-
-    //invert the sloth and release the kracken!
-    func handleLike() {
-        viewModel.toggleLiked()
+        alert.addAction(UIAlertAction(title: "Clear tag", style: UIAlertActionStyle.Destructive, handler: { _ in
+            slothRealm.write {
+                self.viewModel.chosenPOI.onNext("")
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler:nil))
+        self.viewController?.presentViewController(alert, animated: true, completion: nil)
     }
     
     override func applyLayoutAttributes(layoutAttributes: UICollectionViewLayoutAttributes) {

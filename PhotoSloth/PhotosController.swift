@@ -21,8 +21,6 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
     var thumbSize: CGSize!
     var viewModel : AssetCollectionVM!
     private let disposeBag = DisposeBag()
-    var x : Optional<Int>
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,42 +34,6 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         if let layout = collectionView?.collectionViewLayout as? PinterestLayout {
             layout.delegate = self
         }
-        
-        //the long press brings up the fetched nearby locations for choosing
-        let gesture = UILongPressGestureRecognizer()
-        gesture.minimumPressDuration = 0.5
-        gesture.delaysTouchesBegan = true
-        self.collectionView?.addGestureRecognizer(gesture)
-        gesture.rx_event
-            .filter { g in
-                g.state == UIKit.UIGestureRecognizerState.Ended
-            }
-            .map { (g) -> NSIndexPath? in
-                let p = g.locationInView(self.collectionView)
-                let ip = self.collectionView!.indexPathForItemAtPoint(p)
-                return ip
-            }
-            .filterNil()
-            .map { indexPath in self.collectionView!.cellForItemAtIndexPath(indexPath!) as! PhotoCell }
-            .subscribeNext{ photoCell in
-                print( "hi")
-                self.actionSheetButtonPressed(photoCell)
-            }
-            .addDisposableTo(disposeBag)
-
-/*
-            .map { gesture in
-                let p = gesture.locationInView(self.collectionView)
-                let indexPath = self.collectionView!.indexPathForItemAtPoint(p)
-                return indexPath
-            }
-            .subscribeNext { indexPath in
-                let ip = indexPath as! NSIndexPath
-                print( ip.row)
-            }
-            .addDisposableTo(disposeBag)
-*/
-        
     }
     
     // MARK: - CollectionView
@@ -83,39 +45,11 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoCell", forIndexPath: indexPath) as! PhotoCell
         
         let assetId = viewModel.getId(indexPath.row)
-        cell.setup(assetId, imageSize: CGSize(width: 100.0, height: 100.0))
+        cell.setup(self, assetId: assetId, imageSize: CGSize(width: 100.0, height: 100.0))
         
         return cell
     }
     
-    func actionSheetButtonPressed(cell: PhotoCell) {
-        let asset = SLAsset()// cell.asset
-        if asset.potentialPOI.count == 0 {
-            return
-        }
-        let alert = UIAlertController(title: "Nearby places", message: "Choose one to tag photo", preferredStyle: UIAlertControllerStyle.ActionSheet) // 1
-        let maxChoices = 5
-        var idx = 0
-        for x in asset.potentialPOI {
-            let action = UIAlertAction(title: x, style: .Default) { (alert: UIAlertAction!) -> Void in
-                slothRealm.write {
-                    asset.chosenPOI = x
-                }
-            }
-            alert.addAction(action)
-            idx += 1
-            if idx > maxChoices {
-                break
-            }
-        }
-        alert.addAction(UIAlertAction(title: "Clear tag", style: UIAlertActionStyle.Destructive, handler: { _ in
-            slothRealm.write {
-                asset.chosenPOI = nil
-            }
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler:nil))
-        presentViewController(alert, animated: true, completion:nil)
-    }
 }
 
 extension PhotosController : PinterestLayoutDelegate {

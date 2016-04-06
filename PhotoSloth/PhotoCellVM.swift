@@ -15,7 +15,8 @@ class PhotoCellVM {
     var location = BehaviorSubject<String>(value: "")
     var isLiked = BehaviorSubject<Bool>(value: false)
     var image = BehaviorSubject<UIImage?>(value: nil)
-    var poi = BehaviorSubject<String>(value: "")
+    var chosenPOI = BehaviorSubject<String>(value: "")
+    var potentialPOIs : [String] = [String]()
     let disposeBag = DisposeBag()
 
     private var asset : SLAsset!
@@ -33,8 +34,7 @@ class PhotoCellVM {
             self.caption.onNext(self.asset.caption)
             self.location.onNext(self.asset.locationText)
             self.isLiked.onNext(self.asset.isLiked)
-            
-            self.poi.onNext(self.asset.chosenPOI ?? "")
+            self.chosenPOI.onNext(self.asset.chosenPOI ?? "")
             
             // whenever the image is set - nil out the request
             // the request is no longer needed once we've set the image to any new value
@@ -52,9 +52,10 @@ class PhotoCellVM {
             // start loading the image
             // if you cannot load it - set it to nil
             if let externalId = self.asset.externalId {
-                photoAssetRequest = PhotoAssetService.requestImage(externalId, targetSize: imageSize) { image in
-                    self.image.onNext(image)
-                }
+                photoAssetRequest =
+                    PhotoAssetService.requestImage(externalId, targetSize: imageSize) { image in
+                        self.image.onNext(image)
+                    }
             }
             else {
                 self.image.onNext(nil)
@@ -65,10 +66,6 @@ class PhotoCellVM {
         }
     }
     
-    func toggleLiked() {
-        self.isLiked.onNext(!self.asset.isLiked)
-    }
-    
     private func clear() {
         if let r = photoAssetRequest {
             PhotoAssetService.cancelRequest(r)
@@ -76,7 +73,7 @@ class PhotoCellVM {
         self.caption.onNext("")
         self.location.onNext("")
         self.isLiked.onNext(false)
-        self.poi.onNext("")
+        self.chosenPOI.onNext("")
         self.image.onNext(nil)
     }
 }

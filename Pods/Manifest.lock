@@ -1,25 +1,24 @@
 PODS:
-  - Alamofire (3.1.5)
-  - AsyncSwift (1.6.4)
+  - Alamofire (3.3.0)
+  - AsyncSwift (1.7.2)
   - Realm (0.98.6):
     - Realm/Headers (= 0.98.6)
   - Realm/Headers (0.98.6)
   - RealmSwift (0.98.6):
     - Realm (= 0.98.6)
-  - RxBlocking (2.2.0):
-    - RxSwift (~> 2.2)
-  - RxCocoa (2.2.0):
-    - RxSwift (~> 2.2)
-  - RxGesture (0.1.2):
-    - RxCocoa
-    - RxSwift
-  - RxSwift (2.2.0)
+  - RxBlocking (2.3.1):
+    - RxSwift (~> 2.3.1)
+  - RxCocoa (2.3.1):
+    - RxSwift (~> 2.3.1)
+  - RxGesture (0.1.6):
+    - RxCocoa (~> 2.3.1)
+  - RxSwift (2.3.1)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
   - Alamofire (~> 3.0)
   - AsyncSwift
-  - RealmSwift (= 0.98.6)
+  - RealmSwift
   - RxBlocking (~> 2.0)
   - RxCocoa (~> 2.0)
   - RxGesture
@@ -32,18 +31,18 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   SwiftyJSON:
-    :commit: 929539eb6a3304eaa9153ca44041a78b85bf2ee5
+    :commit: 2a5b70f06001316d4fb54501edc70b4084705da0
     :git: https://github.com/SwiftyJSON/SwiftyJSON.git
 
 SPEC CHECKSUMS:
-  Alamofire: 5f730ba29fd113b7ddd71c1e65d0c630acf5d7b0
-  AsyncSwift: 3c90beed237324f1b57e1f1c414dc5501985d208
+  Alamofire: 9054db4a1b1ca9e363223183e01cea380159a27c
+  AsyncSwift: 46a78bceb11f0e5bb52747f740d9692ec78d2d7c
   Realm: 44803f35418c5d89b27825a564247fcd190de37e
   RealmSwift: c7239c52c83f8c43525a5269ba7be1694da33afc
-  RxBlocking: 5bbc826774c4290effa8fe070841e9d45e864639
-  RxCocoa: 42efb7a7145a8d1d5878e94ce48a580d29e0c796
-  RxGesture: 5a5d7ee565fb24b1dbede801e7a98d4169ac5818
-  RxSwift: b8a749f2204c6c7a5c29b306a9c3bc11d5b87c5b
+  RxBlocking: 84fd81865a641a3843b33bae7b8315e78ddbd383
+  RxCocoa: a2baaf3462b989559a51dce59d78fbebb8fe0afa
+  RxGesture: da19da595b5fcfb27488c878475e77cf085e35aa
+  RxSwift: 829b2843e9eddc77a02cb3f5117f0d55f8f646f1
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
 COCOAPODS: 0.39.0

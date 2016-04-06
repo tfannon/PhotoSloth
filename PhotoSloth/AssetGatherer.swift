@@ -92,14 +92,14 @@ class AssetGatherer {
                             }
                             if let a = assetForUpdate {
                                 slothRealm.write {
-                                    a.potentialPOI = tagObject.places
+                                    a.potentialPOIs = tagObject.places
                                     a.isPotentialPOISet = true
                                 }
                             }
                         }
                     }
                 } else {
-                    print ("\(asset.id) poi: \(asset.potentialPOI.any ? asset.potentialPOI : ["no poi data"])")
+                    print ("\(asset.id) poi: \(asset.potentialPOIs.any ? asset.potentialPOIs : ["no poi data"])")
                 }
             }
             }.main {

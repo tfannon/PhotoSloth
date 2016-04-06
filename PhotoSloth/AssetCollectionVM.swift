@@ -25,8 +25,8 @@ class AssetCollectionVM {
         // setup the results to be stored by date and id descending
         assetResults = slothRealm.getAssets()
             .filter("\(SLAsset.Properties.externalId) != nil")
-            .sorted(SLAsset.Properties.dateTaken.rawValue, ascending: false)
-            .sorted(SLAsset.Properties.id.rawValue, ascending: false)
+            .sorted(SLAsset.Properties.dateTaken, ascending: false)
+            .sorted(SLAsset.Properties.id, ascending: false)
 
         token = assetResults.addNotificationBlock{ results, error in
             if let e = error {

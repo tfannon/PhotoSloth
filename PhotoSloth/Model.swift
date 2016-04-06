@@ -128,23 +128,24 @@ class SLBaseObjectCollection<T : SLBaseObject> {
 typealias SLAssetCollection = SLBaseObjectCollection<SLAsset>
 class SLAsset : SLBaseObjectId {
     
-    // realm instructions 
+    class Properties {
+        static let id = "id"
+        static let caption = "caption"
+        static let locationText = "locationText"
+        static let chosenPOI = "chosenPOI"
+        static let isLiked = "isLiked"
+        static let dateTaken = "dateTaken"
+        static let externalId = "externalId"
+        static let potentialPOIs = "potentialPOIs"
+    }
+    
+    // realm instructions
     override static func indexedProperties() -> [String] {
-        return ["externalId"]
+        return [Properties.externalId]
     }
     
     override static func ignoredProperties() -> [String] {
-        return ["potentialPOI"]
-    }
-    
-    enum Properties : String {
-        case id = "id"
-        case caption = "caption"
-        case locationText = "locationText"
-        case chosenPOI = "chosenPOI"
-        case isLiked = "isLiked"
-        case dateTaken = "dateTaken"
-        case externalId = "externalId"
+        return [Properties.potentialPOIs]
     }
 
     // properties
@@ -175,10 +176,10 @@ class SLAsset : SLBaseObjectId {
     }
 
     //realm cant store list of strings so put it into a format that can be shuttled back and forth
-    private dynamic var _potentialPOIEncoded: NSData?
-    var potentialPOI: [String] {
+    private dynamic var _potentialPOIsEncoded: NSData?
+    var potentialPOIs: [String] {
         get {
-            if let encodedString = _potentialPOIEncoded,
+            if let encodedString = _potentialPOIsEncoded,
                 let newStrings: [String] = NSKeyedUnarchiver.unarchiveObjectWithData(encodedString) as? [String] {
                     return newStrings
             }
@@ -186,7 +187,7 @@ class SLAsset : SLBaseObjectId {
         }
         set {
             let data = NSKeyedArchiver.archivedDataWithRootObject(newValue)
-            _potentialPOIEncoded = data
+            _potentialPOIsEncoded = data
         }
     }
     
