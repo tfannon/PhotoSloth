@@ -16,6 +16,9 @@ class PhotoCellVM {
     var isLiked = BehaviorSubject<Bool>(value: false)
     var image = BehaviorSubject<UIImage?>(value: nil)
     var chosenPOI = BehaviorSubject<String>(value: "")
+    
+    // not a subject since it's not visible all the time
+    // only when you display a list
     var potentialPOIs : [String] {
         get {
             return asset.potentialPOIs
@@ -29,6 +32,7 @@ class PhotoCellVM {
     let disposeBag = DisposeBag()
 
     private var asset : SLAsset!
+    // the async request for the photo - we can cancel it if we want to
     private var photoAssetRequest : PhotoAssetRequest?
 
     // 
@@ -40,11 +44,15 @@ class PhotoCellVM {
     init(assetId : String, imageSize : CGSize) {
         if let a = slothRealm.getAsset(id: assetId) {
             self.asset = a
+            
+            // push the current values onto the subjects
+            // this will signal to the subscribers that the value has changed
             self.caption.onNext(self.asset.caption)
             self.location.onNext(self.asset.locationText)
             self.isLiked.onNext(self.asset.isLiked)
             self.chosenPOI.onNext(self.asset.chosenPOI ?? "")
             
+            // dev stuff - will remove
             if (!self.potentialPOIs.any) {
                 self.potentialPOIs = ["Mercury", "Venus", "Mars"]
             }
