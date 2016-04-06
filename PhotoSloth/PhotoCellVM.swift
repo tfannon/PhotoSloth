@@ -16,7 +16,16 @@ class PhotoCellVM {
     var isLiked = BehaviorSubject<Bool>(value: false)
     var image = BehaviorSubject<UIImage?>(value: nil)
     var chosenPOI = BehaviorSubject<String>(value: "")
-    var potentialPOIs : [String] = [String]()
+    var potentialPOIs : [String] {
+        get {
+            return asset.potentialPOIs
+        }
+        set {
+            slothRealm.write {
+                self.asset.potentialPOIs = newValue
+            }
+        }
+    }
     let disposeBag = DisposeBag()
 
     private var asset : SLAsset!
@@ -35,6 +44,10 @@ class PhotoCellVM {
             self.location.onNext(self.asset.locationText)
             self.isLiked.onNext(self.asset.isLiked)
             self.chosenPOI.onNext(self.asset.chosenPOI ?? "")
+            
+            if (!self.potentialPOIs.any) {
+                self.potentialPOIs = ["Mercury", "Venus", "Mars"]
+            }
             
             // whenever the image is set - nil out the request
             // the request is no longer needed once we've set the image to any new value
