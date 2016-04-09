@@ -61,7 +61,7 @@ class PhotoCell: UICollectionViewCell {
             }
             .addDisposableTo(disposeBag)
         
-        //the long press brings up the fetched nearby locations for choosing
+        //the long press brings up the possible POIs for choosing
         let poiGesture = UILongPressGestureRecognizer()
         poiGesture.minimumPressDuration = 0.5
         poiGesture.delaysTouchesBegan = true

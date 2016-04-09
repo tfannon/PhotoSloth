@@ -45,6 +45,7 @@
 		6672867E1C950C4800B3F754 /* PhotoCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6672867D1C950C4800B3F754 /* PhotoCellVM.swift */; };
 		667A08651C55E36F0079FD9E /* AssetGatherer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667A08641C55E36F0079FD9E /* AssetGatherer.swift */; };
 		669AE78B1CB210FF00D6B41E /* PhotoAssetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669AE78A1CB210FF00D6B41E /* PhotoAssetService.swift */; };
+		669AE78D1CB88D3900D6B41E /* ReactiveXExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669AE78C1CB88D3900D6B41E /* ReactiveXExtensions.swift */; };
 		66BC254F1CA6161F00AD8932 /* AssetCollectionVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BC254E1CA6161F00AD8932 /* AssetCollectionVM.swift */; };
 		B182C8404E56C0544B9C7A97 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FE91188173E5ADE72F0138D /* Pods.framework */; };
 /* End PBXBuildFile section */
@@ -92,6 +93,7 @@
 		6672867D1C950C4800B3F754 /* PhotoCellVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCellVM.swift; sourceTree = "<group>"; };
 		667A08641C55E36F0079FD9E /* AssetGatherer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetGatherer.swift; sourceTree = "<group>"; };
 		669AE78A1CB210FF00D6B41E /* PhotoAssetService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAssetService.swift; sourceTree = "<group>"; };
+		669AE78C1CB88D3900D6B41E /* ReactiveXExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactiveXExtensions.swift; sourceTree = "<group>"; };
 		66BC254E1CA6161F00AD8932 /* AssetCollectionVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetCollectionVM.swift; sourceTree = "<group>"; };
 		7FE91188173E5ADE72F0138D /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -197,6 +199,7 @@
 				665CA5541C5526A00065EA01 /* NSObjectExtensions.swift */,
 				665CA5621C5527C70065EA01 /* NSTimerExtensions.swift */,
 				665CA56A1C5529560065EA01 /* NSUUIDExtensions.swift */,
+				669AE78C1CB88D3900D6B41E /* ReactiveXExtensions.swift */,
 				665CA5581C5526F20065EA01 /* StringExtensions.swift */,
 				665CA5641C5527DD0065EA01 /* UIColorExtensions.swift */,
 				657F700C1C549B3D008D793B /* UIImageExtensions.swift */,
@@ -404,6 +407,7 @@
 				665CA5451C5522D30065EA01 /* FileExtensions.swift in Sources */,
 				665CA56B1C5529560065EA01 /* NSUUIDExtensions.swift in Sources */,
 				657F70121C549B3D008D793B /* Googles.swift in Sources */,
+				669AE78D1CB88D3900D6B41E /* ReactiveXExtensions.swift in Sources */,
 				665CA5691C5529140065EA01 /* Random.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

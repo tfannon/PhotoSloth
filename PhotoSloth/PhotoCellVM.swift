@@ -23,11 +23,6 @@ class PhotoCellVM {
         get {
             return asset.potentialPOIs
         }
-        set {
-            slothRealm.write {
-                self.asset.potentialPOIs = newValue
-            }
-        }
     }
     let disposeBag = DisposeBag()
 
@@ -51,11 +46,6 @@ class PhotoCellVM {
             self.location.onNext(self.asset.locationText)
             self.isLiked.onNext(self.asset.isLiked)
             self.chosenPOI.onNext(self.asset.chosenPOI ?? "")
-            
-            // dev stuff - will remove
-            if (!self.potentialPOIs.any) {
-                self.potentialPOIs = ["Mercury", "Venus", "Mars"]
-            }
             
             // whenever the image is set - nil out the request
             // the request is no longer needed once we've set the image to any new value

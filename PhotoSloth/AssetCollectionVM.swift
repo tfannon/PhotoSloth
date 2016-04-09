@@ -48,7 +48,8 @@ class AssetCollectionVM {
         return assetResults[index].id
     }
     
-    func getExternalId(index : Int) -> String {
-        return assetResults[index].externalId ?? ""
+    func getPhotoAssetSize(index : Int) -> CGSize {
+        let photoAssetSize = PhotoAssetService.getSize(assetResults[index].externalId!)
+        return photoAssetSize
     }
 }
