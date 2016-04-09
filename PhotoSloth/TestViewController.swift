@@ -29,7 +29,7 @@ class TestViewController: UIViewController {
     }
     
     @IBAction func handleButton2(sender: AnyObject) {
-        Googles.getPlaces(29.879500, longitude:  -81.287000) { result in
+        LocationService.getPlaces(29.879500, longitude:  -81.287000) { result in
             print (result.places)
         }
     }

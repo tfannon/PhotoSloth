@@ -62,7 +62,7 @@ class AssetGatherer {
                 
                 if !asset.isLocationSet {
                     if let coordinates = photoAsset.location?.coordinate {
-                        Googles.getLocationTags(coordinates.latitude, longitude: coordinates.longitude) { tagObject in
+                        LocationService.getLocationTags(coordinates.latitude, longitude: coordinates.longitude) { tagObject in
                             // if the asset was created on the other thread - we need our own
                             var assetForUpdate = asset
                             if let id = newAssetId {
@@ -85,7 +85,7 @@ class AssetGatherer {
                 
                 if !asset.isPotentialPOISet {
                     if let coordinates = photoAsset.location?.coordinate {
-                        Googles.getPlaces(coordinates.latitude, longitude: coordinates.longitude) { tagObject in
+                        LocationService.getPlaces(coordinates.latitude, longitude: coordinates.longitude) { tagObject in
                             var assetForUpdate = asset
                             if let id = newAssetId {
                                 assetForUpdate = slothRealm.getAsset(id: id)

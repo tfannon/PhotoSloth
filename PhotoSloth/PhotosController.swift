@@ -12,10 +12,12 @@ import RxSwift
 
 class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate {
     
+    // MARK: - Properties
     let cellIdentifier = "PhotoCell"
     var viewModel : AssetCollectionVM!
     private let disposeBag = DisposeBag()
     
+    // MARK: - View
     override func viewDidLoad() {
         super.viewDidLoad()
         

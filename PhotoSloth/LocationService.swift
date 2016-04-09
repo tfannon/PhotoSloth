@@ -9,9 +9,8 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
-//import GoogleMaps
 
-class Googles {
+class LocationService {
 
     //static var IOSKEY: String = "AIzaSyBkTQikOVA5PLkmBf1SGbrvwOQIgL-vbbA"
     static var BROWSER_KEY = "AIzaSyAencAZogMezvzaufB5c2Nf7wqXXrKdFn8"

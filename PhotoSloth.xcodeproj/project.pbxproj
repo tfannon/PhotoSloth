@@ -13,7 +13,7 @@
 		657F700F1C549B3D008D793B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657F70011C549B3D008D793B /* Assets.xcassets */; };
 		657F70101C549B3D008D793B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 657F70021C549B3D008D793B /* LaunchScreen.storyboard */; };
 		657F70111C549B3D008D793B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 657F70041C549B3D008D793B /* Main.storyboard */; };
-		657F70121C549B3D008D793B /* Googles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F70061C549B3D008D793B /* Googles.swift */; };
+		657F70121C549B3D008D793B /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F70061C549B3D008D793B /* LocationService.swift */; };
 		657F70151C549B3D008D793B /* PhotosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F70091C549B3D008D793B /* PhotosController.swift */; };
 		657F70161C549B3D008D793B /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F700A1C549B3D008D793B /* PinterestLayout.swift */; };
 		657F70171C549B3D008D793B /* RoundedCornersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657F700B1C549B3D008D793B /* RoundedCornersView.swift */; };
@@ -60,7 +60,7 @@
 		657F70011C549B3D008D793B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		657F70031C549B3D008D793B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		657F70051C549B3D008D793B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		657F70061C549B3D008D793B /* Googles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Googles.swift; sourceTree = "<group>"; };
+		657F70061C549B3D008D793B /* LocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		657F70071C549B3D008D793B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		657F70091C549B3D008D793B /* PhotosController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosController.swift; sourceTree = "<group>"; };
 		657F700A1C549B3D008D793B /* PinterestLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
@@ -169,8 +169,8 @@
 		65E4D31B1C549E14007E9BC7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				657F70061C549B3D008D793B /* Googles.swift */,
 				667A08641C55E36F0079FD9E /* AssetGatherer.swift */,
+				657F70061C549B3D008D793B /* LocationService.swift */,
 				665432431C56BFA5007A7DB0 /* UserSettings.swift */,
 				669AE78A1CB210FF00D6B41E /* PhotoAssetService.swift */,
 			);
@@ -406,7 +406,7 @@
 				665CA5481C5523020065EA01 /* Error.swift in Sources */,
 				665CA5451C5522D30065EA01 /* FileExtensions.swift in Sources */,
 				665CA56B1C5529560065EA01 /* NSUUIDExtensions.swift in Sources */,
-				657F70121C549B3D008D793B /* Googles.swift in Sources */,
+				657F70121C549B3D008D793B /* LocationService.swift in Sources */,
 				669AE78D1CB88D3900D6B41E /* ReactiveXExtensions.swift in Sources */,
 				665CA5691C5529140065EA01 /* Random.swift in Sources */,
 			);
