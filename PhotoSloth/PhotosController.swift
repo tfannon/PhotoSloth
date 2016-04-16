@@ -33,16 +33,26 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
     }
     
     // MARK: - CollectionView
+    
+    //
+    // numberOfItemsInSection
+    //
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.count;
     }
     
+    //
+    // cellForItemAtIndexPath
+    //
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellIdentifier, forIndexPath: indexPath) as! PhotoCell
         
         return cell
     }
     
+    //
+    // willDisplayCell
+    //
     override func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         
         if let photoCell = cell as? PhotoCell {
@@ -53,6 +63,9 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         }
     }
     
+    //
+    // didEndDisplayingCell
+    //
     override func collectionView(collectionView: UICollectionView, didEndDisplayingCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         if let photoCell = cell as? PhotoCell {
             // clean the cell

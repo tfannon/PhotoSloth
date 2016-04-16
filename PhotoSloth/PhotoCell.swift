@@ -36,6 +36,9 @@ class PhotoCell: UICollectionViewCell {
         super.init(coder: aDecoder)
     }
     
+    // 
+    // setup the cell - passing in the view controller, asset id and imageSize
+    //
     func setup(viewController : UIViewController, assetId : String, imageSize : CGSize) {
         // parent view controller
         self.viewController = viewController
