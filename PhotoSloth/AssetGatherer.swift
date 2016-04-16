@@ -42,7 +42,7 @@ class AssetGatherer {
                 let photoAsset: PHAsset = fetchResult[i] as! PHAsset
                 var asset: SLAsset!
                 var newAssetId: String? = nil
-                asset = slothRealm.getAsset(externalId: photoAsset.localIdentifier)
+                asset = nil //slothRealm.getAsset(externalId: photoAsset.localIdentifier)
                 if asset == nil {
                     asset = SLAsset()
                     asset.longitude = photoAsset.location?.coordinate.longitude ?? 0

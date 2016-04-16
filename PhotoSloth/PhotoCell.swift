@@ -95,6 +95,7 @@ class PhotoCell: UICollectionViewCell {
     // called to reset it's state to default
     // since cells are reused by the controller
     func clean() {
+        viewModel.dispose()
         viewModel = nil
     }
 

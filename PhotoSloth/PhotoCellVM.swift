@@ -74,16 +74,16 @@ class PhotoCellVM {
             }
         }
         else {
-            clear()
+            dispose()
         }
     }
     
     // when the cell is deallocated call clear
     deinit {
-        clear()
+        dispose()
     }
     
-    private func clear() {
+    func dispose() {
         // cancel the request if we are done with the cell
         if let r = photoAssetRequest {
             PhotoAssetService.cancelRequest(r)
