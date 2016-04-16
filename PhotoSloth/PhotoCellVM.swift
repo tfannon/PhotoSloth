@@ -18,6 +18,7 @@ class PhotoCellVM {
     var chosenPOI = BehaviorSubject<String>(value: "")
     
     // not a subject since it's not visible all the time
+    // and not bound to anything.
     // only when you display a list
     var potentialPOIs : [String] {
         get {
@@ -32,7 +33,7 @@ class PhotoCellVM {
 
     // 
     // initialize the view model with an asset id & image size
-    // we wire up the BehaviorSubjects for two-way communication
+    //  we wire up the BehaviorSubjects for two-way communication
     //  between UI and view model 
     //  and start loading the image from the PhotoAssetService
     //
@@ -77,11 +78,13 @@ class PhotoCellVM {
         }
     }
     
+    // when the cell is deallocated call clear
     deinit {
         clear()
     }
     
     private func clear() {
+        // cancel the request if we are done with the cell
         if let r = photoAssetRequest {
             PhotoAssetService.cancelRequest(r)
         }

@@ -13,13 +13,6 @@ import Async
 
 class AssetGatherer {
     
-    static func completed(block : () -> Void) -> AssetGatherer {
-        return AssetGatherer()
-    }
-    static func progress(block : () -> Progress) -> AssetGatherer {
-        return AssetGatherer()
-    }
-    
     // queries the device's photo assets (PHPhotoAsset)
     // and populates the SLAssets
     static func gather(
