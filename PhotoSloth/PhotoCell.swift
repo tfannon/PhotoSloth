@@ -53,26 +53,21 @@ class PhotoCell: UICollectionViewCell, IRecyclable {
         viewModel.image.bindTo(self.imageView.rx_image).addDisposableTo(disposeBag)
         viewModel.chosenPOI.bindTo(self.poiLabel.rx_text).addDisposableTo(disposeBag)
         
-        // pan gesture
-        self.rx_gesture(.Pan(.Changed))
-            .subscribeNext { gesture in
-                switch gesture {
-                    case .Pan(let data):
-                        print("offset: \(data.translation)")
-                    default: break
-                }
-            }
-            .addDisposableTo(disposeBag)
+//        // pan gesture
+//        self.rx_gesture(.Pan(.Changed))
+//            .subscribeNext { gesture in
+//                switch gesture {
+//                    case .Pan(let data):
+//                        print("offset: \(data.translation)")
+//                    default: break
+//                }
+//            }
+//            .addDisposableTo(disposeBag)
         
-        //the long press brings up the possible POIs for choosing
-        let poiGesture = UILongPressGestureRecognizer()
-        poiGesture.minimumPressDuration = 0.5
-        poiGesture.delaysTouchesBegan = true
-        self.addGestureRecognizer(poiGesture)
-        poiGesture.rx_event
-            .filter { g in
-                g.state == UIKit.UIGestureRecognizerState.Ended
-                && self.viewModel.potentialPOIs.any
+        
+        self.rx_gesture(.LongPress)
+            .filter { _ in
+                self.viewModel.potentialPOIs.any
             }
             .map { _ in
                 self.viewModel.potentialPOIs
@@ -81,6 +76,7 @@ class PhotoCell: UICollectionViewCell, IRecyclable {
                 self.pickPOI(pois)
             }
             .addDisposableTo(disposeBag)
+        
         
         // 'like' tap gesture
         buttonLike.rx_tap.subscribeNext{ _ in
