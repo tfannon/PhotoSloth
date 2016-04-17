@@ -69,7 +69,7 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
     override func collectionView(collectionView: UICollectionView, didEndDisplayingCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         if let photoCell = cell as? PhotoCell {
             // clean the cell
-            photoCell.clean()
+            photoCell.recycle()
         }
     }
 }

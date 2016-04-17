@@ -13,7 +13,7 @@ import RxCocoa
 import RxSwift
 import RxGesture
 
-class PhotoCell: UICollectionViewCell {
+class PhotoCell: UICollectionViewCell, IRecyclable {
   
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var imageViewHeightLayoutConstraint: NSLayoutConstraint!
@@ -94,9 +94,8 @@ class PhotoCell: UICollectionViewCell {
     
     // called to reset it's state to default
     // since cells are reused by the controller
-    func clean() {
+    func recycle() {
         viewModel.dispose()
-        viewModel = nil
     }
 
     //

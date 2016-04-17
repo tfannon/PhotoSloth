@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-class PhotoCellVM {
+class PhotoCellVM : IDisposable {
     
     var caption = BehaviorSubject<String>(value: "")
     var location = BehaviorSubject<String>(value: "")
@@ -78,16 +78,14 @@ class PhotoCellVM {
         }
     }
     
-    // when the cell is deallocated call clear
-    deinit {
-        dispose()
-    }
-    
     func dispose() {
         // cancel the request if we are done with the cell
         if let r = photoAssetRequest {
             PhotoAssetService.cancelRequest(r)
         }
+        // be sure to cancel all observables
+        // otherwise, we've got a reference cycle to the view
+        //  and the view and view model will contributed to memory leaks
         self.caption.dispose()
         self.location.dispose()
         self.isLiked.dispose()
