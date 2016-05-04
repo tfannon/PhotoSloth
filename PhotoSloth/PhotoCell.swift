@@ -31,7 +31,7 @@ class PhotoCell: UICollectionViewCell, IRecyclable {
     // called when the user wants to choose a POI
     // the caller will call the function defined in the second argument
     //  with the value to use
-    typealias PickPOIHandler = (candidates: [String]) -> Void
+    typealias PickPOIHandler = (candidates: [String], choose : (String) -> Void) -> Void
     private var pickPOIHandler : PickPOIHandler?
     
     required init?(coder aDecoder: NSCoder) {
@@ -77,27 +77,19 @@ class PhotoCell: UICollectionViewCell, IRecyclable {
         poiGesture.delaysTouchesBegan = true
         self.addGestureRecognizer(poiGesture)
         poiGesture.rx_event
-            .subscribeNext{ [unowned self] g in
-                if (g.state == UIGestureRecognizerState.Began) {
-                    self.pickPOIHandler?(candidates: self.viewModel.potentialPOIs)
+            .filter { g in
+                g.state == UIKit.UIGestureRecognizerState.Began
+                    && self.viewModel.potentialPOIs.any
+            }
+            .map { _ in
+                self.viewModel.potentialPOIs
+            }
+            .subscribeNext { [unowned self] pois in
+                self.pickPOIHandler?(candidates: pois) { choice in
+                    self.viewModel.chosenPOI.onNext(choice)
                 }
             }
             .addDisposableTo(disposeBag)
-//
-//        poiGesture.rx_event
-//            .filter { g in
-//                g.state == UIKit.UIGestureRecognizerState.Began
-//                    && self.viewModel.potentialPOIs.any
-//            }
-//            .map { _ in
-//                self.viewModel.potentialPOIs
-//            }
-//            .subscribeNext { pois in
-//                self.pickPOI?(pois, { value in
-//                    self.viewModel.chosenPOI.onNext(value)
-//                })
-//            }
-//            .addDisposableTo(disposeBag)
         
         // 'like' tap gesture
         buttonLike.rx_tap.subscribeNext{ _ in

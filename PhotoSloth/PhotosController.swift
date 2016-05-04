@@ -38,7 +38,7 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
     // alert box for picking the POI
     //
     private var pickPOIInProgress = false
-    func pickPOI(candidates : [String]) {
+    func pickPOI(candidates : [String], setChoice : (String) -> Void) {
 
         // critical section to prevent
         //  being called after the alert is already displayed
@@ -58,8 +58,8 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         let maxChoices = 5
         var idx = 0
         for x in candidates {
-            let action = UIAlertAction(title: x, style: .Default) { (y:UIAlertAction!) in
-                print(x)
+            let action = UIAlertAction(title: x, style: .Default) { _ in
+                setChoice(x)
             }
             alert.addAction(action)
             idx += 1
@@ -67,9 +67,9 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
                 break
             }
         }
-        alert.addAction(UIAlertAction(title: "Clear tag", style: UIAlertActionStyle.Destructive, handler: { _ in
-                print("")
-            }))
+        alert.addAction(UIAlertAction(title: "Clear tag", style: UIAlertActionStyle.Destructive) { _ in
+                setChoice("")
+            })
         alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler:nil))
         self.presentViewController(alert, animated: true) { [unowned self] _ in
             self.pickPOIInProgress = false
@@ -103,8 +103,8 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
             // get the asset id
             let assetId = viewModel.getId(indexPath.row)
             // setup the cell
-            photoCell.setup(assetId, imageSize: CGSize(width: 100.0, height: 100.0), pickPOIHandler: { candidates in
-                    self.pickPOI(candidates)
+            photoCell.setup(assetId, imageSize: CGSize(width: 100.0, height: 100.0), pickPOIHandler: { [unowned self] candidates, choseHandler in
+                    self.pickPOI(candidates, setChoice: choseHandler)
                 }
             )
         }
