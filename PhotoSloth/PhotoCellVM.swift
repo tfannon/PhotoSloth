@@ -78,6 +78,10 @@ class PhotoCellVM : IDisposable {
         }
     }
     
+    deinit {
+        print( "PhotoCellVM Disposed!\(NSDate())")
+    }
+    
     func dispose() {
         // cancel the request if we are done with the cell
         if let r = photoAssetRequest {

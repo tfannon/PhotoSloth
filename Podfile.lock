@@ -13,6 +13,7 @@ PODS:
   - RxGesture (0.1.6):
     - RxCocoa (~> 2.3.1)
   - RxSwift (2.3.1)
+  - SwiftSynchronized (1.0.1)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
@@ -23,6 +24,7 @@ DEPENDENCIES:
   - RxCocoa (~> 2.0)
   - RxGesture
   - RxSwift (~> 2.0)
+  - SwiftSynchronized
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
 
 EXTERNAL SOURCES:
@@ -43,6 +45,7 @@ SPEC CHECKSUMS:
   RxCocoa: a2baaf3462b989559a51dce59d78fbebb8fe0afa
   RxGesture: da19da595b5fcfb27488c878475e77cf085e35aa
   RxSwift: 829b2843e9eddc77a02cb3f5117f0d55f8f646f1
+  SwiftSynchronized: cfb984a52a3f336715b3297b6f94846204be75f9
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
 COCOAPODS: 0.39.0

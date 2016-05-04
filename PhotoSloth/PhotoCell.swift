@@ -28,20 +28,24 @@ class PhotoCell: UICollectionViewCell, IRecyclable {
     private let alphaSelected : CGFloat = 1.0
     private let alphaNotSelected : CGFloat = 0.2
     
-    // weak reference back to the view controller
-    // so we can display an alert box
-    private weak var viewController : UIViewController?
+    // called when the user wants to choose a POI
+    // the caller will call the function defined in the second argument
+    //  with the value to use
+    typealias PickPOIHandler = (candidates: [String]) -> Void
+    private var pickPOIHandler : PickPOIHandler?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
+    deinit {
+        print("Photo Cell Deinit")
+    }
+    
     // 
     // setup the cell - passing in the view controller, asset id and imageSize
     //
-    func setup(viewController : UIViewController, assetId : String, imageSize : CGSize) {
-        // parent view controller
-        self.viewController = viewController
+    func setup(assetId : String, imageSize : CGSize, pickPOIHandler : PickPOIHandler?) {
         
         // bind the view model to our controls
         viewModel = PhotoCellVM(assetId: assetId, imageSize: imageSize)
@@ -52,6 +56,8 @@ class PhotoCell: UICollectionViewCell, IRecyclable {
         }.addDisposableTo(disposeBag)
         viewModel.image.bindTo(self.imageView.rx_image).addDisposableTo(disposeBag)
         viewModel.chosenPOI.bindTo(self.poiLabel.rx_text).addDisposableTo(disposeBag)
+        
+        self.pickPOIHandler = pickPOIHandler
         
 //        // pan gesture
 //        self.rx_gesture(.Pan(.Changed))
@@ -65,18 +71,33 @@ class PhotoCell: UICollectionViewCell, IRecyclable {
 //            .addDisposableTo(disposeBag)
         
         
-        self.rx_gesture(.LongPress)
-            .filter { _ in
-                self.viewModel.potentialPOIs.any
-            }
-            .map { _ in
-                self.viewModel.potentialPOIs
-            }
-            .subscribeNext{ pois in
-                self.pickPOI(pois)
+        //the long press brings up the possible POIs for choosing
+        let poiGesture = UILongPressGestureRecognizer()
+        poiGesture.minimumPressDuration = 0.5
+        poiGesture.delaysTouchesBegan = true
+        self.addGestureRecognizer(poiGesture)
+        poiGesture.rx_event
+            .subscribeNext{ [unowned self] g in
+                if (g.state == UIGestureRecognizerState.Began) {
+                    self.pickPOIHandler?(candidates: self.viewModel.potentialPOIs)
+                }
             }
             .addDisposableTo(disposeBag)
-        
+//
+//        poiGesture.rx_event
+//            .filter { g in
+//                g.state == UIKit.UIGestureRecognizerState.Began
+//                    && self.viewModel.potentialPOIs.any
+//            }
+//            .map { _ in
+//                self.viewModel.potentialPOIs
+//            }
+//            .subscribeNext { pois in
+//                self.pickPOI?(pois, { value in
+//                    self.viewModel.chosenPOI.onNext(value)
+//                })
+//            }
+//            .addDisposableTo(disposeBag)
         
         // 'like' tap gesture
         buttonLike.rx_tap.subscribeNext{ _ in
@@ -94,32 +115,6 @@ class PhotoCell: UICollectionViewCell, IRecyclable {
         viewModel.dispose()
     }
 
-    //
-    // alert box for picking the POI
-    //
-    func pickPOI(pois : [String]) {
-        let alert = UIAlertController(title: "Nearby places", message: "Choose one to tag photo", preferredStyle: UIAlertControllerStyle.ActionSheet) // 1
-        let maxChoices = 5
-        var idx = 0
-        for x in pois {
-            let action = UIAlertAction(title: x, style: .Default) { (y:UIAlertAction!) in
-                self.viewModel.chosenPOI.onNext(x)
-            }
-            alert.addAction(action)
-            idx += 1
-            if idx > maxChoices {
-                break
-            }
-        }
-        alert.addAction(UIAlertAction(title: "Clear tag", style: UIAlertActionStyle.Destructive, handler: { _ in
-            slothRealm.write {
-                self.viewModel.chosenPOI.onNext("")
-            }
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler:nil))
-        self.viewController?.presentViewController(alert, animated: true, completion: nil)
-    }
-    
     override func applyLayoutAttributes(layoutAttributes: UICollectionViewLayoutAttributes) {
         super.applyLayoutAttributes(layoutAttributes)
         if let attributes = layoutAttributes as? PinterestLayoutAttributes {

@@ -9,6 +9,7 @@
 import UIKit
 import PhotosUI
 import RxSwift
+import SwiftSynchronized
 
 class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate {
     
@@ -29,6 +30,49 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
         // Set the PinterestLayout delegate
         if let layout = collectionView?.collectionViewLayout as? PinterestLayout {
             layout.delegate = self
+        }
+    }
+    
+    // MARK: - Sloth
+    //
+    // alert box for picking the POI
+    //
+    private var pickPOIInProgress = false
+    func pickPOI(candidates : [String]) {
+
+        // critical section to prevent
+        //  being called after the alert is already displayed
+        let ok = synchronized(self) { () -> Bool in
+            if pickPOIInProgress {
+                return false
+            }
+            pickPOIInProgress = true
+            return true
+        }
+        if (!ok) {
+            return
+        }
+        // -
+        
+        let alert = UIAlertController(title: "Nearby places", message: "Choose one to tag photo", preferredStyle: UIAlertControllerStyle.ActionSheet) // 1
+        let maxChoices = 5
+        var idx = 0
+        for x in candidates {
+            let action = UIAlertAction(title: x, style: .Default) { (y:UIAlertAction!) in
+                print(x)
+            }
+            alert.addAction(action)
+            idx += 1
+            if idx > maxChoices {
+                break
+            }
+        }
+        alert.addAction(UIAlertAction(title: "Clear tag", style: UIAlertActionStyle.Destructive, handler: { _ in
+                print("")
+            }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler:nil))
+        self.presentViewController(alert, animated: true) { [unowned self] _ in
+            self.pickPOIInProgress = false
         }
     }
     
@@ -59,7 +103,10 @@ class PhotosController: UICollectionViewController, UIGestureRecognizerDelegate 
             // get the asset id
             let assetId = viewModel.getId(indexPath.row)
             // setup the cell
-            photoCell.setup(self, assetId: assetId, imageSize: CGSize(width: 100.0, height: 100.0))
+            photoCell.setup(assetId, imageSize: CGSize(width: 100.0, height: 100.0), pickPOIHandler: { candidates in
+                    self.pickPOI(candidates)
+                }
+            )
         }
     }
     
